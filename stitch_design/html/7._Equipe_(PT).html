@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Construtor de Orçamento - Passo 7: Equipe</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff8f6;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#fffbff",
+                        "secondary": "#8b4e3b",
+                        "surface-dim": "#ecd5cf",
+                        "surface-variant": "#f5ded7",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#bfe9ff",
+                        "inverse-on-surface": "#ffede8",
+                        "on-tertiary-container": "#fbfdff",
+                        "on-tertiary-fixed": "#001f2a",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#ffdbd0",
+                        "secondary-fixed-dim": "#ffb59e",
+                        "on-secondary-fixed": "#380d02",
+                        "tertiary": "#006482",
+                        "outline-variant": "#e0c0b6",
+                        "on-surface-variant": "#58423b",
+                        "primary-fixed-dim": "#ffb59e",
+                        "on-surface": "#251915",
+                        "tertiary-container": "#007ea3",
+                        "on-secondary-container": "#783f2d",
+                        "background": "#fff8f6",
+                        "error-container": "#ffdad6",
+                        "surface": "#fff8f6",
+                        "primary": "#a5360d",
+                        "surface-tint": "#a8380f",
+                        "surface-container-highest": "#f5ded7",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#3a0b00",
+                        "on-background": "#251915",
+                        "secondary-container": "#fdae95",
+                        "on-tertiary-fixed-variant": "#004d65",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#ffb59e",
+                        "tertiary-fixed-dim": "#6ed2fe",
+                        "primary-container": "#c74d24",
+                        "surface-container-high": "#fbe3dd",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#ffdbd0",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#3b2d29",
+                        "on-secondary-fixed-variant": "#6f3725",
+                        "surface-container-low": "#fff1ed",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fff8f6",
+                        "outline": "#8c7169",
+                        "on-primary-fixed-variant": "#852400",
+                        "surface-container": "#ffe9e3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "stack-xs": "4px",
+                        "stack-lg": "24px",
+                        "stack-sm": "8px",
+                        "gutter-mobile": "12px",
+                        "margin-mobile": "16px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-medium": ["Inter"],
+                        "step-title": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "label-meta": ["Inter"],
+                        "body": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-medium": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "step-title": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01rem", "fontWeight": "500"}],
+                        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05rem", "fontWeight": "500"}],
+                        "label-meta": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01rem", "fontWeight": "400"}],
+                        "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center px-margin-mobile h-14 bg-surface dark:bg-on-background border-b border-outline-variant/30 flat no shadows">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low transition-colors active:scale-95 transition-transform p-2 rounded-full" data-icon="arrow_back">arrow_back</button>
+<h1 class="ml-4 font-step-title text-step-title text-on-surface dark:text-on-primary-container font-bold">Construtor de Orçamento</h1>
+</header>
+<main class="pt-20 pb-40 px-margin-mobile max-w-4xl mx-auto">
+<!-- Progress Indicator -->
+<div class="mb-stack-lg">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Passo 7 de 7</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Seleção de Equipe</span>
+</div>
+<div class="h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-full"></div>
+</div>
+</div>
+<!-- Illustrative Canvas (Bento Pattern) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-stack-md mb-stack-lg">
+<div class="md:col-span-3 h-64 rounded-xl border border-outline-variant/30 bg-surface-container-lowest overflow-hidden relative">
+<img alt="Equipe de produção profissional em um set de filmagem com câmera de cinema topo de linha. O clima é profissional com tons neutros quentes e off-white." class="w-full h-full object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVvNi15tj2GUqMFVIO2DJZ2VyvcmI0V3yWIfFooIiVJxNJlmFOM8u9fBFeHU78d9uKs3l4_GspRqrNEMAWJGJBqj3ozeE3s8qz9wPZ8LDt71y4N3IaAK2VZHvGTdHX61q2DxaEeslghKvf8n4cb_H0EU8CVajTJsBdLqF6184VNwWwVzVtdRNht5_s-z6tnL4SufUzsLimKHrUZKk7Tp3soejKhraM0ZZUFMC_GhcxD5e__fnoABuj_owtuPdb5BuS6WZJowaOgmVb"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-6">
+<h2 class="font-step-title text-step-title text-on-surface">Sua Equipe de Produção</h2>
+<p class="font-body text-body text-on-surface-variant">Especialistas do mercado para uma gravação impecável.</p>
+</div>
+</div>
+</section>
+<!-- Crew Selection List -->
+<section class="space-y-stack-md">
+<!-- DoP -->
+<div class="bg-white border-[0.5px] border-[rgba(0,0,0,0.08)] p-4 rounded-xl flex items-center justify-between hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div>
+<h3 class="font-body-medium text-body-medium text-on-surface">DoP</h3>
+<p class="font-label-meta text-label-meta text-secondary font-bold">R$ 3.500</p>
+</div>
+</div>
+<div class="flex items-center gap-stack-sm bg-surface-container-low p-1 rounded-lg">
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-white border-[0.5px] border-outline-variant/30 text-on-surface-variant active:scale-95">-</button>
+<span class="w-8 text-center font-body-medium text-body-medium">1</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-primary text-white active:scale-95">+</button>
+</div>
+</div>
+<!-- Camera Op -->
+<div class="bg-surface-container-lowest border-2 border-primary p-4 rounded-xl flex items-center justify-between shadow-sm bg-[#FAECE7]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">videocam</span>
+</div>
+<div>
+<h3 class="font-body-medium text-body-medium text-on-surface">Operador de Câmera</h3>
+<p class="font-label-meta text-label-meta text-secondary font-bold">R$ 2.200</p>
+</div>
+</div>
+<div class="flex items-center gap-stack-sm bg-surface-container p-1 rounded-lg">
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-white border-[0.5px] border-outline-variant/30 text-on-surface-variant active:scale-95">-</button>
+<span class="w-8 text-center font-body-medium text-body-medium">1</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-primary text-white active:scale-95">+</button>
+</div>
+</div>
+<!-- 1st AC -->
+<div class="bg-white border-[0.5px] border-[rgba(0,0,0,0.08)] p-4 rounded-xl flex items-center justify-between hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings_input_component</span>
+</div>
+<div>
+<h3 class="font-body-medium text-body-medium text-on-surface">1st AC</h3>
+<p class="font-label-meta text-label-meta text-secondary font-bold">R$ 1.500</p>
+</div>
+</div>
+<div class="flex items-center gap-stack-sm bg-surface-container-low p-1 rounded-lg">
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-white border-[0.5px] border-outline-variant/30 text-on-surface-variant active:scale-95">-</button>
+<span class="w-8 text-center font-body-medium text-body-medium">0</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-primary text-white active:scale-95">+</button>
+</div>
+</div>
+<!-- Video Engineer -->
+<div class="bg-white border-[0.5px] border-[rgba(0,0,0,0.08)] p-4 rounded-xl flex items-center justify-between hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">monitor</span>
+</div>
+<div>
+<h3 class="font-body-medium text-body-medium text-on-surface">Engenheiro de Vídeo</h3>
+<p class="font-label-meta text-label-meta text-secondary font-bold">R$ 1.800</p>
+</div>
+</div>
+<div class="flex items-center gap-stack-sm bg-surface-container-low p-1 rounded-lg">
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-white border-[0.5px] border-outline-variant/30 text-on-surface-variant active:scale-95">-</button>
+<span class="w-8 text-center font-body-medium text-body-medium">0</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-primary text-white active:scale-95">+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-surface-container dark:bg-inverse-surface border-t border-outline-variant/50 p-stack-md gap-stack-sm flex flex-col items-center shadow-2xl">
+<div class="w-full max-w-4xl flex items-center justify-between mb-2">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Orçamento Estimado</span>
+<span class="font-step-title text-step-title text-primary font-extrabold">R$ 12.450,00</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-meta text-label-meta text-on-surface-variant">Locação de 7 dias</span>
+<span class="font-label-meta text-label-meta text-secondary">+ Equipamento e Equipe</span>
+</div>
+</div>
+<button class="w-full max-w-4xl h-12 bg-primary text-on-primary-container rounded-lg font-body-medium text-body-medium active:scale-[0.98] transition-transform hover:opacity-90 shadow-lg shadow-primary/20">
+            Gerar Orçamento
+        </button>
+<div class="mt-2 font-label-caps text-label-caps text-on-surface-variant opacity-60">
+            © 2024 ProGear Rental. Todos os direitos reservados.
+        </div>
+</footer>
+</body></html>

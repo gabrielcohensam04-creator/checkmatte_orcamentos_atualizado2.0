@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Construtor de Orçamentos - Câmeras</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-container": "#fffbff",
+                    "secondary": "#8b4e3b",
+                    "surface-dim": "#ecd5cf",
+                    "surface-variant": "#f5ded7",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#bfe9ff",
+                    "inverse-on-surface": "#ffede8",
+                    "on-tertiary-container": "#fbfdff",
+                    "on-tertiary-fixed": "#001f2a",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#ffdbd0",
+                    "secondary-fixed-dim": "#ffb59e",
+                    "on-secondary-fixed": "#380d02",
+                    "tertiary": "#006482",
+                    "outline-variant": "#e0c0b6",
+                    "on-surface-variant": "#58423b",
+                    "primary-fixed-dim": "#ffb59e",
+                    "on-surface": "#251915",
+                    "tertiary-container": "#007ea3",
+                    "on-secondary-container": "#783f2d",
+                    "background": "#fff8f6",
+                    "error-container": "#ffdad6",
+                    "surface": "#fff8f6",
+                    "primary": "#a5360d",
+                    "surface-tint": "#a8380f",
+                    "surface-container-highest": "#f5ded7",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#3a0b00",
+                    "on-background": "#251915",
+                    "secondary-container": "#fdae95",
+                    "on-tertiary-fixed-variant": "#004d65",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#ffb59e",
+                    "tertiary-fixed-dim": "#6ed2fe",
+                    "primary-container": "#c74d24",
+                    "surface-container-high": "#fbe3dd",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#ffdbd0",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#3b2d29",
+                    "on-secondary-fixed-variant": "#6f3725",
+                    "surface-container-low": "#fff1ed",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#fff8f6",
+                    "outline": "#8c7169",
+                    "on-primary-fixed-variant": "#852400",
+                    "surface-container": "#ffe9e3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "stack-xs": "4px",
+                    "stack-lg": "24px",
+                    "stack-sm": "8px",
+                    "gutter-mobile": "12px",
+                    "margin-mobile": "16px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "body-medium": ["Inter"],
+                    "step-title": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "label-meta": ["Inter"],
+                    "body": ["Inter"]
+            },
+            "fontSize": {
+                    "body-medium": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "step-title": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01rem", "fontWeight": "500"}],
+                    "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05rem", "fontWeight": "500"}],
+                    "label-meta": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01rem", "fontWeight": "400"}],
+                    "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .bg-canvas-dots {
+        background-image: radial-gradient(circle, #e0c0b6 0.5px, transparent 0.5px);
+        background-size: 20px 20px;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top Navigation -->
+<nav class="fixed top-0 left-0 w-full z-50 flex items-center px-margin-mobile h-14 bg-surface dark:bg-on-background border-b border-outline-variant/30">
+<div class="flex items-center gap-stack-md w-full">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low transition-colors p-unit rounded-full active:scale-95 transition-transform" data-icon="arrow_back">arrow_back</button>
+<h1 class="font-step-title text-step-title text-on-surface dark:text-on-primary-container">Construtor de Orçamentos</h1>
+</div>
+</nav>
+<main class="pt-14 pb-40 px-margin-mobile flex flex-col gap-stack-lg max-w-2xl mx-auto">
+<!-- Step Indicator -->
+<header class="pt-stack-md">
+<span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Passo 2 de 7</span>
+<h2 class="font-step-title text-step-title mt-unit text-on-surface">Selecione seu Pacote de Câmeras</h2>
+<p class="font-body text-body text-on-surface-variant mt-unit">Configure as câmeras para sua unidade móvel. Selecione os itens e ajuste as quantidades abaixo.</p>
+</header>
+<!-- Illustrative Canvas (Mobile Unit Visualization) -->
+<section class="w-full h-64 bg-surface-container-low rounded-xl border border-outline-variant/30 relative overflow-hidden bg-canvas-dots flex items-center justify-center">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container/40 to-transparent"></div>
+<div class="relative w-full h-full flex items-center justify-center">
+<!-- Mobile Unit Outline (Placeholder for logic) -->
+<div class="relative w-48 h-32 bg-white border-2 border-outline rounded-lg flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-outline-variant text-4xl" data-icon="local_shipping">local_shipping</span>
+<!-- Camera Silhouettes Mounting -->
+<div class="absolute -top-12 left-4 w-10 h-10 bg-primary/20 border-2 border-primary border-dashed rounded-md flex items-center justify-center animate-pulse">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="videocam">videocam</span>
+</div>
+<div class="absolute -top-14 left-1/2 -translate-x-1/2 w-12 h-12 bg-primary/10 border-2 border-primary border-dashed rounded-md flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="camera_outdoor">camera_outdoor</span>
+</div>
+<div class="absolute -top-10 right-4 w-8 h-8 bg-primary/20 border-2 border-primary border-dashed rounded-md flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xs" data-icon="photo_camera">photo_camera</span>
+</div>
+</div>
+<!-- Ground reflection effect -->
+<div class="absolute bottom-16 w-64 h-2 bg-on-surface/5 blur-xl rounded-full"></div>
+</div>
+<div class="absolute bottom-stack-sm right-stack-sm">
+<span class="bg-white/80 backdrop-blur px-stack-sm py-unit rounded-full border border-outline-variant/30 font-label-meta text-label-meta text-on-surface-variant">Visualização da Configuração</span>
+</div>
+</section>
+<!-- Camera Multi-select List -->
+<div class="flex flex-col gap-stack-md">
+<!-- PTZ Broadcast -->
+<div class="bg-white border-2 border-primary bg-surface-container-low rounded-xl p-stack-md flex flex-col gap-stack-sm transition-all shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex gap-stack-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden border border-outline-variant/30 flex-shrink-0">
+<img alt="PTZ Camera" class="w-full h-full object-cover" data-alt="A professional high-definition PTZ broadcast camera with a large optical zoom lens, finished in a matte black industrial coating." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6Q6eV1UU8Rmz7mp7McH-cGggvcFtjhjruswBA28GkdZwO9-844S_pFfwE5nv9MEUWqCURZEUoTWBFpPJsjELHGWawlT9DXBE3vCYIAMzVrg2kfXKBjxdFc3_FRvo7xOtJz8dnL0wImuqQqnkRFYZ_4cVomSD633EiFjSAYz18-2yKRvu5HrDGIVEbR_fDk3sRj74sLLEq2PsyMFiSF8Y2UcEcjJnCPfs6brH36CWskO2ruK1KjiuUOPEx60S8f8pulFXamZabZba8"/>
+</div>
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-on-surface">PTZ Broadcast</span>
+<span class="font-label-meta text-label-meta text-secondary font-bold">R$ 800 <span class="font-normal text-on-surface-variant">/ unid.</span></span>
+<p class="font-label-meta text-label-meta text-on-surface-variant mt-unit">Zoom e movimentação remota para ângulos versáteis.</p>
+</div>
+</div>
+<div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-stack-sm border-t border-outline-variant/30 mt-unit">
+<span class="font-label-meta text-label-meta text-on-surface-variant">Quantidade</span>
+<div class="flex items-center gap-stack-md">
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="font-body-medium text-body-medium w-4 text-center">3</span>
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Cinema 6K -->
+<div class="bg-white border border-outline-variant/30 rounded-xl p-stack-md flex flex-col gap-stack-sm transition-all hover:border-primary/50 group">
+<div class="flex items-start justify-between">
+<div class="flex gap-stack-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden border border-outline-variant/30 flex-shrink-0">
+<img alt="Cinema Camera" class="w-full h-full object-cover" data-alt="A premium 6K cinema camera body rigged with high-end accessories." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxbFXEuebpE4f9UtkRwtfOmaoHcwMRseKX4NJjfCvjsJT6-teU5ksxWgJvKdWUSyYL02nMi2Fj2gnb4lmoE1x3g_DhjML38znNF3WKacuvvzISU0eMOYq85NWU5nugqESUXWlMyRnKLXc6XCjnzLtMejHL7a0UxOufMCR2WGuS6-FQx_EwC_rPnffGxaW2jQ3Ve3HZlBCn_dQ7hLDBZt53q51J-eNZPEodfD1xYcTUTa_ssd98nme-D5gc7hHROKBEIVyRlTAMJe65"/>
+</div>
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-on-surface">Cinema 6K</span>
+<span class="font-label-meta text-label-meta text-on-surface-variant font-bold">R$ 1.200 <span class="font-normal">/ unid.</span></span>
+<p class="font-label-meta text-label-meta text-on-surface-variant mt-unit">Sensor full-frame para narrativa cinematográfica.</p>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary/50"></div>
+</div>
+</div>
+<!-- Mirrorless 4K -->
+<div class="bg-white border border-outline-variant/30 rounded-xl p-stack-md flex flex-col gap-stack-sm transition-all hover:border-primary/50 group">
+<div class="flex items-start justify-between">
+<div class="flex gap-stack-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden border border-outline-variant/30 flex-shrink-0">
+<img alt="Mirrorless Camera" class="w-full h-full object-cover" data-alt="A modern mirrorless 4K camera with a high-performance prime lens attached." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdTTidxTPiL201fq8HR_fHWWduq0_QlqejH7cUi6w7Uw9zzSH0ieRTtwVxhlVk5pDpNuOJz3w2aPtQIHSOylg5H-uZko0xksINKketz1qgQuTHVoDa57RT813kR_9kEBv3AwJpc586Tm0XBOFSYB0ULs6-ETM7CsgOawG8kTDBTsPq5Qd5f7v7XknU1_pelyERruBEMLhHW4i3FE8TYE5LO1jvsJEfFXC4BxsJ8KiGN4Wn60PedAledTd36-WKelKQfmj96del_vDE"/>
+</div>
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-on-surface">Mirrorless 4K</span>
+<span class="font-label-meta text-label-meta text-on-surface-variant font-bold">R$ 500 <span class="font-normal">/ unid.</span></span>
+<p class="font-label-meta text-label-meta text-on-surface-variant mt-unit">Captura 4K compacta e ágil de alta qualidade.</p>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary/50"></div>
+</div>
+</div>
+<!-- Action POV -->
+<div class="bg-white border border-outline-variant/30 rounded-xl p-stack-md flex flex-col gap-stack-sm transition-all hover:border-primary/50 group">
+<div class="flex items-start justify-between">
+<div class="flex gap-stack-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden border border-outline-variant/30 flex-shrink-0">
+<img alt="Action Camera" class="w-full h-full object-cover" data-alt="A rugged, waterproof action camera in a protective cage mount." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB_R7QD8OCjP9I40Cz2sFjShRty4l2HT3JFJO9Wsp2HoYZ3cSoDivc2tbNfR2fppSPVIn0FErbslUh6fKhIJnSsR98idRfhqN6bauhPgu4aYs3SbnpzuX3brgc0QiL7K86756cyfzUXvswAQs8NCpvshFx0LJHu3CCv84XmbXcgACujQoLHPhj9duXAr1MVKmAjAdbuC2VyDgeelHcTgkktY6xQ-XwqrCdrr3TEJauzsEDdGTojUzyLrmHo8N8FMu8H2ug3bFdM-pX"/>
+</div>
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-on-surface">Action POV</span>
+<span class="font-label-meta text-label-meta text-on-surface-variant font-bold">R$ 200 <span class="font-normal">/ unid.</span></span>
+<p class="font-label-meta text-label-meta text-on-surface-variant mt-unit">Imagens dinâmicas em primeira pessoa.</p>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary/50"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Footer (Summary & Action) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex flex-col items-center bg-surface-container dark:bg-inverse-surface border-t border-outline-variant/50 p-stack-md gap-stack-sm shadow-2xl">
+<div class="w-full max-w-2xl flex flex-col gap-stack-sm">
+<!-- Summary Row -->
+<div class="flex items-center justify-between w-full">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Subtotal Atual</span>
+<span class="text-xl font-bold text-primary dark:text-inverse-primary">R$ 3.200</span>
+</div>
+<div class="flex flex-wrap justify-end gap-unit">
+<!-- Chips for previously selected Step 1 items -->
+<div class="bg-surface-container-highest px-stack-sm py-unit rounded-full border border-outline-variant/30 flex items-center gap-unit">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant" data-icon="local_shipping">local_shipping</span>
+<span class="font-label-meta text-label-meta text-on-surface-variant">Unidade Sprinter</span>
+</div>
+</div>
+</div>
+<!-- Primary Action Button -->
+<button class="w-full h-12 bg-primary text-white rounded-lg font-body-medium text-body-medium flex items-center justify-center gap-stack-sm active:opacity-80 transition-opacity">
+                Próximo: Suporte e Grip
+                <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Branding/Copyright -->
+<div class="flex justify-between items-center w-full mt-unit">
+<span class="font-label-caps text-label-caps text-on-surface-variant opacity-70">© 2024 ProGear Rental.</span>
+<div class="flex gap-stack-md">
+<span class="font-label-meta text-label-meta text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Termos</span>
+<span class="font-label-meta text-label-meta text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Suporte</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

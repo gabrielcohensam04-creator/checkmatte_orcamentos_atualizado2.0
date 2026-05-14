@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-primary-container": "#fffbff",
+                  "secondary": "#8b4e3b",
+                  "surface-dim": "#ecd5cf",
+                  "surface-variant": "#f5ded7",
+                  "on-tertiary": "#ffffff",
+                  "tertiary-fixed": "#bfe9ff",
+                  "inverse-on-surface": "#ffede8",
+                  "on-tertiary-container": "#fbfdff",
+                  "on-tertiary-fixed": "#001f2a",
+                  "on-primary": "#ffffff",
+                  "secondary-fixed": "#ffdbd0",
+                  "secondary-fixed-dim": "#ffb59e",
+                  "on-secondary-fixed": "#380d02",
+                  "tertiary": "#006482",
+                  "outline-variant": "#e0c0b6",
+                  "on-surface-variant": "#58423b",
+                  "primary-fixed-dim": "#ffb59e",
+                  "on-surface": "#251915",
+                  "tertiary-container": "#007ea3",
+                  "on-secondary-container": "#783f2d",
+                  "background": "#fff8f6",
+                  "error-container": "#ffdad6",
+                  "surface": "#fff8f6",
+                  "primary": "#a5360d",
+                  "surface-tint": "#a8380f",
+                  "surface-container-highest": "#f5ded7",
+                  "on-error": "#ffffff",
+                  "on-primary-fixed": "#3a0b00",
+                  "on-background": "#251915",
+                  "secondary-container": "#fdae95",
+                  "on-tertiary-fixed-variant": "#004d65",
+                  "on-secondary": "#ffffff",
+                  "inverse-primary": "#ffb59e",
+                  "tertiary-fixed-dim": "#6ed2fe",
+                  "primary-container": "#c74d24",
+                  "surface-container-high": "#fbe3dd",
+                  "error": "#ba1a1a",
+                  "primary-fixed": "#ffdbd0",
+                  "on-error-container": "#93000a",
+                  "inverse-surface": "#3b2d29",
+                  "on-secondary-fixed-variant": "#6f3725",
+                  "surface-container-low": "#fff1ed",
+                  "surface-container-lowest": "#ffffff",
+                  "surface-bright": "#fff8f6",
+                  "outline": "#8c7169",
+                  "on-primary-fixed-variant": "#852400",
+                  "surface-container": "#ffe9e3"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "unit": "4px",
+                  "stack-xs": "4px",
+                  "stack-lg": "24px",
+                  "stack-sm": "8px",
+                  "gutter-mobile": "12px",
+                  "margin-mobile": "16px",
+                  "stack-md": "16px"
+          },
+          "fontFamily": {
+                  "body-medium": ["Inter"],
+                  "step-title": ["Inter"],
+                  "label-caps": ["Inter"],
+                  "label-meta": ["Inter"],
+                  "body": ["Inter"]
+          },
+          "fontSize": {
+                  "body-medium": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                  "step-title": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01rem", "fontWeight": "500"}],
+                  "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05rem", "fontWeight": "500"}],
+                  "label-meta": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01rem", "fontWeight": "400"}],
+                  "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #e0c0b6;
+      border-radius: 10px;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen flex flex-col">
+<!-- TopAppBar Component -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center px-margin-mobile h-14 bg-surface dark:bg-on-background border-b border-outline-variant/30">
+<div class="flex items-center gap-stack-md w-full">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low transition-colors p-unit active:scale-95 transition-transform">arrow_back</button>
+<h1 class="font-step-title text-step-title text-on-surface dark:text-on-primary-container flex-grow">Gerador de Orçamento</h1>
+<div class="font-label-meta text-label-meta text-on-surface-variant px-stack-sm py-unit bg-surface-container-high rounded-lg">Etapa 5 de 7</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-14 pb-32 px-margin-mobile max-w-2xl mx-auto w-full">
+<!-- Progress Indicator -->
+<div class="w-full bg-surface-container h-1 mt-stack-md rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[71%] transition-all duration-500"></div>
+</div>
+<!-- Section Heading -->
+<section class="mt-stack-lg">
+<h2 class="font-step-title text-step-title text-on-surface">Cabeamento</h2>
+<p class="font-body text-body text-on-surface-variant mt-stack-xs">Estime a distância total entre o setup das câmeras e a unidade móvel de produção.</p>
+</section>
+<!-- Asymmetric Illustrative Canvas -->
+<div class="mt-stack-lg relative overflow-hidden rounded-xl border-[0.5px] border-black/10 bg-white aspect-[16/9] flex items-center justify-center group">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#fff1ed_0%,transparent_70%)]"></div>
+<!-- Abstract Illustration Placeholder -->
+<img class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700" data-alt="A cinematic, high-detail overhead view of professional heavy-duty SDI and power cables in vibrant orange, blue, and yellow neatly bundled and snaking across a clean concrete studio floor. Soft afternoon sunlight filters through a large window, creating long shadows and highlighting the textured rubber of the cables. The aesthetic is clean, professional, and industrial, following a light-mode palette with warm neutral tones and sharp technical precision. The image suggests complex logistics and high-end film production equipment connectivity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrck_vWbGx83r7QZNsPD8o9UqfMXPGXN7UNAwpZaCEMUUgk9pIp8Z_7cGBQByDU_hxz0-rhfx3aSWBOCYikT-lNdTvOmMrG7jBEaTI4aYnhu3euyT438a4YyTAvwep5UPsWK1UMyIZS3Dh1A8Xwk2OajiOoVofAfLrkCFuqMg39Fl4oBvgT-ou4-23IQNKBasbJDfuKCjhrSuO0oEv3Yry1fgoEWsnjJvQ6PfApmjVSRY_wH6vgpJJRLGaN8I1PrbW-D6PpjucdM3M"/>
+<div class="absolute inset-0 flex flex-col items-center justify-end p-stack-md bg-gradient-to-t from-white/60 to-transparent">
+<span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest bg-white/80 px-stack-sm py-unit rounded-full backdrop-blur-sm border-[0.5px] border-outline-variant/30">Topologia de Conexão</span>
+</div>
+</div>
+<!-- Options Grid -->
+<div class="mt-stack-lg grid grid-cols-1 gap-stack-md">
+<!-- Option 50m -->
+<label class="relative flex items-center justify-between p-stack-md bg-white border-[0.5px] border-black/10 rounded-xl cursor-pointer hover:bg-surface-container-lowest transition-all group">
+<input checked="" class="hidden peer" name="cable_run" type="radio"/>
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-on-surface">50m</span>
+<span class="font-label-meta text-label-meta text-on-surface-variant">Cobertura padrão para estúdio</span>
+</div>
+<div class="flex items-center gap-stack-sm">
+<span class="font-body-medium text-body-medium text-primary">R$ 200</span>
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-all">
+<div class="w-2 h-2 bg-white rounded-full"></div>
+</div>
+</div>
+<!-- Active State Overlay -->
+<div class="absolute inset-0 rounded-xl border-2 border-primary bg-primary/5 opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity"></div>
+</label>
+<!-- Option 100m -->
+<label class="relative flex items-center justify-between p-stack-md bg-white border-[0.5px] border-black/10 rounded-xl cursor-pointer hover:bg-surface-container-lowest transition-all group">
+<input class="hidden peer" name="cable_run" type="radio"/>
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-on-surface">100m</span>
+<span class="font-label-meta text-label-meta text-on-surface-variant">Distância estendida para produção externa</span>
+</div>
+<div class="flex items-center gap-stack-sm">
+<span class="font-body-medium text-body-medium text-primary">R$ 350</span>
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-all">
+<div class="w-2 h-2 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="absolute inset-0 rounded-xl border-2 border-primary bg-primary/5 opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity"></div>
+</label>
+<!-- Option 200m -->
+<label class="relative flex items-center justify-between p-stack-md bg-white border-[0.5px] border-black/10 rounded-xl cursor-pointer hover:bg-surface-container-lowest transition-all group">
+<input class="hidden peer" name="cable_run" type="radio"/>
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-on-surface">200m</span>
+<span class="font-label-meta text-label-meta text-on-surface-variant">Conectividade complexa para múltiplas salas</span>
+</div>
+<div class="flex items-center gap-stack-sm">
+<span class="font-body-medium text-body-medium text-primary">R$ 600</span>
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-all">
+<div class="w-2 h-2 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="absolute inset-0 rounded-xl border-2 border-primary bg-primary/5 opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity"></div>
+</label>
+<!-- Option 500m -->
+<label class="relative flex items-center justify-between p-stack-md bg-white border-[0.5px] border-black/10 rounded-xl cursor-pointer hover:bg-surface-container-lowest transition-all group">
+<input class="hidden peer" name="cable_run" type="radio"/>
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-on-surface">500m</span>
+<span class="font-label-meta text-label-meta text-on-surface-variant">Configurações para grandes estádios ou festivais</span>
+</div>
+<div class="flex items-center gap-stack-sm">
+<span class="font-body-medium text-body-medium text-primary">R$ 1.200</span>
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-all">
+<div class="w-2 h-2 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="absolute inset-0 rounded-xl border-2 border-primary bg-primary/5 opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity"></div>
+</label>
+</div>
+<!-- Informational Card -->
+<div class="mt-stack-lg p-stack-md rounded-xl bg-surface-container-low border-[0.5px] border-outline-variant/50 flex gap-stack-md">
+<span class="material-symbols-outlined text-tertiary">info</span>
+<p class="font-label-meta text-label-meta text-on-surface-variant">Todo o cabeamento inclui proteção resistente às condições climáticas e repetidores de sinal para extensões acima de 100m.</p>
+</div>
+</main>
+<!-- Sticky Footer Component -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex flex-col items-center p-stack-md gap-stack-sm bg-surface-container dark:bg-inverse-surface border-t border-outline-variant/50 shadow-[0_-4px_24px_rgba(0,0,0,0.04)]">
+<div class="w-full max-w-2xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Subtotal Atual</span>
+<span class="font-step-title text-step-title text-primary font-bold">R$ 4.850,00</span>
+</div>
+<button class="bg-primary text-on-primary-container px-8 py-3 rounded-xl font-body-medium text-body-medium flex items-center gap-stack-sm hover:opacity-90 active:scale-95 transition-all">
+        Próxima Etapa
+        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="flex gap-stack-md items-center mt-unit">
+<span class="font-label-caps text-label-caps text-on-surface-variant">© 2024 ProGear Rental. Todos os direitos reservados.</span>
+<div class="flex gap-stack-sm">
+<a class="font-body text-body text-on-surface-variant hover:text-primary transition-colors" href="#">Termos</a>
+<a class="font-body text-body text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidade</a>
+</div>
+</div>
+</footer>
+</body></html>

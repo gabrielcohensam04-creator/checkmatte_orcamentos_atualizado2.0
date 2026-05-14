@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+    </style>
+<title>Construtor de Orçamento - Passo 6: Extras</title>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#380d02",
+                        "on-primary-container": "#fffbff",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#fff8f6",
+                        "secondary-fixed-dim": "#ffb59e",
+                        "surface": "#fff8f6",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#e0c0b6",
+                        "primary-container": "#c74d24",
+                        "outline": "#8c7169",
+                        "surface-dim": "#ecd5cf",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#3a0b00",
+                        "tertiary-container": "#007ea3",
+                        "surface-variant": "#f5ded7",
+                        "on-tertiary-container": "#fbfdff",
+                        "inverse-primary": "#ffb59e",
+                        "on-secondary-container": "#783f2d",
+                        "on-surface": "#251915",
+                        "surface-container-low": "#fff1ed",
+                        "surface-container": "#ffe9e3",
+                        "on-tertiary-fixed": "#001f2a",
+                        "inverse-on-surface": "#ffede8",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#58423b",
+                        "on-primary": "#ffffff",
+                        "on-background": "#251915",
+                        "inverse-surface": "#3b2d29",
+                        "surface-container-highest": "#f5ded7",
+                        "primary-fixed": "#ffdbd0",
+                        "surface-tint": "#a8380f",
+                        "on-tertiary-fixed-variant": "#004d65",
+                        "surface-container-high": "#fbe3dd",
+                        "on-secondary-fixed-variant": "#6f3725",
+                        "on-primary-fixed-variant": "#852400",
+                        "secondary": "#8b4e3b",
+                        "tertiary-fixed": "#bfe9ff",
+                        "secondary-container": "#fdae95",
+                        "primary-fixed-dim": "#ffb59e",
+                        "background": "#fff8f6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#a5360d",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#ffdbd0",
+                        "tertiary": "#006482",
+                        "tertiary-fixed-dim": "#6ed2fe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-xs": "4px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "stack-lg": "24px",
+                        "gutter-mobile": "12px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "body": ["Inter"],
+                        "label-meta": ["Inter"],
+                        "body-medium": ["Inter"],
+                        "step-title": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05rem", "fontWeight": "500"}],
+                        "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-meta": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01rem", "fontWeight": "400"}],
+                        "body-medium": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "step-title": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01rem", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center px-margin-mobile h-14 bg-surface dark:bg-on-background border-b border-outline-variant/30">
+<div class="flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim cursor-pointer active:scale-95 transition-transform" data-icon="arrow_back">arrow_back</span>
+<h1 class="font-step-title text-step-title text-on-surface dark:text-on-primary-container">Construtor de Orçamento</h1>
+</div>
+<div class="ml-auto flex items-center gap-stack-md">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">PASSO 6 DE 7</span>
+</div>
+</header>
+<main class="pt-14 pb-32">
+<!-- Hero Illustrative Canvas -->
+<section class="p-margin-mobile">
+<div class="relative w-full h-64 rounded-xl overflow-hidden bg-surface-container border border-outline-variant/30">
+<img class="w-full h-full object-cover opacity-90" data-alt="Produção profissional de filme" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ-rlTDbq6bodYon0SubFLY9HqRDrNn-SHnluFp2qEqhTgPQuRo6pOCDDL4nJGwDmxMDzpmB6eP22KjBiYvvSe6SoPolc0e0VvT6Xoqkro7CExX4qWhGLu6Ko9CCNnizEQ9i9YJz-SZP_RJUiCXBE6QKE1QDVsbvYX-Wo8I3_MuLacz984Gw-iYpXi8uFCjrkNELac_CeMe_ndj3EVfxdky7W-yU7iUrVrNav7LKXa3f1YTNXHGF-NMvvTqz1gUor3sYySiKnbQ3MW"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<span class="bg-primary text-on-primary-container px-3 py-1 rounded-full font-label-caps text-label-caps uppercase">Melhore seu Pacote</span>
+<h2 class="font-step-title text-step-title mt-1">Extras e Acessórios</h2>
+</div>
+</div>
+</section>
+<!-- Selection Grid -->
+<section class="px-margin-mobile space-y-stack-md">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<!-- LED Light Kit -->
+<div class="bg-surface-container-lowest border-2 border-primary p-stack-md rounded-xl flex flex-col justify-between h-40 relative overflow-hidden transition-all bg-secondary-container/10">
+<div class="flex justify-between items-start">
+<div>
+<span class="material-symbols-outlined text-primary mb-2" data-icon="light_mode">light_mode</span>
+<h3 class="font-body-medium text-body-medium text-on-surface">Kit de Iluminação LED</h3>
+</div>
+<div class="bg-primary rounded-full p-1 h-6 w-6 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xs" data-icon="check" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between mt-auto">
+<span class="font-label-meta text-label-meta text-on-surface-variant">Inclui 3 painéis + tripés</span>
+<span class="font-body-medium text-body-medium text-primary">R$ 900</span>
+</div>
+</div>
+<!-- 4K Monitors -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-stack-md rounded-xl flex flex-col justify-between h-40 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="flex justify-between items-start">
+<div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary mb-2" data-icon="monitor">monitor</span>
+<h3 class="font-body-medium text-body-medium text-on-surface">Monitores 4K</h3>
+</div>
+<div class="border border-outline h-6 w-6 rounded-full group-active:scale-90 transition-transform"></div>
+</div>
+<div class="flex items-baseline justify-between mt-auto">
+<span class="font-label-meta text-label-meta text-on-surface-variant">17" Nível de Produção</span>
+<span class="font-body-medium text-body-medium text-primary">R$ 450</span>
+</div>
+</div>
+<!-- Pro Audio -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-stack-md rounded-xl flex flex-col justify-between h-40 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="flex justify-between items-start">
+<div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary mb-2" data-icon="mic_external_on">mic_external_on</span>
+<h3 class="font-body-medium text-body-medium text-on-surface">Áudio Profissional</h3>
+</div>
+<div class="border border-outline h-6 w-6 rounded-full group-active:scale-90 transition-transform"></div>
+</div>
+<div class="flex items-baseline justify-between mt-auto">
+<span class="font-label-meta text-label-meta text-on-surface-variant">Kit XLR + Sem Fio</span>
+<span class="font-body-medium text-body-medium text-primary">R$ 700</span>
+</div>
+</div>
+<!-- Silent Generator -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-stack-md rounded-xl flex flex-col justify-between h-40 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="flex justify-between items-start">
+<div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary mb-2" data-icon="bolt">bolt</span>
+<h3 class="font-body-medium text-body-medium text-on-surface">Gerador Silencioso</h3>
+</div>
+<div class="border border-outline h-6 w-6 rounded-full group-active:scale-90 transition-transform"></div>
+</div>
+<div class="flex items-baseline justify-between mt-auto">
+<span class="font-label-meta text-label-meta text-on-surface-variant">Inversor Honda 2000W</span>
+<span class="font-body-medium text-body-medium text-primary">R$ 1.100</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Informational Note -->
+<section class="px-margin-mobile mt-stack-lg">
+<div class="bg-surface-container border border-outline-variant/30 p-stack-md rounded-lg flex gap-stack-sm items-start">
+<span class="material-symbols-outlined text-on-surface-variant text-body-medium" data-icon="info">info</span>
+<p class="font-body text-body text-on-surface-variant">Todos os extras incluem os cabos e acessórios de energia necessários. Diárias aplicadas ao período total de locação.</p>
+</div>
+</section>
+</main>
+<!-- Sticky Subtotal Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex flex-col items-center p-stack-md gap-stack-sm bg-surface-container dark:bg-inverse-surface border-t border-outline-variant/50">
+<div class="w-full max-w-4xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Subtotal Atual</span>
+<div class="flex items-baseline gap-2">
+<span class="font-step-title text-step-title text-primary font-bold">R$ 5.350</span>
+<span class="font-label-meta text-label-meta text-on-surface-variant line-through opacity-50">R$ 4.450</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary-container h-12 px-stack-lg rounded-lg font-body-medium flex items-center gap-stack-sm active:opacity-80 transition-opacity">
+                Revisar Pedido
+                <span class="material-symbols-outlined text-body-medium" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="flex gap-stack-md mt-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Termos</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Privacidade</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Suporte</span>
+</div>
+<p class="font-label-meta text-label-meta text-on-surface-variant opacity-60 mt-1">© 2024 ProGear Rental. Todos os direitos reservados.</p>
+</footer>
+</body></html>

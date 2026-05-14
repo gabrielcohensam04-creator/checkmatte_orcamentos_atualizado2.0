@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-container": "#fffbff",
+                    "secondary": "#8b4e3b",
+                    "surface-dim": "#ecd5cf",
+                    "surface-variant": "#f5ded7",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#bfe9ff",
+                    "inverse-on-surface": "#ffede8",
+                    "on-tertiary-container": "#fbfdff",
+                    "on-tertiary-fixed": "#001f2a",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#ffdbd0",
+                    "secondary-fixed-dim": "#ffb59e",
+                    "on-secondary-fixed": "#380d02",
+                    "tertiary": "#006482",
+                    "outline-variant": "#e0c0b6",
+                    "on-surface-variant": "#58423b",
+                    "primary-fixed-dim": "#ffb59e",
+                    "on-surface": "#251915",
+                    "tertiary-container": "#007ea3",
+                    "on-secondary-container": "#783f2d",
+                    "background": "#fff8f6",
+                    "error-container": "#ffdad6",
+                    "surface": "#fff8f6",
+                    "primary": "#a5360d",
+                    "surface-tint": "#a8380f",
+                    "surface-container-highest": "#f5ded7",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#3a0b00",
+                    "on-background": "#251915",
+                    "secondary-container": "#fdae95",
+                    "on-tertiary-fixed-variant": "#004d65",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#ffb59e",
+                    "tertiary-fixed-dim": "#6ed2fe",
+                    "primary-container": "#c74d24",
+                    "surface-container-high": "#fbe3dd",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#ffdbd0",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#3b2d29",
+                    "on-secondary-fixed-variant": "#6f3725",
+                    "surface-container-low": "#fff1ed",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#fff8f6",
+                    "outline": "#8c7169",
+                    "on-primary-fixed-variant": "#852400",
+                    "surface-container": "#ffe9e3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "stack-xs": "4px",
+                    "stack-lg": "24px",
+                    "stack-sm": "8px",
+                    "gutter-mobile": "12px",
+                    "margin-mobile": "16px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "body-medium": ["Inter"],
+                    "step-title": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "label-meta": ["Inter"],
+                    "body": ["Inter"]
+            },
+            "fontSize": {
+                    "body-medium": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "step-title": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01rem", "fontWeight": "500"}],
+                    "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05rem", "fontWeight": "500"}],
+                    "label-meta": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01rem", "fontWeight": "400"}],
+                    "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fff8f6;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .thin-border {
+            border-width: 0.5px;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- Top Navigation -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center px-margin-mobile h-14 bg-surface dark:bg-on-background border-b border-outline-variant/30">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim active:scale-95 transition-transform" data-icon="arrow_back">arrow_back</button>
+<h1 class="ml-4 font-step-title text-step-title text-on-surface dark:text-on-primary-container">Montador de Orçamento</h1>
+<div class="ml-auto flex items-center gap-2">
+<span class="font-label-meta text-label-meta text-on-surface-variant">Etapa 4 de 7</span>
+</div>
+</header>
+<main class="pt-20 px-margin-mobile max-w-md mx-auto">
+<!-- Visual Canvas Section -->
+<section class="mb-stack-lg">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-high thin-border border-outline-variant/30">
+<img alt="Equipamento de produção cinematográfica" class="w-full h-full object-cover opacity-90" data-alt="A professional high-end film production setup on a bright studio floor with a warm-neutral aesthetic. The central focus is a large production truck partially visible, with a professional 6m camera crane and dolly tracks meticulously laid out on the floor. Soft, high-key studio lighting creates precise highlights on the metallic surfaces of the gear. The color palette is dominated by sophisticated creams and warm whites with professional deep brown and coral accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ84my_ba6P0JVBJN0NC7Zhlxp3uTQ8qLlPmhWZxeFJ6A8sgoYRYYdoYSt1gi0XsDHINriy_36sG_jXcEFpzwG-qMQ1KYH_WX4wRNcC2NDmfceuWmjr8yqwbgW5BmHVjNlppqrAXnPpq4l-ZbEK2pnJfpLeGmy8tHy8ToK1Ek2Eg5r84c44a0Xn4MsdwfLujIFrG2EjcoCeiuiKNTdOp3QfzzDU0bJhClTqDO2xhArWgw83c8eOv5BKcry-L7rhUhcKx1Y_Fr7sK4l"/>
+<!-- Overlay Indicators -->
+<div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg thin-border border-outline-variant/20 shadow-sm flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container text-[18px]" data-icon="movie_filter">movie_filter</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Configuração Ativa</p>
+<p class="font-body-medium text-body-medium text-on-surface">Equipamento de Movimento</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Selection Header -->
+<header class="mb-stack-md">
+<h2 class="font-step-title text-step-title text-on-surface">Movimentação de Câmera</h2>
+<p class="font-body text-body text-on-surface-variant">Selecione todos os equipamentos de movimentação necessários para a produção.</p>
+</header>
+<!-- Multi-select Options -->
+<div class="space-y-stack-sm">
+<!-- Option 1 -->
+<label class="group flex items-center p-stack-md bg-surface-container-lowest thin-border border-outline-variant/30 rounded-xl cursor-pointer hover:bg-surface-container-low transition-colors active:scale-[0.98] transition-transform has-[:checked]:border-primary has-[:checked]:bg-[#FAECE7]">
+<input checked="" class="hidden peer" type="checkbox"/>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="font-body-medium text-body-medium text-on-surface">Grua de 6m</span>
+<span class="font-body-medium text-body-medium text-primary">R$ 2.500</span>
+</div>
+<p class="font-label-meta text-label-meta text-on-surface-variant mt-1">Inclui cabeça remota e técnico.</p>
+</div>
+<div class="ml-stack-md w-6 h-6 rounded-md border-2 border-outline flex items-center justify-center peer-checked:bg-primary peer-checked:border-primary transition-all">
+<span class="material-symbols-outlined text-white text-[16px] opacity-0 peer-checked:opacity-100" data-icon="check">check</span>
+</div>
+</label>
+<!-- Option 2 -->
+<label class="group flex items-center p-stack-md bg-surface-container-lowest thin-border border-outline-variant/30 rounded-xl cursor-pointer hover:bg-surface-container-low transition-colors active:scale-[0.98] transition-transform has-[:checked]:border-primary has-[:checked]:bg-[#FAECE7]">
+<input checked="" class="hidden peer" type="checkbox"/>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="font-body-medium text-body-medium text-on-surface">Dolly + 12m de Trilho</span>
+<span class="font-body-medium text-body-medium text-primary">R$ 1.800</span>
+</div>
+<p class="font-label-meta text-label-meta text-on-surface-variant mt-1">Sistema de dolly hidráulico robusto.</p>
+</div>
+<div class="ml-stack-md w-6 h-6 rounded-md border-2 border-outline flex items-center justify-center peer-checked:bg-primary peer-checked:border-primary transition-all">
+<span class="material-symbols-outlined text-white text-[16px] opacity-0 peer-checked:opacity-100" data-icon="check">check</span>
+</div>
+</label>
+<!-- Option 3 -->
+<label class="group flex items-center p-stack-md bg-surface-container-lowest thin-border border-outline-variant/30 rounded-xl cursor-pointer hover:bg-surface-container-low transition-colors active:scale-[0.98] transition-transform has-[:checked]:border-primary has-[:checked]:bg-[#FAECE7]">
+<input class="hidden peer" type="checkbox"/>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="font-body-medium text-body-medium text-on-surface">Steadicam</span>
+<span class="font-body-medium text-body-medium text-primary">R$ 1.200</span>
+</div>
+<p class="font-label-meta text-label-meta text-on-surface-variant mt-1">Sistema de sled, braço e colete.</p>
+</div>
+<div class="ml-stack-md w-6 h-6 rounded-md border-2 border-outline flex items-center justify-center peer-checked:bg-primary peer-checked:border-primary transition-all">
+<span class="material-symbols-outlined text-white text-[16px] opacity-0 peer-checked:opacity-100" data-icon="check">check</span>
+</div>
+</label>
+<!-- Option 4 -->
+<label class="group flex items-center p-stack-md bg-surface-container-lowest thin-border border-outline-variant/30 rounded-xl cursor-pointer hover:bg-surface-container-low transition-colors active:scale-[0.98] transition-transform has-[:checked]:border-primary has-[:checked]:bg-[#FAECE7]">
+<input class="hidden peer" type="checkbox"/>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="font-body-medium text-body-medium text-on-surface">Slider de 2m</span>
+<span class="font-body-medium text-body-medium text-primary">R$ 350</span>
+</div>
+<p class="font-label-meta text-label-meta text-on-surface-variant mt-1">Slider de fibra de carbono leve.</p>
+</div>
+<div class="ml-stack-md w-6 h-6 rounded-md border-2 border-outline flex items-center justify-center peer-checked:bg-primary peer-checked:border-primary transition-all">
+<span class="material-symbols-outlined text-white text-[16px] opacity-0 peer-checked:opacity-100" data-icon="check">check</span>
+</div>
+</label>
+</div>
+</main>
+<!-- Sticky Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-white/95 backdrop-blur-md border-t border-outline-variant/50 pt-4 pb-6 px-margin-mobile">
+<!-- Subtotal & Chips -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-tighter">Subtotal Atual</span>
+<p class="font-step-title text-step-title text-primary">R$ 4.300</p>
+</div>
+<button class="bg-primary text-on-primary-container px-8 py-3 rounded-lg font-body-medium active:scale-95 transition-transform shadow-lg shadow-primary/20">
+                Próxima Etapa
+            </button>
+</div>
+<!-- Scrollable Chips -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+<div class="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-secondary-container text-on-secondary-container rounded-full thin-border border-outline-variant/20">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-meta text-label-meta">Red V-Raptor</span>
+</div>
+<div class="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-secondary-container text-on-secondary-container rounded-full thin-border border-outline-variant/20">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-meta text-label-meta">Set de Lentes Prime</span>
+</div>
+<div class="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-secondary-container text-on-secondary-container rounded-full thin-border border-outline-variant/20">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-meta text-label-meta">Grua de 6m</span>
+</div>
+<div class="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-secondary-container text-on-secondary-container rounded-full thin-border border-outline-variant/20">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-meta text-label-meta">Dolly + 12m</span>
+</div>
+</div>
+</div>
+<div class="mt-4 flex flex-col items-center gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">© 2024 ProGear Rental. Todos os direitos reservados.</span>
+<div class="flex gap-4">
+<span class="font-body text-body text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Termos</span>
+<span class="font-body text-body text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Privacidade</span>
+<span class="font-body text-body text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Suporte</span>
+</div>
+</div>
+</footer>
+</body></html>

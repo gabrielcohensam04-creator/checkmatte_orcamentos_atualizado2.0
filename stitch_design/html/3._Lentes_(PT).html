@@ -1,0 +1,245 @@
+<html class="light" lang="pt-BR"><head></head><body class="bg-background text-on-surface font-body min-h-screen flex flex-col">```html
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-primary-container": "#fffbff",
+                  "secondary": "#8b4e3b",
+                  "surface-dim": "#ecd5cf",
+                  "surface-variant": "#f5ded7",
+                  "on-tertiary": "#ffffff",
+                  "tertiary-fixed": "#bfe9ff",
+                  "inverse-on-surface": "#ffede8",
+                  "on-tertiary-container": "#fbfdff",
+                  "on-tertiary-fixed": "#001f2a",
+                  "on-primary": "#ffffff",
+                  "secondary-fixed": "#ffdbd0",
+                  "secondary-fixed-dim": "#ffb59e",
+                  "on-secondary-fixed": "#380d02",
+                  "tertiary": "#006482",
+                  "outline-variant": "#e0c0b6",
+                  "on-surface-variant": "#58423b",
+                  "primary-fixed-dim": "#ffb59e",
+                  "on-surface": "#251915",
+                  "tertiary-container": "#007ea3",
+                  "on-secondary-container": "#783f2d",
+                  "background": "#fff8f6",
+                  "error-container": "#ffdad6",
+                  "surface": "#fff8f6",
+                  "primary": "#a5360d",
+                  "surface-tint": "#a8380f",
+                  "surface-container-highest": "#f5ded7",
+                  "on-error": "#ffffff",
+                  "on-primary-fixed": "#3a0b00",
+                  "on-background": "#251915",
+                  "secondary-container": "#fdae95",
+                  "on-tertiary-fixed-variant": "#004d65",
+                  "on-secondary": "#ffffff",
+                  "inverse-primary": "#ffb59e",
+                  "tertiary-fixed-dim": "#6ed2fe",
+                  "primary-container": "#c74d24",
+                  "surface-container-high": "#fbe3dd",
+                  "error": "#ba1a1a",
+                  "primary-fixed": "#ffdbd0",
+                  "on-error-container": "#93000a",
+                  "inverse-surface": "#3b2d29",
+                  "on-secondary-fixed-variant": "#6f3725",
+                  "surface-container-low": "#fff1ed",
+                  "surface-container-lowest": "#ffffff",
+                  "surface-bright": "#fff8f6",
+                  "outline": "#8c7169",
+                  "on-primary-fixed-variant": "#852400",
+                  "surface-container": "#ffe9e3"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "unit": "4px",
+                  "stack-xs": "4px",
+                  "stack-lg": "24px",
+                  "stack-sm": "8px",
+                  "gutter-mobile": "12px",
+                  "margin-mobile": "16px",
+                  "stack-md": "16px"
+          },
+          "fontFamily": {
+                  "body-medium": ["Inter"],
+                  "step-title": ["Inter"],
+                  "label-caps": ["Inter"],
+                  "label-meta": ["Inter"],
+                  "body": ["Inter"]
+          },
+          "fontSize": {
+                  "body-medium": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                  "step-title": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01rem", "fontWeight": "500"}],
+                  "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05rem", "fontWeight": "500"}],
+                  "label-meta": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01rem", "fontWeight": "400"}],
+                  "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #e0c0b6;
+      border-radius: 10px;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center px-margin-mobile h-14 bg-surface dark:bg-on-background border-b border-outline-variant/30">
+<div class="flex items-center gap-stack-md w-full">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low transition-colors p-unit active:scale-95 transition-transform">arrow_back</button>
+<h1 class="font-step-title text-step-title text-on-surface dark:text-on-primary-container">Montador de Orçamento</h1>
+<div class="ml-auto flex items-center gap-stack-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Etapa 3 de 7</span>
+</div>
+</div>
+</header>
+<main class="mt-14 pb-40 flex-grow flex flex-col">
+<!-- Visual Canvas Section -->
+<section class="relative w-full h-64 bg-surface-container-low overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-80 mix-blend-multiply" data-alt="A professional cinema production truck parked on a high-end film set at dusk. The interior of the truck is meticulously organized with high-value cameras mounted on specialized rigging. Multiple professional camera lenses are visible on a tech bench, illuminated by warm, precise spot lighting. The scene uses a clean, utilitarian aesthetic with a palette of soft neutrals and sharp warm highlights, reflecting a premium rental service." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDepKO70l6mlangiz_n10AT5qnNNFxr9ZHM2Idr0qqXtTaoFNXYDKjf6yuRM60dGw7RQhP5tIvWAFqys6iNeeI6oL9L79syibeVF-A6-blF3puhUdVpKHMKDAavURNlJr44JVkLCPmoeujxCYfjupM0u0iZYDgQe8cfe3vQpHzEqoL6jyTROi8MpdNGUwAO5ZUxWcITQsMZ0dmOy389hk1yoaktjTb8ehR-YOZMlhUc7G7X3f98_iQyI9rRePjF3VYaXV88cHSpvJk-"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+<div class="relative z-10 p-margin-mobile flex flex-col h-full justify-end">
+<h2 class="font-step-title text-step-title text-on-surface">Selecionar Lentes</h2>
+<p class="font-body text-body text-on-surface-variant max-w-xs">Equipe seu pacote de câmeras com lentes profissionais para cada tipo de plano.</p>
+</div>
+</section>
+<!-- Multi-select Options Grid -->
+<section class="px-margin-mobile mt-stack-lg">
+<div class="grid grid-cols-2 gap-stack-md">
+<!-- Option 1: Cine Prime Set -->
+<div class="bg-surface-container-lowest border-[0.5px] border-outline-variant/30 rounded-xl overflow-hidden active:scale-95 transition-all group cursor-pointer hover:border-primary/50">
+<div class="aspect-[4/3] relative">
+<img class="w-full h-full object-cover" data-alt="A premium set of high-end cinema prime lenses arranged in a protective hard case. Each lens features precise focus gears and clear focal length markings. The lighting is soft and professional, highlighting the high-quality glass and technical craftsmanship of the equipment in a minimalist setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWYFijvBnhSY9HRdBJqwWmp6u7cb-kQyCA-vp21Wvnq82K0FfpXJf9c5PHi-tYfx8a9l0QzwHcoQV_GBV2N8ixkNQEaOOwfeFbVjjzQFhWGBVVsyPVeTCjFbKpgxsjhtnhghDVEVot92wCL2szN3BExp3bX137gD9omwTi06uVUq9oz3YmWv11SmQ9Qz1sABtXCNRq_dcRTdIYE7z2ZfcWUGsUFH_SV6o-rv5TvRZ-gQuH0QDtBCueVWNgwfL-HU1cPUfbugLkrduM"/>
+<div class="absolute top-2 right-2 bg-primary text-on-primary rounded-full p-unit flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<div class="p-stack-md bg-surface-container-highest/20">
+<span class="font-label-meta text-label-meta text-on-surface-variant">Kit Padrão</span>
+<h3 class="font-body-medium text-body-medium text-on-surface">Set de Lentes Cine Prime</h3>
+<div class="flex justify-between items-center mt-unit">
+<span class="font-body-medium text-body-medium text-primary">R$ 1.500</span>
+</div>
+</div>
+</div>
+<!-- Option 2: Broadcast Zoom -->
+<div class="bg-white border-[0.5px] border-outline-variant/30 rounded-xl overflow-hidden active:scale-95 transition-all cursor-pointer hover:border-primary/50">
+<div class="aspect-[4/3] relative">
+<img class="w-full h-full object-cover" data-alt="A professional broadcast zoom lens with a large focal range, mounted on a technician's workbench. The lens is sleek, black, and features multiple control rings for zoom and iris adjustments. Shot in a bright, modern studio environment with neutral tones and clean lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8aoUNVnQWm-Bxf-0ukcmNSu_RuTVisgMhZTErnSDCof0cx23-Bzh0ATCvAjwa8METt0-7y0w1BDTvMSs9hu6XNggNx3M2GghzOTsEShuG7O9KS1dBUFwaTrM1adZBM5WF1TYWSPfbRbRbaDInQ_DNToYcJ-uJkpWt61SbwlZAZTBpeCKQLsXA9ykh9-ZzTsCF3lIQhMeP4Idqtr9KhWFo3w_Dr9Tt0Sv8jCmHyPk6KUpZRYs6zCnO7iujlCEcITYsTwehCpi5HnIL"/>
+</div>
+<div class="p-stack-md">
+<span class="font-label-meta text-label-meta text-on-surface-variant">Evento ao Vivo</span>
+<h3 class="font-body-medium text-body-medium text-on-surface">Zoom de Transmissão</h3>
+<div class="flex justify-between items-center mt-unit">
+<span class="font-body-medium text-body-medium text-primary">R$ 2.200</span>
+</div>
+</div>
+</div>
+<!-- Option 3: Wide Angle -->
+<div class="bg-white border-[0.5px] border-outline-variant/30 rounded-xl overflow-hidden active:scale-95 transition-all cursor-pointer hover:border-primary/50">
+<div class="aspect-[4/3] relative">
+<img class="w-full h-full object-cover" data-alt="A wide angle camera lens captured with high precision, showing the curved front element reflecting soft studio light. The composition is clean and minimalist, emphasizing the optical glass quality and professional utility of the lens for cinematic landscapes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNfoJEAh2MKWUcL3U4rBnYAAAz2jlCKRGpU_v9tJs_xn0pjJB-F-XKU17LNH7QBeayNidzDR0UadbQv2FnHU0AL-uc_kVkiGdIog-4aGUbnNCNxub9qvLUjHHYJsvfrNgZ7_lZXlDhNuNGeNN6RHyTZEV3Tx-2F2TJ6uvI3BAAL1c08CJ6L8lGsWo3DNpj1t72GS4rurvJEi75epid1u1aBAq3p6pgllwxQaWuijIq6mlhaP69zO21As4mskuS--SVb6HnBuEoxeAd"/>
+</div>
+<div class="p-stack-md">
+<span class="font-label-meta text-label-meta text-on-surface-variant">Paisagem</span>
+<h3 class="font-body-medium text-body-medium text-on-surface">Grande Angular</h3>
+<div class="flex justify-between items-center mt-unit">
+<span class="font-body-medium text-body-medium text-primary">R$ 400</span>
+</div>
+</div>
+</div>
+<!-- Option 4: Tele 70-200 -->
+<div class="bg-white border-[2px] border-primary rounded-xl overflow-hidden active:scale-95 transition-all cursor-pointer shadow-sm">
+<div class="aspect-[4/3] relative">
+<img class="w-full h-full object-cover" data-alt="A 70-200mm telephoto lens standing vertically on a light gray surface. The lens is white and black with red accents, representing a high-performance optics tool. The background is a clean, neutral gradient that maintains a professional, utilitarian aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGaTE3RSOGF-hDZVgMFOw7z3EnxP_uTK8d4UcZGG7N3VuhTSfCHctYWvvWAiRz-tIadw4F-bPjSL5rw-HoeRu9mMqcTHhQkh1dgWGLxM-Uq7-v9q-XFdcoU9xoJBCOt5RrU4UVEalq0SOpKuXvwB0AlhBazfhcU9qu5FffCBduygmZZ0bpqm2rGLKW6UQSEwTfUEZV7oSLp9nMHZEEwHj-ziydjWRz2zJgrY7HRW3QLkVntg9-08Jh3mn9OJWrEAd3umd5mEn-CoMD"/>
+<div class="absolute top-2 right-2 bg-primary text-on-primary rounded-full p-unit flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<div class="p-stack-md bg-surface-container-low">
+<span class="font-label-meta text-label-meta text-on-surface-variant">Esportes/Ação</span>
+<h3 class="font-body-medium text-body-medium text-on-surface">Teleobjetiva 70-200</h3>
+<div class="flex justify-between items-center mt-unit">
+<span class="font-body-medium text-body-medium text-primary">R$ 600</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Support Section -->
+<section class="px-margin-mobile mt-stack-lg">
+<div class="bg-surface-container border-[0.5px] border-outline-variant/50 p-stack-md rounded-lg flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="font-body text-body text-on-surface-variant flex-grow">As lentes incluem filtros de proteção de alta qualidade e cases rígidos para transporte.</p>
+</div>
+</section>
+</main>
+<!-- Sticky Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-surface-container dark:bg-inverse-surface border-t border-outline-variant/50 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<!-- Previous Selections Chips (Scrollable) -->
+<div class="px-margin-mobile pt-stack-sm flex items-center gap-stack-sm overflow-x-auto custom-scrollbar no-scrollbar">
+<div class="bg-surface-container-high border-[0.5px] border-outline-variant rounded-full px-stack-sm py-1 flex items-center gap-unit whitespace-nowrap">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Câmera:</span>
+<span class="font-label-caps text-label-caps text-on-surface font-bold">ALEXA MINI</span>
+</div>
+<div class="bg-surface-container-high border-[0.5px] border-outline-variant rounded-full px-stack-sm py-1 flex items-center gap-unit whitespace-nowrap">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Energia:</span>
+<span class="font-label-caps text-label-caps text-on-surface font-bold">KIT V-MOUNT</span>
+</div>
+</div>
+<!-- Main Footer Actions -->
+<div class="p-stack-md flex items-center justify-between gap-stack-md">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Total Estimado</span>
+<span class="font-step-title text-step-title text-primary font-bold">R$ 2.100 <small class="text-label-meta font-normal text-on-surface-variant">/dia</small></span>
+</div>
+<button class="bg-primary text-on-primary px-stack-lg h-12 rounded-lg font-body-medium flex items-center gap-stack-sm active:scale-95 transition-transform">
+        Continuar
+        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Copyright (Hidden on condensed view, but available for structure) -->
+<div class="hidden">
+<span class="font-label-caps text-label-caps text-on-surface-variant">© 2024 ProGear Rental. Todos os direitos reservados.</span>
+</div>
+</footer>
+```</body></html>
