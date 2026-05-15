@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  Document, Page, View, Text, StyleSheet, PDFDownloadLink,
+  Document, Page, View, Text, StyleSheet, PDFDownloadLink, Image,
 } from '@react-pdf/renderer';
+import logoUrl from '/logo_FUNDOPRETO.png';
 
 // Design tokens
 const P     = '#a5360d';
@@ -16,14 +17,12 @@ const WHITE = '#ffffff';
 const fmt     = (v) => Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 const fmtDate = (d)  => d ? new Date(d + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
 
-const STATUS_LABEL = { pending: 'Pendente', approved: 'Aprovado', rejected: 'Reprovado', completed: 'Concluído' };
-const STATUS_COLOR = { pending: '#c75000', approved: '#16a34a', rejected: '#ba1a1a', completed: '#006482' };
 
 const s = StyleSheet.create({
-  page:         { fontFamily: 'Helvetica', backgroundColor: SURF, paddingBottom: 56 },
+  page:         { fontFamily: 'Helvetica', backgroundColor: WHITE, paddingBottom: 56 },
 
   // Header
-  header:       { backgroundColor: ONS, paddingTop: 28, paddingBottom: 24, paddingLeft: 36, paddingRight: 36, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  header:       { backgroundColor: '#000000', paddingTop: 28, paddingBottom: 24, paddingLeft: 36, paddingRight: 36, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   brandName:    { fontSize: 20, fontFamily: 'Helvetica-Bold', color: WHITE, letterSpacing: 2 },
   brandSub:     { fontSize: 7, color: OV, letterSpacing: 1.5, marginTop: 4 },
   docLabel:     { fontSize: 7, color: OV, letterSpacing: 1.5, textAlign: 'right', marginBottom: 4 },
@@ -32,7 +31,7 @@ const s = StyleSheet.create({
   accent:       { height: 3, backgroundColor: P },
 
   // Client block
-  clientBlock:  { marginTop: 20, marginLeft: 36, marginRight: 36, paddingTop: 16, paddingBottom: 16, paddingLeft: 18, paddingRight: 18, backgroundColor: SCN, borderRadius: 8, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  clientBlock:  { marginTop: 20, marginLeft: 36, marginRight: 36, paddingTop: 16, paddingBottom: 16, paddingLeft: 18, paddingRight: 18, backgroundColor: '#F0F0F0', borderRadius: 8, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   clientLabel:  { fontSize: 7, fontFamily: 'Helvetica-Bold', color: SEC, letterSpacing: 1.5, marginBottom: 5 },
   clientName:   { fontSize: 17, fontFamily: 'Helvetica-Bold', color: ONS },
   projectName:  { fontSize: 10, color: ONSV, marginTop: 4 },
@@ -131,7 +130,7 @@ const SectionBlock = ({ title, items }) => {
 };
 
 // ── Main PDF Document ─────────────────────────────────────────────────────────
-const BudgetPDFDoc = ({ budget, equipment, team, desconto }) => {
+const BudgetPDFDoc = ({ budget, equipment, team }) => {
   const estruturas  = budget?.tipo_estrutura   || [];
   const cameras     = equipment?.cameras       || [];
   const lentes      = equipment?.lentes        || [];
@@ -150,18 +149,9 @@ const BudgetPDFDoc = ({ budget, equipment, team, desconto }) => {
   const totEqp  = equipe.reduce((a, e) => a + (Number(e.qtd) || 0) * (Number(e.valorPessoa) || 0), 0) + verba;
   const subtotal = totEst + totCam + totLen + totDrn + totCom + totMov + totEqp;
 
-  // Discount calculation
-  const descontoAmt = desconto?.modo === 'global'
-    ? (desconto.tipo === 'percent'
-        ? subtotal * (Number(desconto.valor) || 0) / 100
-        : Number(desconto.valor) || 0)
-    : (desconto?.itens
-        ? Object.entries(desconto.itens).reduce((a, [key, v]) => {
-            const base = { estrutura: totEst, cameras: totCam, lentes: totLen, aereo: totDrn, comunicacao: totCom, movimento: totMov, equipe: totEqp }[key] || 0;
-            return a + base * (Number(v) || 0) / 100;
-          }, 0)
-        : 0);
-  const grandTotal = subtotal - descontoAmt;
+  // Use the saved total as ground truth; derive discount from the difference
+  const grandTotal  = Number(budget?.total || 0);
+  const descontoAmt = subtotal > grandTotal ? subtotal - grandTotal : 0;
 
   const summaryLines = [
     { label: 'Estrutura',   value: totEst },
@@ -173,9 +163,7 @@ const BudgetPDFDoc = ({ budget, equipment, team, desconto }) => {
     { label: 'Equipe',      value: totEqp },
   ].filter(r => r.value > 0);
 
-  const today       = new Date().toLocaleDateString('pt-BR');
-  const statusColor = STATUS_COLOR[budget?.status] || STATUS_COLOR.pending;
-  const statusLabel = STATUS_LABEL[budget?.status] || 'Pendente';
+  const today = new Date().toLocaleDateString('pt-BR');
 
   return (
     <Document title={budget?.nome_projeto || 'Orçamento'} author="Checkmatte">
@@ -184,8 +172,7 @@ const BudgetPDFDoc = ({ budget, equipment, team, desconto }) => {
         {/* Header */}
         <View style={s.header}>
           <View>
-            <Text style={s.brandName}>CHECKMATTE</Text>
-            <Text style={s.brandSub}>PRODUÇÃO & BROADCAST</Text>
+            <Image src={logoUrl} style={{ width: 140, height: 'auto' }} />
           </View>
           <View>
             <Text style={s.docLabel}>PROPOSTA COMERCIAL</Text>
@@ -204,9 +191,6 @@ const BudgetPDFDoc = ({ budget, equipment, team, desconto }) => {
               <Text style={{ fontSize: 9, color: ONSV, marginTop: 2 }}>A/C: {budget.companies.responsavel}</Text>
             )}
             <Text style={s.projectName}>{budget?.nome_projeto || 'Projeto sem nome'}</Text>
-          </View>
-          <View style={{ ...s.statusPill, backgroundColor: statusColor + '18', borderColor: statusColor + '55' }}>
-            <Text style={{ ...s.statusTxt, color: statusColor }}>{statusLabel}</Text>
           </View>
         </View>
 
@@ -271,9 +255,7 @@ const BudgetPDFDoc = ({ budget, equipment, team, desconto }) => {
           {/* Discount row */}
           {descontoAmt > 0 && (
             <View style={s.discRow}>
-              <Text style={s.discLabel}>
-                Desconto{desconto?.modo === 'global' && desconto?.tipo === 'percent' ? ` (${desconto.valor}%)` : ''}
-              </Text>
+              <Text style={s.discLabel}>Desconto</Text>
               <Text style={s.discVal}>− R$ {fmt(descontoAmt)}</Text>
             </View>
           )}
