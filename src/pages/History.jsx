@@ -16,10 +16,29 @@ const History = () => {
   const fetchBudgets = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.from('budgets').select('*, companies(nome, responsavel)').order('created_at', { ascending: false });
-      setBudgets(data || []);
-    } catch (e) { console.error(e); }
-    finally { setLoading(false); }
+      // Tentativa 1: Busca com companies (vai falhar se a tabela companies não existir ainda)
+      const { data, error } = await supabase
+        .from('budgets')
+        .select('*, companies(nome, responsavel)')
+        .order('criado_em', { ascending: false });
+
+      if (error) {
+        // Tentativa 2: Fallback (Busca simples, ideal para o nosso banco atual)
+        const { data: fb, error: fallbackError } = await supabase
+          .from('budgets')
+          .select('*')
+          .order('criado_em', { ascending: false });
+          
+        if (fallbackError) throw fallbackError;
+        setBudgets(fb || []);
+      } else {
+        setBudgets(data || []);
+      }
+    } catch (e) { 
+      console.error("Erro ao buscar orçamentos no histórico:", e); 
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   const handleDelete = async (id) => {

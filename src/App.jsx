@@ -12,6 +12,7 @@ import Companies from './pages/Companies';
 import Users from './pages/Users';
 import Login from './pages/Login';
 import PrimeiroAcesso from './pages/PrimeiroAcesso';
+import ResetPassword from './pages/ResetPassword';
 
 const Shell = () => (
   <div className="app-container">
@@ -45,6 +46,7 @@ function App() {
       {/* Public Route */}
       <Route path="/login" element={sessionUser ? <Navigate replace to="/" /> : <Login />} />
       <Route path="/primeiro-acesso" element={sessionUser ? <Navigate replace to="/" /> : <PrimeiroAcesso />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
       {/* Protected Routes */}
       <Route element={<ProtectedRoute session={sessionUser} />}>

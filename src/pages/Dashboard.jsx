@@ -93,15 +93,29 @@ const Dashboard = () => {
   const fetchBudgets = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.from('budgets').select('*, companies(nome)').order('created_at', { ascending: false });
+      // Tentativa 1: Busca com companies (vai falhar se a tabela companies não existir ainda)
+      const { data, error } = await supabase
+        .from('budgets')
+        .select('*, companies(nome)')
+        .order('criado_em', { ascending: false }); // Corrigido aqui
+
       if (error) {
-        const { data: fb } = await supabase.from('budgets').select('*').order('created_at', { ascending: false });
+        // Tentativa 2: Fallback (Busca simples, ideal para o nosso banco atual)
+        const { data: fb, error: fallbackError } = await supabase
+          .from('budgets')
+          .select('*')
+          .order('criado_em', { ascending: false }); // Corrigido aqui
+          
+        if (fallbackError) throw fallbackError;
         setBudgets(fb || []);
       } else {
         setBudgets(data || []);
       }
-    } catch (e) { console.error(e); }
-    finally { setLoading(false); }
+    } catch (e) { 
+      console.error("Erro ao buscar orçamentos:", e); 
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   const updateStatus = async (id, newStatus, extra = {}) => {
@@ -127,7 +141,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       {/* Header Row: Title + Button */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, maxWidth: 600 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, maxWidth: 600, margin: '0 auto 16px auto' }}>
         <h2 className="column-header" style={{ margin: 0, border: 'none', padding: 0 }}>Orçamentos</h2>
         <button
           className="btn-circle"
@@ -143,7 +157,7 @@ const Dashboard = () => {
         </button>
       </div>
 
-      <div className="dashboard-grid">
+      <div className="dashboard-grid" style={{ margin: '0 auto' }}>
         {/* Pendentes */}
         <div className="column">
           <h2 className="column-header">Pendentes — {pending.length}</h2>

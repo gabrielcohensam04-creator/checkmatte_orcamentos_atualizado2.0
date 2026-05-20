@@ -81,14 +81,66 @@ const BudgetView = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        const { data: b } = await supabase.from('budgets').select('*, companies(nome, responsavel)').eq('id', id).single();
-        setBudget(b);
-        const { data: eq } = await supabase.from('budget_equipment').select('*').eq('budget_id', id).maybeSingle();
-        setEquipment(eq);
-        const { data: tm } = await supabase.from('budget_team').select('*').eq('budget_id', id).maybeSingle();
-        setTeam(tm);
-      } catch (e) { console.error(e); }
-      finally { setLoading(false); }
+        setLoading(true);
+        // 1. Carrega os dados principais do orçamento e tenta carregar a empresa (caso a tabela companies exista)
+        const { data: b, error: budgetError } = await supabase
+            .from('budgets')
+            .select('*, companies(nome, responsavel)')
+            .eq('id', id)
+            .single();
+            
+        // Fallback caso a tabela companies ainda não exista ou não esteja ligada
+        if (budgetError && budgetError.code === 'PGRST200') {
+            const { data: fallbackB } = await supabase.from('budgets').select('*').eq('id', id).single();
+            setBudget(fallbackB);
+        } else {
+            setBudget(b);
+        }
+
+        // 2. Carrega todos os equipamentos das novas tabelas relacionais em paralelo
+        const [camRes, lenRes, droneRes, comRes, movRes] = await Promise.all([
+          supabase.from('budget_cameras').select('*').eq('budget_id', id),
+          supabase.from('budget_lenses').select('*').eq('budget_id', id),
+          supabase.from('budget_drones').select('*').eq('budget_id', id),
+          supabase.from('budget_communication').select('*').eq('budget_id', id),
+          supabase.from('budget_movement').select('*').eq('budget_id', id)
+        ]);
+
+        // Remonta o objeto equipment com a estrutura que o ecrã espera
+        setEquipment({
+          cameras: camRes.data?.map(item => ({...item, valorUnit: item.valor_unit})) || [],
+          lentes: lenRes.data?.map(item => ({...item, valorUnit: item.valor_unit})) || [],
+          aereo: droneRes.data?.map(item => ({...item, valorUnit: item.valor_unit})) || [],
+          comunicacao: comRes.data?.map(item => ({...item, valorUnit: item.valor_unit})) || [],
+          movimento: movRes.data?.map(item => ({...item, valorUnit: item.valor_unit})) || []
+        });
+
+        // 3. Carrega a equipa
+        const { data: teamData } = await supabase.from('budget_team').select('*').eq('budget_id', id);
+        
+        if (teamData && teamData.length > 0) {
+          // Remonta o objeto team com a estrutura que o ecrã espera
+          const equipeFormatada = teamData.map(membro => ({
+            funcao: membro.funcao,
+            qtd: membro.quantidade,
+            valorPessoa: membro.valor_diaria,
+            qtdDiarias: membro.quantidade_diarias,
+            nomes: membro.nomes || []
+          }));
+          
+          setTeam({
+            equipe: equipeFormatada,
+            verba_alimentacao: teamData[0]?.verba_alimentacao || 0
+          });
+        } else {
+            setTeam({ equipe: [], verba_alimentacao: 0 });
+        }
+        
+      } catch (e) { 
+          console.error("Erro ao carregar BudgetView:", e); 
+      } finally { 
+          setLoading(false); 
+      }
     };
     load();
   }, [id]);
@@ -128,6 +180,7 @@ const BudgetView = () => {
   const totalCom        = comunicacao.reduce((a, c) => a + (Number(c.valor) || 0), 0);
   const totalMov        = movimento.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0), 0);
   const totalEquipe     = equipe.reduce((a, e) => a + (Number(e.qtd) || 0) * (Number(e.valorPessoa) || 0), 0) + (Number(verba) || 0);
+  const totalFrete      = (Number(budget.distancia_km) || 0) * (Number(budget.valor_km) || 0);
 
   const sections = [
     { label: 'Estrutura',   value: totalEstrutura, icon: 'local_shipping' },
@@ -137,6 +190,7 @@ const BudgetView = () => {
     { label: 'Comunicação', value: totalCom,       icon: 'cell_tower' },
     { label: 'Movimento',   value: totalMov,       icon: 'switch_video' },
     { label: 'Equipe',      value: totalEquipe,    icon: 'groups' },
+    { label: 'Frete',       value: totalFrete,     icon: 'local_shipping' },
   ].filter(s => s.value > 0);
 
   const isPending   = budget.status === 'pending';
@@ -183,6 +237,8 @@ const BudgetView = () => {
 
         {/* Dates */}
         <Section icon="calendar_month" title="Logística">
+          <Row label="Cidade"   value={budget.cidade || '—'} />
+          <Row label="Local"    value={budget.local_evento || '—'} />
           <Row label="Viagem"   value={fmtDate(budget.data_viagem)} />
           <Row label="Montagem" value={fmtDate(budget.data_montagem)} />
           <Row label="Gravação" value={fmtDate(budget.data_gravacao)} />

@@ -1,79 +1,81 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useTheme } from '../context/ThemeContext';
 import { light, dark } from '../tokens';
 
-const Login = () => {
+const ResetPassword = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isDark } = useTheme();
-  // Mantemos o P para o botão primário
+  
   const { P } = isDark ? dark : light;
 
-  // Cores dinâmicas com alto contraste baseadas no fundo da logo
+  // Cores dinâmicas combinando exatamente com o design invisível do login
   const pageBg = isDark ? '#000000' : '#FFFFFF';
-  const cardBg = isDark ? '#09090B' : '#FFFFFF'; 
+  const cardBg = isDark ? '#000000' : '#FFFFFF';
   const textColor = isDark ? '#FFFFFF' : '#000000';
   const mutedText = isDark ? '#A1A1AA' : '#52525B';
   const borderColor = isDark ? '#27272A' : '#E4E4E7';
   const inputBg = isDark ? '#000000' : '#FAFAFA';
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
-  const handleResetPassword = async () => {
+  useEffect(() => {
+    // O Supabase retorna os erros no hash da URL quando há problemas no fluxo de redefinição
+    // Ex: #error=access_denied&error_code=otp_expired...
+    const hashParams = new URLSearchParams(location.hash.substring(1));
+    const error = hashParams.get('error');
+    const errorCode = hashParams.get('error_code');
+    const errorDescription = hashParams.get('error_description');
+
+    if (error) {
+      if (errorCode === 'otp_expired') {
+        setErrorMsg('O link expirou ou é inválido. Solicite um novo.');
+      } else {
+        setErrorMsg(errorDescription || 'Ocorreu um erro ao validar seu link. Tente novamente.');
+      }
+    }
+  }, [location]);
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
     setErrorMsg('');
     setSuccessMsg('');
 
-    if (!email.trim()) {
-      setErrorMsg('Por favor, preencha o campo de e-mail antes de clicar em "Esqueci minha senha".');
+    if (newPassword !== confirmPassword) {
+      setErrorMsg('As senhas não coincidem.');
       return;
     }
 
-    try {
-      setLoading(true);
-      const emailNormalizado = email.toLowerCase().trim();
-      const { error } = await supabase.auth.resetPasswordForEmail(emailNormalizado, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      setSuccessMsg('Link de redefinição enviado! Verifique sua caixa de entrada.');
-    } catch (err) {
-      console.error(err);
-      setErrorMsg('Erro ao tentar enviar o e-mail. Verifique se o endereço está correto.');
-    } finally {
-      setLoading(false);
+    if (newPassword.length < 6) {
+      setErrorMsg('A senha deve ter pelo menos 6 caracteres.');
+      return;
     }
-  };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setErrorMsg('');
     setLoading(true);
 
     try {
-      const emailNormalizado = email.toLowerCase().trim();
-
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: emailNormalizado,
-        password
+      // Atualiza a senha do usuário atualmente autenticado pela sessão de redefinição
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
       });
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
-      navigate('/');
+      setSuccessMsg('Senha atualizada com sucesso! Redirecionando...');
+      
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+      
     } catch (err) {
       console.error(err);
-      setErrorMsg('E-mail ou senha incorretos. Tente novamente.');
+      setErrorMsg(err.message || 'Erro ao atualizar a senha. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -82,17 +84,19 @@ const Login = () => {
   return (
     <div style={{
       display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '100vh',
-      backgroundColor: '#000000',
+      backgroundColor: pageBg,
       fontFamily: 'Inter, sans-serif'
     }}>
+      <h1 style={{ color: '#FFFFFF', marginBottom: '20px' }}>Teste de Visibilidade</h1>
       <div style={{
         backgroundColor: cardBg,
         padding: '48px 40px',
         borderRadius: '16px',
-        boxShadow: isDark ? '0 10px 25px rgba(0,0,0,0.8)' : '0 10px 25px rgba(0,0,0,0.05)',
+        boxShadow: isDark ? '0 10px 25px rgba(0,0,0,0.0)' : '0 10px 25px rgba(0,0,0,0.05)',
         width: '100%',
         maxWidth: '420px',
         border: `1px solid ${borderColor}`,
@@ -113,11 +117,11 @@ const Login = () => {
             CheckMatte
           </h1>
           <h2 style={{ fontSize: '18px', fontWeight: 600, color: mutedText, margin: 0 }}>
-            Acesse sua conta
+            Redefinir Senha
           </h2>
         </div>
 
-        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <form onSubmit={handleUpdatePassword} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {errorMsg && (
             <div style={{
               backgroundColor: isDark ? 'rgba(239, 68, 68, 0.1)' : '#FEE2E2',
@@ -149,14 +153,15 @@ const Login = () => {
 
           <div>
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: textColor, textTransform: 'uppercase', marginBottom: '8px' }}>
-              E-mail
+              Nova Senha
             </label>
             <input 
-              type="email" 
+              type="password" 
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="seu@email.com"
+              disabled={!!successMsg || !!errorMsg.includes('expirou')}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="••••••••"
               style={{
                 width: '100%',
                 height: '44px',
@@ -177,13 +182,14 @@ const Login = () => {
 
           <div>
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: textColor, textTransform: 'uppercase', marginBottom: '8px' }}>
-              Senha
+              Confirmar Nova Senha
             </label>
             <input 
               type="password" 
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              disabled={!!successMsg || !!errorMsg.includes('expirou')}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="••••••••"
               style={{
                 width: '100%',
@@ -201,44 +207,35 @@ const Login = () => {
               onFocus={(e) => e.target.style.borderColor = P}
               onBlur={(e) => e.target.style.borderColor = borderColor}
             />
-            <div style={{ textAlign: 'right', marginTop: '8px' }}>
-              <button 
-                type="button"
-                onClick={handleResetPassword}
-                style={{ fontSize: '12px', color: '#E8193C', background: 'none', border: 'none', padding: 0, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}
-              >
-                Esqueci minha senha?
-              </button>
-            </div>
           </div>
 
           <button 
             type="submit" 
-            disabled={loading}
+            disabled={loading || !!successMsg || !!errorMsg.includes('expirou')}
             style={{
               marginTop: '8px',
               width: '100%',
               height: '48px',
               borderRadius: '8px',
               border: 'none',
-              backgroundColor: loading ? '#FCA5A5' : P,
+              backgroundColor: (loading || !!successMsg) ? '#FCA5A5' : P,
               color: '#FFFFFF',
               fontSize: '15px',
               fontWeight: 600,
-              cursor: loading ? 'not-allowed' : 'pointer',
+              cursor: (loading || !!successMsg || !!errorMsg.includes('expirou')) ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               transition: 'background-color 0.2s'
             }}
           >
-            {loading ? 'Entrando...' : 'Entrar'}
+            {loading ? 'Atualizando...' : 'Atualizar Senha'}
           </button>
         </form>
 
         <div style={{ marginTop: 24, textAlign: 'center' }}>
-          <a href="/primeiro-acesso" style={{ fontSize: 13, color: '#E8193C', textDecoration: 'none', fontWeight: 500 }}>
-            Primeiro acesso? Crie sua senha aqui
+          <a href="/login" style={{ fontSize: 13, color: '#E8193C', textDecoration: 'none', fontWeight: 500 }}>
+            Voltar para o Login
           </a>
         </div>
 
@@ -247,4 +244,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;
