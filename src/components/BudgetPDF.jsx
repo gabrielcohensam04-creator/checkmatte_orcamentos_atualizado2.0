@@ -115,11 +115,20 @@ const SectionBlock = ({ title, items }) => {
         const valor = unit !== null ? Number(qty) * Number(unit) : Number(it.valor || 0);
         const label = it.modelo || it.funcao || it.tipo || `Item ${i + 1}`;
         const qtyTxt = (qty !== null && unit !== null) ? `${qty}× · R$ ${fmt(unit)} / un` : null;
+        const nomesStr = Array.isArray(it.nomes) && it.nomes.length
+          ? it.nomes.filter(n => n).join(', ')
+          : '';
+
         return (
           <View key={i} style={s.itemRow}>
-            <View>
+            <View style={{ flex: 1 }}>
               <Text style={s.itemLabel}>{label}</Text>
               {qtyTxt && <Text style={s.itemQty}>{qtyTxt}</Text>}
+              {nomesStr && (
+                <Text style={{ fontSize: 7, color: ONSV, marginTop: 2 }}>
+                  {nomesStr}
+                </Text>
+              )}
             </View>
             <Text style={s.itemVal}>R$ {fmt(valor)}</Text>
           </View>
@@ -285,7 +294,7 @@ const BudgetPDFDoc = ({ budget, equipment, team }) => {
 };
 
 // ── Download button ───────────────────────────────────────────────────────────
-export const DownloadPDFButton = ({ budget, equipment, team, desconto, isDark }) => (
+export const DownloadPDFButton = ({ budget, equipment, team, desconto }) => (
   <PDFDownloadLink
     document={<BudgetPDFDoc budget={budget} equipment={equipment} team={team} desconto={desconto} />}
     fileName={`checkmatte-${(budget?.nome_projeto || 'proposta').toLowerCase().replace(/\s+/g, '-')}.pdf`}
@@ -294,20 +303,233 @@ export const DownloadPDFButton = ({ budget, equipment, team, desconto, isDark })
     {({ loading, error }) => (
       <button
         style={{
-          width: '100%', height: 44, border: 'none', borderRadius: 10,
-          fontFamily: 'inherit', fontSize: 14, fontWeight: 600,
+          width: '100%', height: 36, border: '1px solid #1E293B', borderRadius: 8,
+          fontFamily: 'inherit', fontSize: 13, fontWeight: 500,
           cursor: loading ? 'wait' : 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-          background: error ? '#ba1a1a' : loading ? '#8c7169' : (isDark ? '#FFFFFF' : '#0A0A0A'),
-          color: isDark ? '#0A0A0A' : '#FFFFFF', transition: 'opacity .15s',
+          padding: '6px 20px', whiteSpace: 'nowrap',
+          background: error ? '#ba1a1a' : loading ? '#475569' : '#1E293B',
+          color: '#F8FAFC', transition: 'opacity .15s',
         }}
         onMouseEnter={e => { if (!loading) e.currentTarget.style.opacity = '0.85'; }}
         onMouseLeave={e => e.currentTarget.style.opacity = '1'}
       >
-        <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
+        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
           {error ? 'error' : loading ? 'progress_activity' : 'picture_as_pdf'}
         </span>
-        {error ? 'Erro no PDF' : loading ? 'Gerando PDF…' : 'Exportar PDF'}
+        {error ? 'Erro no PDF' : loading ? 'Gerando PDF…' : 'PDF Geral'}
+      </button>
+    )}
+  </PDFDownloadLink>
+);
+
+// ── Team PDF styles ───────────────────────────────────────────────────────────
+const ts = StyleSheet.create({
+  page:        { fontFamily: 'Helvetica', backgroundColor: WHITE, paddingBottom: 60 },
+
+  // Header
+  header:      { backgroundColor: '#000000', paddingTop: 26, paddingBottom: 22, paddingLeft: 36, paddingRight: 36, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  accent:      { height: 3, backgroundColor: P },
+  docLabel:    { fontSize: 7, color: OV, letterSpacing: 1.5, textAlign: 'right', marginBottom: 4 },
+  docNum:      { fontSize: 13, fontFamily: 'Helvetica-Bold', color: WHITE, textAlign: 'right' },
+  docDate:     { fontSize: 8, color: OV, textAlign: 'right', marginTop: 3 },
+
+  // Info block
+  infoBlock:   { marginTop: 18, marginLeft: 36, marginRight: 36, paddingTop: 14, paddingBottom: 14, paddingLeft: 16, paddingRight: 16, backgroundColor: '#F0F0F0', borderRadius: 8 },
+  infoLabel:   { fontSize: 7, fontFamily: 'Helvetica-Bold', color: SEC, letterSpacing: 1.5, marginBottom: 4 },
+  infoProject: { fontSize: 17, fontFamily: 'Helvetica-Bold', color: ONS },
+  infoClient:  { fontSize: 10, color: ONSV, marginTop: 3 },
+  infoDesc:    { fontSize: 9, color: ONSV, marginTop: 8, lineHeight: 1.6 },
+
+  // Section title
+  secTitle:    { marginTop: 22, marginLeft: 36, marginRight: 36, fontSize: 7, fontFamily: 'Helvetica-Bold', color: SEC, letterSpacing: 1.5, marginBottom: 8 },
+
+  // Table
+  tableWrap:   { marginLeft: 36, marginRight: 36 },
+  theadRow:    { flexDirection: 'row', backgroundColor: ONS, paddingTop: 7, paddingBottom: 7, paddingLeft: 10, paddingRight: 10, borderRadius: 4 },
+  tbodyRow:    { flexDirection: 'row', paddingTop: 8, paddingBottom: 8, paddingLeft: 10, paddingRight: 10, borderBottomWidth: 0.5, borderBottomColor: OV, backgroundColor: WHITE },
+  tbodyRowAlt: { flexDirection: 'row', paddingTop: 8, paddingBottom: 8, paddingLeft: 10, paddingRight: 10, borderBottomWidth: 0.5, borderBottomColor: OV, backgroundColor: SURF },
+
+  // Column widths
+  colFuncao:   { flex: 4.7 },
+  colQtd:      { flex: 0.7, textAlign: 'center' },
+  colDiarias:  { flex: 0.9, textAlign: 'center' },
+  colValor:    { flex: 1.4, textAlign: 'right' },
+  colSub:      { flex: 1.4, textAlign: 'right' },
+
+  thTxt:       { fontSize: 7, fontFamily: 'Helvetica-Bold', color: WHITE, letterSpacing: 0.8 },
+  tdTxt:       { fontSize: 8, color: ONS },
+  tdMuted:     { fontSize: 7, color: ONSV, marginTop: 2 },
+  tdBold:      { fontSize: 8, fontFamily: 'Helvetica-Bold', color: ONS },
+
+  // Total strip
+  totalWrap:   { marginTop: 0, marginLeft: 36, marginRight: 36 },
+  verbRow:     { flexDirection: 'row', justifyContent: 'space-between', paddingTop: 9, paddingBottom: 9, paddingLeft: 14, paddingRight: 14, backgroundColor: WHITE, borderBottomWidth: 0.5, borderBottomColor: OV },
+  verbLabel:   { fontSize: 9, color: ONSV },
+  verbVal:     { fontSize: 9, fontFamily: 'Helvetica-Bold', color: ONS },
+  totalRow:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 14, paddingBottom: 14, paddingLeft: 16, paddingRight: 16, backgroundColor: ONS, borderBottomLeftRadius: 8, borderBottomRightRadius: 8 },
+  totalLabel:  { fontSize: 10, fontFamily: 'Helvetica-Bold', color: WHITE, letterSpacing: 0.5 },
+  totalSub:    { fontSize: 7, color: OV, marginTop: 3 },
+  totalVal:    { fontSize: 18, fontFamily: 'Helvetica-Bold', color: WHITE },
+
+  // Footer
+  footer:      { position: 'absolute', bottom: 0, left: 0, right: 0, paddingTop: 10, paddingBottom: 10, paddingLeft: 36, paddingRight: 36, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderTopWidth: 0.5, borderTopColor: OV, backgroundColor: SURF },
+  footerLeft:  { fontSize: 7, color: ONSV },
+  footerBrand: { fontSize: 7, fontFamily: 'Helvetica-Bold', color: SEC },
+  footerPage:  { fontSize: 7, color: ONSV, textAlign: 'right', marginTop: 2 },
+});
+
+// ── Team PDF Document ─────────────────────────────────────────────────────────
+const TeamPDFDocument = ({ budget, team }) => {
+  const equipe = team?.equipe || [];
+  const verba  = Number(team?.verba_alimentacao || 0);
+  const today  = new Date().toLocaleDateString('pt-BR');
+
+  const totalCaches = equipe.reduce((acc, m) => {
+    const qtd     = Number(m.qtd || 0);
+    const diarias = Number(m.qtdDiarias || 1);
+    const valor   = Number(m.valorPessoa || 0);
+    return acc + qtd * diarias * valor;
+  }, 0);
+
+  const totalGeral = totalCaches + verba;
+
+  const COLS = [
+    { label: 'FUNÇÃO',       style: ts.colFuncao },
+    { label: 'QTD',          style: ts.colQtd },
+    { label: 'DIÁRIAS',      style: ts.colDiarias },
+    { label: 'VALOR/DIA',    style: ts.colValor },
+    { label: 'SUBTOTAL',     style: ts.colSub },
+  ];
+
+  return (
+    <Document title={`Equipe – ${budget?.nome_projeto || 'Orçamento'}`} author="Checkmatte">
+      <Page size="A4" style={ts.page}>
+
+        {/* Header */}
+        <View style={ts.header}>
+          <View>
+            <Image src={logoUrl} style={{ width: 130, height: 'auto' }} />
+          </View>
+          <View>
+            <Text style={ts.docLabel}>RELATÓRIO DE EQUIPE</Text>
+            <Text style={ts.docNum}>#{String(budget?.id || '').slice(0, 8).toUpperCase()}</Text>
+            <Text style={ts.docDate}>Emitido em {today}</Text>
+          </View>
+        </View>
+        <View style={ts.accent} />
+
+        {/* Project info */}
+        <View style={ts.infoBlock}>
+          <Text style={ts.infoLabel}>PROJETO</Text>
+          <Text style={ts.infoProject}>{budget?.nome_projeto || 'Projeto sem nome'}</Text>
+          <Text style={ts.infoClient}>{budget?.cliente || budget?.companies?.nome || '—'}</Text>
+          {!!budget?.descricao && (
+            <Text style={ts.infoDesc}>{budget.descricao}</Text>
+          )}
+        </View>
+
+        {/* Team table */}
+        <Text style={ts.secTitle}>DETALHAMENTO DA EQUIPE</Text>
+        <View style={ts.tableWrap}>
+          {/* Header row */}
+          <View style={ts.theadRow}>
+            {COLS.map(({ label, style }) => (
+              <Text key={label} style={[ts.thTxt, style]}>{label}</Text>
+            ))}
+          </View>
+
+          {/* Body rows */}
+          {equipe.filter(m => Number(m.qtd) > 0).map((m, i) => {
+            const qtd     = Number(m.qtd || 0);
+            const diarias = Number(m.qtdDiarias || 1);
+            const valor   = Number(m.valorPessoa || 0);
+            const subtotal = qtd * diarias * valor;
+            const nomesStr = Array.isArray(m.nomes) && m.nomes.length
+              ? m.nomes.filter(n => n).join(', ')
+              : '—';
+            const rowStyle = i % 2 === 0 ? ts.tbodyRow : ts.tbodyRowAlt;
+
+            return (
+              <View key={i} style={rowStyle}>
+                <View style={ts.colFuncao}>
+                  <Text style={ts.tdTxt}>{m.funcao || `Função ${i + 1}`}</Text>
+                  {nomesStr && nomesStr !== '—' && (
+                    <Text style={[ts.tdMuted, { fontSize: 7, color: '#64748B', marginTop: 2 }]}>
+                      {nomesStr}
+                    </Text>
+                  )}
+                </View>
+                <Text style={[ts.tdTxt, ts.colQtd, { textAlign: 'center' }]}>{qtd}</Text>
+                <Text style={[ts.tdTxt, ts.colDiarias, { textAlign: 'center' }]}>{diarias}</Text>
+                <Text style={[ts.tdTxt, ts.colValor, { textAlign: 'right' }]}>R$ {fmt(valor)}</Text>
+                <Text style={[ts.tdBold, ts.colSub, { textAlign: 'right' }]}>R$ {fmt(subtotal)}</Text>
+              </View>
+            );
+          })}
+        </View>
+
+        {/* Totals */}
+        <View style={ts.totalWrap}>
+          <View style={ts.verbRow}>
+            <Text style={ts.verbLabel}>Total de Cachês</Text>
+            <Text style={ts.verbVal}>R$ {fmt(totalCaches)}</Text>
+          </View>
+          {verba > 0 && (
+            <View style={ts.verbRow}>
+              <Text style={ts.verbLabel}>Verba de Alimentação</Text>
+              <Text style={ts.verbVal}>R$ {fmt(verba)}</Text>
+            </View>
+          )}
+          <View style={ts.totalRow}>
+            <View>
+              <Text style={ts.totalLabel}>TOTAL EQUIPE (RH)</Text>
+              <Text style={ts.totalSub}>Cachês + Alimentação</Text>
+            </View>
+            <Text style={ts.totalVal}>R$ {fmt(totalGeral)}</Text>
+          </View>
+        </View>
+
+        {/* Footer */}
+        <View style={ts.footer} fixed>
+          <Text style={ts.footerLeft}>Documento confidencial · exclusivo para o destinatário</Text>
+          <View style={{ alignItems: 'flex-end' }}>
+            <Text style={ts.footerBrand}>CHECKMATTE</Text>
+            <Text style={ts.footerPage} render={({ pageNumber, totalPages }) => `Página ${pageNumber} de ${totalPages}`} />
+          </View>
+        </View>
+
+      </Page>
+    </Document>
+  );
+};
+
+// ── Team Download Button ──────────────────────────────────────────────────────
+export const DownloadTeamPDFButton = ({ budget, team }) => (
+  <PDFDownloadLink
+    document={<TeamPDFDocument budget={budget} team={team} />}
+    fileName={`checkmatte-equipe-${(budget?.nome_projeto || 'projeto').toLowerCase().replace(/\s+/g, '-')}.pdf`}
+    style={{ textDecoration: 'none', flex: 1 }}
+  >
+    {({ loading, error }) => (
+      <button
+        style={{
+          width: '100%', height: 36, border: '1px solid #E2E8F0', borderRadius: 8,
+          fontFamily: 'inherit', fontSize: 13, fontWeight: 500,
+          cursor: loading ? 'wait' : 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+          padding: '6px 20px', whiteSpace: 'nowrap',
+          background: error ? '#ba1a1a' : loading ? '#F1F5F9' : '#FFFFFF',
+          color: error ? '#fff' : '#475569',
+          transition: 'opacity .15s',
+        }}
+        onMouseEnter={e => { if (!loading) e.currentTarget.style.opacity = '0.85'; }}
+        onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+      >
+        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
+          {error ? 'error' : loading ? 'progress_activity' : 'group'}
+        </span>
+        {error ? 'Erro no PDF' : loading ? 'Gerando PDF…' : 'PDF Equipe'}
       </button>
     )}
   </PDFDownloadLink>

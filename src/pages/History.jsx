@@ -10,6 +10,14 @@ const History = () => {
   const navigate = useNavigate();
   const [budgets, setBudgets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => { fetchBudgets(); }, []);
 
@@ -106,9 +114,16 @@ const History = () => {
     </div>
   );
 
-  const rejected = budgets.filter(b => b.status === 'rejected');
-  const pending = budgets.filter(b => b.status === 'pending');
-  const approvedCompleted = budgets.filter(b => b.status === 'approved' || b.status === 'completed');
+  const filteredBudgets = budgets.filter(b => {
+    const term = searchTerm.toLowerCase();
+    const nomeProjeto = (b.nome_projeto || '').toLowerCase();
+    const cliente = (b.cliente || '').toLowerCase();
+    return nomeProjeto.includes(term) || cliente.includes(term);
+  });
+
+  const rejected = filteredBudgets.filter(b => b.status === 'rejected');
+  const pending = filteredBudgets.filter(b => b.status === 'pending');
+  const approvedCompleted = filteredBudgets.filter(b => b.status === 'approved' || b.status === 'completed');
 
   if (loading) {
     return (
@@ -120,10 +135,29 @@ const History = () => {
   }
 
   const Column = ({ title, items, canDelete }) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <h2 style={{ fontSize: 11, fontWeight: 700, color: SEC, textTransform: 'uppercase', letterSpacing: '0.08em', paddingBottom: 10, borderBottom: `1px solid ${isDark ? '#2A2A2A' : '#E0E0E0'}`, margin: 0 }}>
-        {title} — {items.length}
-      </h2>
+    <div style={{ 
+      flex: 1, 
+      width: isMobile ? '100%' : '33%', 
+      minWidth: '280px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '12px'
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+        <h3 style={{ fontSize: '14px', fontWeight: '600', color: isDark ? '#E2E8F0' : '#334155', margin: 0, letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+          {title}
+        </h3>
+        <span style={{ 
+          background: isDark ? '#334155' : '#E2E8F0', 
+          color: isDark ? '#E2E8F0' : '#475569', 
+          fontSize: '12px', 
+          fontWeight: '700', 
+          padding: '2px 8px', 
+          borderRadius: '12px' 
+        }}>
+          {items.length}
+        </span>
+      </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {items.map(b => <BudgetCard key={b.id} budget={b} onDelete={canDelete ? handleDelete : null} />)}
         {items.length === 0 && (
@@ -137,10 +171,52 @@ const History = () => {
 
   return (
     <div className="dashboard-container">
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--stack-lg)', marginTop: 12 }}>
-        <Column title="Reprovados" items={rejected} canDelete />
+      {/* Barra de Pesquisa */}
+      <div style={{ padding: '0 16px', marginBottom: '16px', display: 'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
+        <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
+          <span className="material-symbols-outlined" style={{ position: 'absolute', left: '12px', top: '10px', color: '#94A3B8', fontSize: '20px' }}>
+            search
+          </span>
+          <input
+            type="text"
+            placeholder="Buscar por projeto ou cliente..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '10px 12px 10px 40px',
+              borderRadius: '12px',
+              border: isDark ? '1px solid #334155' : '1px solid #E2E8F0',
+              background: isDark ? '#1E293B' : '#F8FAFC',
+              color: isDark ? '#F8FAFC' : '#334155',
+              fontSize: '14px',
+              outline: 'none',
+              transition: 'all 0.2s'
+            }}
+            onFocus={(e) => {
+              e.target.style.border = isDark ? '1px solid #475569' : '1px solid #CBD5E1';
+              e.target.style.background = isDark ? '#0F172A' : '#FFFFFF';
+              e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.02)';
+            }}
+            onBlur={(e) => {
+              e.target.style.border = isDark ? '1px solid #334155' : '1px solid #E2E8F0';
+              e.target.style.background = isDark ? '#1E293B' : '#F8FAFC';
+              e.target.style.boxShadow = 'none';
+            }}
+          />
+        </div>
+      </div>
+
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: isMobile ? 'column' : 'row', 
+        gap: '24px', 
+        width: '100%', 
+        padding: '16px' 
+      }}>
         <Column title="Pendentes" items={pending} />
-        <Column title="Aprovados & Concluídos" items={approvedCompleted} />
+        <Column title="Aprovados" items={approvedCompleted} />
+        <Column title="Reprovados" items={rejected} canDelete />
       </div>
     </div>
   );

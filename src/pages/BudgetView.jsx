@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { DownloadPDFButton } from '../components/BudgetPDF';
+import { DownloadPDFButton, DownloadTeamPDFButton } from '../components/BudgetPDF';
 import { useTheme } from '../context/ThemeContext';
 import { light, dark } from '../tokens';
 import Logo from '../components/Logo';
@@ -62,16 +62,17 @@ const BudgetView = () => {
       <button
         onClick={onClick}
         style={{ 
-          flex: 1, height: 44, border: 'none', borderRadius: 10, 
-          fontFamily: 'inherit', fontSize: 14, fontWeight: 600, 
+          flex: 1, height: 36, border: 'none', borderRadius: 8, 
+          fontFamily: 'inherit', fontSize: 13, fontWeight: 500, 
           cursor: 'pointer', display: 'flex', alignItems: 'center', 
-          justifyContent: 'center', gap: 8, background: bg, color, 
+          justifyContent: 'center', gap: 8, padding: '6px 20px',
+          whiteSpace: 'nowrap', background: bg, color, 
           transition: 'opacity .15s', ...extraStyle 
         }}
         onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
         onMouseLeave={e => e.currentTarget.style.opacity = '1'}
       >
-        {!iconRight && <span className="material-symbols-outlined" style={{ fontSize: 18 }}>{icon}</span>}
+        {!iconRight && <span className="material-symbols-outlined" style={{ fontSize: 16 }}>{icon}</span>}
         {children}
         {iconRight && <span className="material-symbols-outlined" style={{ fontSize: 16 }}>{icon}</span>}
       </button>
@@ -310,16 +311,20 @@ const BudgetView = () => {
         )}
 
         {/* Actions */}
-        <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
-          <DownloadPDFButton budget={budget} equipment={equipment} team={team} isDark={isDark} />
-          <ActionBtn icon="edit" style={{ background: '#FED7AA', color: '#9A3412' }} onClick={() => navigate(`/orcamento/${id}/editar`)}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '12px', marginTop: '16px', width: '100%' }}>
+          <DownloadPDFButton budget={budget} equipment={equipment} team={team} />
+
+          {/* NOVO BOTÃO EXCLUSIVO PARA O PDF DA EQUIPE */}
+          <DownloadTeamPDFButton budget={budget} team={team} />
+
+          <ActionBtn icon="edit" style={{ background: '#FFFFFF', color: '#64748B', border: '1px solid #E2E8F0' }} onClick={() => navigate(`/orcamento/${id}/editar`)}>
             Editar
           </ActionBtn>
           {isPending && (
             <>
               <ActionBtn 
                 icon="close" 
-                style={{ background: '#FCA5A5', color: '#991B1B' }} 
+                style={{ background: '#FEF2F2', color: '#991B1B', border: '1px solid #FECACA' }} 
                 onClick={async () => {
                   await updateStatus('rejected', { data_reprovacao: new Date().toISOString() });
                   navigate('/');
@@ -329,7 +334,7 @@ const BudgetView = () => {
               </ActionBtn>
               <ActionBtn 
                 icon="check_circle" 
-                style={{ background: '#86EFAC', color: '#166534' }}
+                style={{ background: '#F0FDF4', color: '#166534', border: '1px solid #86EFAC' }}
                 iconRight 
                 onClick={() => updateStatus('approved')}
               >
@@ -338,12 +343,12 @@ const BudgetView = () => {
             </>
           )}
           {isApproved && (
-            <ActionBtn icon="undo" onClick={() => updateStatus('pending')}>
+            <ActionBtn icon="undo" style={{ background: '#FFFFFF', color: '#64748B', border: '1px solid #E2E8F0' }} onClick={() => updateStatus('pending')}>
               Pendente
             </ActionBtn>
           )}
           {isCompleted && (
-            <ActionBtn icon="undo" onClick={() => updateStatus('approved')}>
+            <ActionBtn icon="undo" style={{ background: '#FFFFFF', color: '#64748B', border: '1px solid #E2E8F0' }} onClick={() => updateStatus('approved')}>
               Desconcluir
             </ActionBtn>
           )}
