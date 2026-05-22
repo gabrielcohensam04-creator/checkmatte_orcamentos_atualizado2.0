@@ -241,7 +241,7 @@ const CreateBudget = () => {
   const [customCameras, setCustomCameras] = useState([{ modelo: '', quantidade: 0, valorUnit: 0 }]);
   const [lentes, setLentes] = useState([
     { modelo: 'Canon 50-1000mm', subTitle: 'Super teleobjetiva zoom', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Canon 25-150mm', subTitle: 'Zoom cinema versátil', quantidade: 0, valorUnit: 0 },
+    { modelo: 'Canon 25-250mm', subTitle: 'Zoom cinema versátil', quantidade: 0, valorUnit: 0 },
     { modelo: 'Canon 17-120mm', subTitle: 'Cine servo zoom', quantidade: 0, valorUnit: 0 },
     { modelo: 'Sony 200-600mm', subTitle: 'Teleobjetiva zoom', quantidade: 0, valorUnit: 0 },
     { modelo: 'Fujinon 20-120mm', subTitle: 'Cabrio zoom lens', quantidade: 0, valorUnit: 0 },
@@ -2356,16 +2356,13 @@ const CreateBudget = () => {
               <>
                 {!isView && (
                   <button
-                    style={{ ...S.btnSec, color: P, border: `1px solid ${P}` }}
+                    style={{ ...S.btnSec, color: P, border: `1px solid ${P}`, width: 36, height: 36, padding: 0, justifyContent: 'center', borderRadius: 8 }}
                     onClick={() => handleSave(null, false)}
                     disabled={isSaving}
                     title="Salvar progresso"
                   >
-                    <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
+                    <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
                       {isSaving ? 'progress_activity' : 'save'}
-                    </span>
-                    <span style={{ display: window.innerWidth > 400 ? 'inline' : 'none' }}>
-                      {isSaving ? 'Salvando...' : 'Salvar'}
                     </span>
                   </button>
                 )}
