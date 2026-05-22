@@ -59,6 +59,7 @@ const Users = () => {
       }
 
       if (editingUser) {
+        // Fluxo de Edição Continua Igual
         const payload = {
           nome: formData.nome,
           cargo: formData.cargo,
@@ -67,20 +68,21 @@ const Users = () => {
         if (avatar_url) payload.avatar_url = avatar_url;
 
         const { error: profileError } = await supabase.from('users').update(payload).eq('id', editingUser.id);
-
         if (profileError) throw profileError;
 
         if (sessionUser?.id === editingUser.id) {
           updateProfileState(payload);
         }
       } else {
-        const { error: profileError } = await supabase.from('users').insert([{
-          email: emailNormalizado,
-          nome: formData.nome,
-          cargo: formData.cargo,
-          role: formData.role
-        }]);
-        if (profileError) throw profileError;
+        // NOVO FLUXO: Chama a função RPC segura para criar o login + perfil de uma vez só
+        const { error: rpcError } = await supabase.rpc('criar_usuario_com_senha_padrao', {
+          user_email: emailNormalizado,
+          user_nome: formData.nome,
+          user_cargo: formData.cargo,
+          user_role: formData.role
+        });
+
+        if (rpcError) throw rpcError;
       }
 
       setIsModalOpen(false);
