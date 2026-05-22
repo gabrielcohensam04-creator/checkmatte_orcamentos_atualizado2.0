@@ -12,7 +12,7 @@ const Login = () => {
 
   // Cores dinâmicas com alto contraste baseadas no fundo da logo
   const pageBg = isDark ? '#000000' : '#FFFFFF';
-  const cardBg = isDark ? '#09090B' : '#FFFFFF'; 
+  const cardBg = isDark ? '#000000' : '#FFFFFF';
   const textColor = isDark ? '#FFFFFF' : '#000000';
   const mutedText = isDark ? '#A1A1AA' : '#52525B';
   const borderColor = isDark ? '#27272A' : '#E4E4E7';
@@ -22,36 +22,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
-
-  const handleResetPassword = async () => {
-    setErrorMsg('');
-    setSuccessMsg('');
-
-    if (!email.trim()) {
-      setErrorMsg('Por favor, preencha o campo de e-mail antes de clicar em "Esqueci minha senha".');
-      return;
-    }
-
-    try {
-      setLoading(true);
-      const emailNormalizado = email.toLowerCase().trim();
-      const { error } = await supabase.auth.resetPasswordForEmail(emailNormalizado, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      setSuccessMsg('Link de redefinição enviado! Verifique sua caixa de entrada.');
-    } catch (err) {
-      console.error(err);
-      setErrorMsg('Erro ao tentar enviar o e-mail. Verifique se o endereço está correto.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -92,17 +62,17 @@ const Login = () => {
         backgroundColor: cardBg,
         padding: '48px 40px',
         borderRadius: '16px',
-        boxShadow: isDark ? '0 10px 25px rgba(0,0,0,0.8)' : '0 10px 25px rgba(0,0,0,0.05)',
+        boxShadow: isDark ? '0 10px 25px rgba(0,0,0,0.0)' : '0 10px 25px rgba(0,0,0,0.05)',
         width: '100%',
         maxWidth: '420px',
         border: `1px solid ${borderColor}`,
         boxSizing: 'border-box'
       }}>
-        
+
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <img 
-            src={isDark ? "/logo_FUNDOPRETO.png" : "/logo_FUNDOBRANCO.png"} 
-            alt="CheckMatte" 
+          <img
+            src={isDark ? "/logo_FUNDOPRETO.png" : "/logo_FUNDOBRANCO.png"}
+            alt="CheckMatte"
             style={{ height: '56px', objectFit: 'contain', marginBottom: '16px' }}
             onError={(e) => {
               e.target.style.display = 'none';
@@ -132,27 +102,13 @@ const Login = () => {
               {errorMsg}
             </div>
           )}
-          {successMsg && (
-            <div style={{
-              backgroundColor: isDark ? 'rgba(34, 197, 94, 0.1)' : '#DCFCE7',
-              color: '#22C55E',
-              padding: '12px',
-              borderRadius: '8px',
-              fontSize: '13px',
-              fontWeight: 500,
-              textAlign: 'center',
-              border: `1px solid rgba(34, 197, 94, 0.2)`
-            }}>
-              {successMsg}
-            </div>
-          )}
 
           <div>
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: textColor, textTransform: 'uppercase', marginBottom: '8px' }}>
               E-mail
             </label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -179,8 +135,8 @@ const Login = () => {
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: textColor, textTransform: 'uppercase', marginBottom: '8px' }}>
               Senha
             </label>
-            <input 
-              type="password" 
+            <input
+              type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -201,19 +157,10 @@ const Login = () => {
               onFocus={(e) => e.target.style.borderColor = P}
               onBlur={(e) => e.target.style.borderColor = borderColor}
             />
-            <div style={{ textAlign: 'right', marginTop: '8px' }}>
-              <button 
-                type="button"
-                onClick={handleResetPassword}
-                style={{ fontSize: '12px', color: '#E8193C', background: 'none', border: 'none', padding: 0, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}
-              >
-                Esqueci minha senha?
-              </button>
-            </div>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={loading}
             style={{
               marginTop: '8px',
