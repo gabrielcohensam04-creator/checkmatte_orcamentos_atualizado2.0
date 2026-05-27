@@ -178,9 +178,10 @@ const BudgetView = () => {
   const totalCameras    = cameras.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0), 0);
   const totalLentes     = lentes.reduce((a, l) => a + (Number(l.quantidade) || 0) * (Number(l.valorUnit) || 0), 0);
   const totalAereo      = aereo.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0), 0);
-  const totalCom        = comunicacao.reduce((a, c) => a + (Number(c.valor) || 0), 0);
-  const totalMov        = movimento.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0), 0);
-  const totalEquipe     = equipe.reduce((a, e) => a + (Number(e.qtd) || 0) * (Number(e.valorPessoa) || 0), 0) + (Number(verba) || 0);
+  const totalCom        = comunicacao.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0), 0);
+  const totalMovimento = movimento.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0), 0);
+  const totalEquipe     = equipe.reduce((a, e) => a + (Number(e.qtd) || 0) * (Number(e.valorPessoa) || 0) * (Number(e.qtdDiarias) || 1), 0)
+    + equipe.reduce((a, e) => a + (Number(verba) || 0) * (Number(e.qtd) || 0) * (Number(e.qtdDiarias) || 1), 0);
   const totalFrete      = (Number(budget.distancia_km) || 0) * (Number(budget.valor_km) || 0);
 
   const sections = [
@@ -189,7 +190,7 @@ const BudgetView = () => {
     { label: 'Lentes',      value: totalLentes,    icon: 'photo_camera' },
     { label: 'Drones',      value: totalAereo,     icon: 'flight' },
     { label: 'Comunicação', value: totalCom,       icon: 'cell_tower' },
-    { label: 'Movimento',   value: totalMov,       icon: 'switch_video' },
+    { label: 'Movimento',   value: totalMovimento, icon: 'switch_video' },
     { label: 'Equipe',      value: totalEquipe,    icon: 'groups' },
     { label: 'Frete',       value: totalFrete,     icon: 'local_shipping' },
   ].filter(s => s.value > 0);
@@ -303,10 +304,27 @@ const BudgetView = () => {
         {/* Equipe detail */}
         {equipe.filter(e => e.qtd > 0).length > 0 && (
           <Section icon="groups" title="Equipe">
-            {equipe.filter(e => e.qtd > 0).map((e, i, arr) => (
-              <Row key={i} label={`${e.funcao} ×${e.qtd}`} value={`R$ ${fmt(e.qtd * e.valorPessoa)}`} last={i === arr.length - 1 && verba === 0} />
-            ))}
-            {verba > 0 && <Row label="Alimentação" value={`R$ ${fmt(verba)}`} last />}
+            {equipe.filter(e => e.qtd > 0).map((e, i, arr) => {
+              const diarias = Number(e.qtdDiarias) || 1;
+              const subtotal = (Number(e.qtd) || 0) * (Number(e.valorPessoa) || 0) * diarias;
+              const verbaSubtotal = (Number(verba) || 0) * (Number(e.qtd) || 0) * diarias;
+              const isLastMember = i === arr.length - 1;
+              return (
+                <Row
+                  key={i}
+                  label={`${e.funcao} ×${e.qtd} · ${diarias} diária${diarias !== 1 ? 's' : ''}`}
+                  value={`R$ ${fmt(subtotal + verbaSubtotal)}`}
+                  last={isLastMember && verba === 0}
+                />
+              );
+            })}
+            {verba > 0 && (
+              <Row
+                label={`Alimentação (R$ ${fmt(verba)}/pessoa/diária)`}
+                value={`R$ ${fmt(equipe.filter(e => e.qtd > 0).reduce((a, e) => a + (Number(verba) || 0) * (Number(e.qtd) || 0) * (Number(e.qtdDiarias) || 1), 0))}`}
+                last
+              />
+            )}
           </Section>
         )}
 
