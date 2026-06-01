@@ -3,6 +3,7 @@ import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { useUserContext } from './context/UserContext';
 import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
+import ImagePreloader from './components/ImagePreloader';
 
 import CreateBudget from './pages/CreateBudget';
 import BudgetView from './pages/BudgetView';
@@ -42,8 +43,10 @@ function App() {
   }
 
   return (
-    <Routes>
-      {/* Public Route */}
+    <>
+      <ImagePreloader />
+      <Routes>
+        {/* Public Route */}
       <Route path="/login" element={sessionUser ? <Navigate replace to="/" /> : <Login />} />
       <Route path="/primeiro-acesso" element={sessionUser ? <Navigate replace to="/" /> : <PrimeiroAcesso />} />
       <Route path="/reset-password" element={<ResetPassword />} />
@@ -65,6 +68,7 @@ function App() {
         </Route>
       </Route>
     </Routes>
+    </>
   );
 }
 

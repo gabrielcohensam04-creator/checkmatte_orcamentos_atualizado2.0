@@ -234,40 +234,40 @@ const CreateBudget = () => {
     carreta: { checked: false, valor: 0 },
   });
   const [cameras, setCameras] = useState([
-    { modelo: 'Blackmagic URSA G2', quantidade: 0, valorUnit: 0, img: null },
-    { modelo: 'Sony PXW FX9', quantidade: 0, valorUnit: 0, img: null },
-    { modelo: 'Sony PXW FX3', quantidade: 0, valorUnit: 0, img: null },
+    { modelo: 'Blackmagic URSA G2', quantidade: 0, valorUnit: 0, diarias: 1, img: null },
+    { modelo: 'Sony PXW FX9', quantidade: 0, valorUnit: 0, diarias: 1, img: null },
+    { modelo: 'Sony PXW FX3', quantidade: 0, valorUnit: 0, diarias: 1, img: null },
   ]);
-  const [customCameras, setCustomCameras] = useState([{ modelo: '', quantidade: 0, valorUnit: 0 }]);
+  const [customCameras, setCustomCameras] = useState([{ modelo: '', quantidade: 0, valorUnit: 0, diarias: 1 }]);
   const [lentes, setLentes] = useState([
-    { modelo: 'Canon 50-1000mm', subTitle: 'Super teleobjetiva zoom', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Canon 25-250mm', subTitle: 'Zoom cinema versátil', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Canon 17-120mm', subTitle: 'Cine servo zoom', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Sony 200-600mm', subTitle: 'Teleobjetiva zoom', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Fujinon 20-120mm', subTitle: 'Cabrio zoom lens', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Fujinon 19-90mm', subTitle: 'Compact cinema zoom', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Sigma 14-24mm', subTitle: 'Grande angular zoom', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Sony 16-35mm', subTitle: 'Grande angular GM', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Sony 24-70mm', subTitle: 'Zoom padrão GM', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Sony 18-110mm', subTitle: 'Cine zoom Super 35', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Sony 28-135mm', subTitle: 'Full frame cine zoom', quantidade: 0, valorUnit: 0 },
-    { modelo: 'Angenieux 24-290mm', subTitle: 'Optimo zoom cinema', quantidade: 0, valorUnit: 0 },
+    { modelo: 'Canon 50-1000mm', subTitle: 'Super teleobjetiva zoom', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Canon 25-250mm', subTitle: 'Zoom cinema versátil', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Canon 17-120mm', subTitle: 'Cine servo zoom', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Sony 200-600mm', subTitle: 'Teleobjetiva zoom', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Fujinon 20-120mm', subTitle: 'Cabrio zoom lens', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Fujinon 19-90mm', subTitle: 'Compact cinema zoom', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Sigma 14-24mm', subTitle: 'Grande angular zoom', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Sony 16-35mm', subTitle: 'Grande angular GM', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Sony 24-70mm', subTitle: 'Zoom padrão GM', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Sony 18-110mm', subTitle: 'Cine zoom Super 35', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Sony 28-135mm', subTitle: 'Full frame cine zoom', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'Angenieux 24-290mm', subTitle: 'Optimo zoom cinema', quantidade: 0, valorUnit: 0, diarias: 1 },
   ]);
-  const [customLenses, setCustomLenses] = useState([{ modelo: '', quantidade: 0, valorUnit: 0 }]);
+  const [customLenses, setCustomLenses] = useState([{ modelo: '', quantidade: 0, valorUnit: 0, diarias: 1 }]);
   const [drones, setDrones] = useState([
-    { modelo: 'DJI FPV', subTitle: 'Voo imersivo FPV', quantidade: 0, valorUnit: 0 },
-    { modelo: 'DJI Inspire', subTitle: 'Cinematografia aérea avançada', quantidade: 0, valorUnit: 0 },
+    { modelo: 'DJI FPV', subTitle: 'Voo imersivo FPV', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'DJI Inspire', subTitle: 'Cinematografia aérea avançada', quantidade: 0, valorUnit: 0, diarias: 1 },
   ]);
-  const [customDrones, setCustomDrones] = useState([{ modelo: '', quantidade: 0, valorUnit: 0 }]);
+  const [customDrones, setCustomDrones] = useState([{ modelo: '', quantidade: 0, valorUnit: 0, diarias: 1 }]);
   const [comunicacao, setComunicacao] = useState([
-    { modelo: 'Hollyland Solidcom M1', subTitle: 'Sistema de intercom sem fio', quantidade: 0, pontos: 8, valorUnit: 0 },
+    { modelo: 'Hollyland Solidcom M1', subTitle: 'Sistema de intercom sem fio', quantidade: 0, pontos: 8, valorUnit: 0, diarias: 1 },
   ]);
-  const [customComunicacao, setCustomComunicacao] = useState([{ modelo: '', quantidade: 0, pontos: 0, valorUnit: 0 }]);
+  const [customComunicacao, setCustomComunicacao] = useState([{ modelo: '', quantidade: 0, pontos: 0, valorUnit: 0, diarias: 1 }]);
   const [movEquip, setMovEquip] = useState([
-    { modelo: 'Steady Cam', subTitle: 'Estabilização manual de ombro', quantidade: 0, valorUnit: 0 },
-    { modelo: 'DJI Ronin 4D', subTitle: 'Gimbal cinematográfico 4 eixos', quantidade: 0, valorUnit: 0 },
+    { modelo: 'Steady Cam', subTitle: 'Estabilização manual de ombro', quantidade: 0, valorUnit: 0, diarias: 1 },
+    { modelo: 'DJI Ronin 4D', subTitle: 'Gimbal cinematográfico 4 eixos', quantidade: 0, valorUnit: 0, diarias: 1 },
   ]);
-  const [customMovEquip, setCustomMovEquip] = useState([{ modelo: '', quantidade: 0, valorUnit: 0 }]);
+  const [customMovEquip, setCustomMovEquip] = useState([{ modelo: '', quantidade: 0, valorUnit: 0, diarias: 1 }]);
   const [gruas, setGruas] = useState([]);
   const [trilhos, setTrilhos] = useState([]);
   const [equipe, setEquipe] = useState([
@@ -377,10 +377,10 @@ const CreateBudget = () => {
           const stdModels = ['Sony PXW FX9', 'Blackmagic URSA G2', 'Sony PXW FX3'];
           setCameras(prev => prev.map(c => {
             const s = camData.find(x => x.modelo === c.modelo);
-            return s ? { ...c, quantidade: s.quantidade || 0, valorUnit: Number(s.valor_unit) || 0 } : c;
+            return s ? { ...c, quantidade: s.quantidade || 0, valorUnit: Number(s.valor_unit) || 0, diarias: s.diarias || 1 } : c;
           }));
           const customs = camData.filter(x => !stdModels.includes(x.modelo));
-          if (customs.length) setCustomCameras([...customs.map(c => ({ modelo: c.modelo || '', quantidade: c.quantidade || 0, valorUnit: Number(c.valor_unit) || 0 })), { modelo: '', quantidade: 0, valorUnit: 0 }]);
+          if (customs.length) setCustomCameras([...customs.map(c => ({ modelo: c.modelo || '', quantidade: c.quantidade || 0, valorUnit: Number(c.valor_unit) || 0, diarias: c.diarias || 1 })), { modelo: '', quantidade: 0, valorUnit: 0, diarias: 1 }]);
         }
 
         // Load Lenses
@@ -389,10 +389,10 @@ const CreateBudget = () => {
           const stdModels = ['Canon 50-1000mm', 'Canon 25-150mm', 'Canon 17-120mm', 'Sony 200-600mm', 'Fujinon 20-120mm', 'Fujinon 19-90mm', 'Sigma 14-24mm', 'Sony 16-35mm', 'Sony 24-70mm', 'Sony 18-110mm', 'Sony 28-135mm', 'Angenieux 24-290mm'];
           setLentes(prev => prev.map(l => {
             const s = lenData.find(x => x.modelo === l.modelo);
-            return s ? { ...l, quantidade: s.quantidade || 0, valorUnit: Number(s.valor_unit) || 0 } : l;
+            return s ? { ...l, quantidade: s.quantidade || 0, valorUnit: Number(s.valor_unit) || 0, diarias: s.diarias || 1 } : l;
           }));
           const customs = lenData.filter(x => !stdModels.includes(x.modelo));
-          if (customs.length) setCustomLenses([...customs.map(l => ({ modelo: l.modelo || '', quantidade: l.quantidade || 0, valorUnit: Number(l.valor_unit) || 0 })), { modelo: '', quantidade: 0, valorUnit: 0 }]);
+          if (customs.length) setCustomLenses([...customs.map(l => ({ modelo: l.modelo || '', quantidade: l.quantidade || 0, valorUnit: Number(l.valor_unit) || 0, diarias: l.diarias || 1 })), { modelo: '', quantidade: 0, valorUnit: 0, diarias: 1 }]);
         }
 
         // Load Drones
@@ -401,10 +401,10 @@ const CreateBudget = () => {
           const stdModels = ['DJI FPV', 'DJI Inspire'];
           setDrones(prev => prev.map(d => {
             const s = droneData.find(x => x.modelo === d.modelo);
-            return s ? { ...d, quantidade: s.quantidade || 0, valorUnit: Number(s.valor_unit) || 0 } : d;
+            return s ? { ...d, quantidade: s.quantidade || 0, valorUnit: Number(s.valor_unit) || 0, diarias: s.diarias || 1 } : d;
           }));
           const customs = droneData.filter(x => !stdModels.includes(x.modelo));
-          if (customs.length) setCustomDrones([...customs.map(d => ({ modelo: d.modelo || '', quantidade: d.quantidade || 0, valorUnit: Number(d.valor_unit) || 0 })), { modelo: '', quantidade: 0, valorUnit: 0 }]);
+          if (customs.length) setCustomDrones([...customs.map(d => ({ modelo: d.modelo || '', quantidade: d.quantidade || 0, valorUnit: Number(d.valor_unit) || 0, diarias: d.diarias || 1 })), { modelo: '', quantidade: 0, valorUnit: 0, diarias: 1 }]);
         }
 
         // Load Comm
@@ -413,10 +413,10 @@ const CreateBudget = () => {
           const stdModels = ['Hollyland Solidcom M1'];
           setComunicacao(prev => prev.map(c => {
             const s = commData.find(x => x.modelo === c.modelo);
-            return s ? { ...c, quantidade: s.quantidade || 0, pontos: 8, valorUnit: Number(s.valor_unit) || 0 } : c; // simplified pontos logic for standard model
+            return s ? { ...c, quantidade: s.quantidade || 0, pontos: 8, valorUnit: Number(s.valor_unit) || 0, diarias: s.diarias || 1 } : c; // simplified pontos logic for standard model
           }));
           const customs = commData.filter(x => !stdModels.includes(x.modelo));
-          if (customs.length) setCustomComunicacao([...customs.map(c => ({ modelo: c.modelo || '', quantidade: c.quantidade || 0, pontos: 0, valorUnit: Number(c.valor_unit) || 0 })), { modelo: '', quantidade: 0, pontos: 0, valorUnit: 0 }]);
+          if (customs.length) setCustomComunicacao([...customs.map(c => ({ modelo: c.modelo || '', quantidade: c.quantidade || 0, pontos: 0, valorUnit: Number(c.valor_unit) || 0, diarias: c.diarias || 1 })), { modelo: '', quantidade: 0, pontos: 0, valorUnit: 0, diarias: 1 }]);
         }
 
         // Load Movimento (Steady/Ronin, Gruas, Trilhos)
@@ -425,17 +425,17 @@ const CreateBudget = () => {
           const stdModels = ['Steady Cam', 'DJI Ronin 4D'];
           setMovEquip(prev => prev.map(m => {
             const s = movData.find(x => x.modelo === m.modelo);
-            return s ? { ...m, quantidade: s.quantidade || 0, valorUnit: Number(s.valor_unit) || 0 } : m;
+            return s ? { ...m, quantidade: s.quantidade || 0, valorUnit: Number(s.valor_unit) || 0, diarias: s.diarias || 1 } : m;
           }));
 
           const customMov = movData.filter(x => x.tipo === 'Outros' && !stdModels.includes(x.modelo));
-          if (customMov.length) setCustomMovEquip([...customMov.map(m => ({ modelo: m.modelo || '', quantidade: m.quantidade || 0, valorUnit: Number(m.valor_unit) || 0 })), { modelo: '', quantidade: 0, valorUnit: 0 }]);
+          if (customMov.length) setCustomMovEquip([...customMov.map(m => ({ modelo: m.modelo || '', quantidade: m.quantidade || 0, valorUnit: Number(m.valor_unit) || 0, diarias: m.diarias || 1 })), { modelo: '', quantidade: 0, valorUnit: 0, diarias: 1 }]);
 
           const savedGruas = movData.filter(x => x.tipo === 'Grua');
-          if (savedGruas.length) setGruas(savedGruas.map(g => ({ metragem: g.metragem || '', quantidade: g.quantidade || 0, valorUnit: Number(g.valor_unit) || 0 })));
+          if (savedGruas.length) setGruas(savedGruas.map(g => ({ metragem: g.metragem || '', quantidade: g.quantidade || 0, valorUnit: Number(g.valor_unit) || 0, diarias: g.diarias || 1 })));
 
           const savedTrilhos = movData.filter(x => x.tipo === 'Trilho');
-          if (savedTrilhos.length) setTrilhos(savedTrilhos.map(t => ({ metragem: t.metragem || '', tipoCarrinho: t.tipo_carrinho || '', quantidade: t.quantidade || 0, valorUnit: Number(t.valor_unit) || 0 })));
+          if (savedTrilhos.length) setTrilhos(savedTrilhos.map(t => ({ metragem: t.metragem || '', tipoCarrinho: t.tipo_carrinho || '', quantidade: t.quantidade || 0, valorUnit: Number(t.valor_unit) || 0, diarias: t.diarias || 1 })));
         }
 
         // Load Team
@@ -468,18 +468,18 @@ const CreateBudget = () => {
 
   // ── Totals ──
   const totalEstrutura = Object.values(estruturas).reduce((a, e) => a + (e.checked ? Number(e.valor) || 0 : 0), 0);
-  const totalCameras = cameras.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0), 0)
-    + customCameras.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0), 0);
-  const totalLentes = lentes.reduce((a, l) => a + (Number(l.quantidade) || 0) * (Number(l.valorUnit) || 0), 0)
-    + customLenses.reduce((a, l) => a + (Number(l.quantidade) || 0) * (Number(l.valorUnit) || 0), 0);
-  const totalAereo = drones.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0), 0)
-    + customDrones.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0), 0);
-  const totalCom = comunicacao.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0), 0)
-    + customComunicacao.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0), 0);
-  const totalMovimento = movEquip.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0), 0)
-    + customMovEquip.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0), 0)
-    + gruas.reduce((a, g) => a + (Number(g.quantidade) || 0) * (Number(g.valorUnit) || 0), 0)
-    + trilhos.reduce((a, t) => a + (Number(t.quantidade) || 0) * (Number(t.valorUnit) || 0), 0);
+  const totalCameras = cameras.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0) * (Number(c.diarias) || 1), 0)
+    + customCameras.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0) * (Number(c.diarias) || 1), 0);
+  const totalLentes = lentes.reduce((a, l) => a + (Number(l.quantidade) || 0) * (Number(l.valorUnit) || 0) * (Number(l.diarias) || 1), 0)
+    + customLenses.reduce((a, l) => a + (Number(l.quantidade) || 0) * (Number(l.valorUnit) || 0) * (Number(l.diarias) || 1), 0);
+  const totalAereo = drones.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0) * (Number(d.diarias) || 1), 0)
+    + customDrones.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0) * (Number(d.diarias) || 1), 0);
+  const totalCom = comunicacao.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0) * (Number(c.diarias) || 1), 0)
+    + customComunicacao.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0) * (Number(c.diarias) || 1), 0);
+  const totalMovimento = movEquip.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0) * (Number(m.diarias) || 1), 0)
+    + customMovEquip.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0) * (Number(m.diarias) || 1), 0)
+    + gruas.reduce((a, g) => a + (Number(g.quantidade) || 0) * (Number(g.valorUnit) || 0) * (Number(g.diarias) || 1), 0)
+    + trilhos.reduce((a, t) => a + (Number(t.quantidade) || 0) * (Number(t.valorUnit) || 0) * (Number(t.diarias) || 1), 0);
   const totalEquipe = equipe.reduce((a, e) => a + ((Number(e.qtd) || 0) * (Number(e.valorPessoa) || 0) * (Number(e.qtdDiarias) || 1)), 0) +
     equipe.reduce((a, e) => {
       const verba = e.funcao.startsWith('Motorista') ? (Number(verbaMotorista) || 0) : (Number(verbaAlimentacao) || 0);
@@ -560,30 +560,30 @@ const CreateBudget = () => {
 
       // 3. PREPARA OS ARRAYS DE EQUIPAMENTOS
       const camerasPayload = [
-        ...cameras.filter(c => c.quantidade > 0).map(c => ({ budget_id: currentBudgetId, modelo: c.modelo, is_custom: false, quantidade: c.quantidade, valor_unit: c.valorUnit })),
-        ...customCameras.filter(c => c.modelo.trim() !== '' && c.quantidade > 0).map(c => ({ budget_id: currentBudgetId, modelo: c.modelo, is_custom: true, quantidade: c.quantidade, valor_unit: c.valorUnit }))
+        ...cameras.filter(c => c.quantidade > 0).map(c => ({ budget_id: currentBudgetId, modelo: c.modelo, is_custom: false, quantidade: c.quantidade, valor_unit: c.valorUnit, diarias: c.diarias || 1 })),
+        ...customCameras.filter(c => c.modelo.trim() !== '' && c.quantidade > 0).map(c => ({ budget_id: currentBudgetId, modelo: c.modelo, is_custom: true, quantidade: c.quantidade, valor_unit: c.valorUnit, diarias: c.diarias || 1 }))
       ];
 
       const lensesPayload = [
-        ...lentes.filter(l => l.quantidade > 0).map(l => ({ budget_id: currentBudgetId, modelo: l.modelo, is_custom: false, quantidade: l.quantidade, valor_unit: l.valorUnit })),
-        ...customLenses.filter(l => l.modelo.trim() !== '' && l.quantidade > 0).map(l => ({ budget_id: currentBudgetId, modelo: l.modelo, is_custom: true, quantidade: l.quantidade, valor_unit: l.valorUnit }))
+        ...lentes.filter(l => l.quantidade > 0).map(l => ({ budget_id: currentBudgetId, modelo: l.modelo, is_custom: false, quantidade: l.quantidade, valor_unit: l.valorUnit, diarias: l.diarias || 1 })),
+        ...customLenses.filter(l => l.modelo.trim() !== '' && l.quantidade > 0).map(l => ({ budget_id: currentBudgetId, modelo: l.modelo, is_custom: true, quantidade: l.quantidade, valor_unit: l.valorUnit, diarias: l.diarias || 1 }))
       ];
 
       const dronesPayload = [
-        ...drones.filter(d => d.quantidade > 0).map(d => ({ budget_id: currentBudgetId, modelo: d.modelo, is_custom: false, quantidade: d.quantidade, valor_unit: d.valorUnit })),
-        ...customDrones.filter(d => d.modelo.trim() !== '' && d.quantidade > 0).map(d => ({ budget_id: currentBudgetId, modelo: d.modelo, is_custom: true, quantidade: d.quantidade, valor_unit: d.valorUnit }))
+        ...drones.filter(d => d.quantidade > 0).map(d => ({ budget_id: currentBudgetId, modelo: d.modelo, is_custom: false, quantidade: d.quantidade, valor_unit: d.valorUnit, diarias: d.diarias || 1 })),
+        ...customDrones.filter(d => d.modelo.trim() !== '' && d.quantidade > 0).map(d => ({ budget_id: currentBudgetId, modelo: d.modelo, is_custom: true, quantidade: d.quantidade, valor_unit: d.valorUnit, diarias: d.diarias || 1 }))
       ];
 
       const commPayload = [
-        ...comunicacao.filter(c => c.quantidade > 0).map(c => ({ budget_id: currentBudgetId, modelo: c.modelo, is_custom: false, quantidade: c.quantidade, valor_unit: c.valorUnit })),
-        ...customComunicacao.filter(c => c.modelo.trim() !== '' && c.quantidade > 0).map(c => ({ budget_id: currentBudgetId, modelo: c.modelo, is_custom: true, quantidade: c.quantidade, valor_unit: c.valorUnit }))
+        ...comunicacao.filter(c => c.quantidade > 0).map(c => ({ budget_id: currentBudgetId, modelo: c.modelo, is_custom: false, quantidade: c.quantidade, valor_unit: c.valorUnit, diarias: c.diarias || 1 })),
+        ...customComunicacao.filter(c => c.modelo.trim() !== '' && c.quantidade > 0).map(c => ({ budget_id: currentBudgetId, modelo: c.modelo, is_custom: true, quantidade: c.quantidade, valor_unit: c.valorUnit, diarias: c.diarias || 1 }))
       ];
 
       const movPayload = [
-        ...movEquip.filter(m => m.quantidade > 0).map(m => ({ budget_id: currentBudgetId, modelo: m.modelo, tipo: 'Outros', is_custom: false, quantidade: m.quantidade, valor_unit: m.valorUnit })),
-        ...customMovEquip.filter(m => m.modelo.trim() !== '' && m.quantidade > 0).map(m => ({ budget_id: currentBudgetId, modelo: m.modelo, tipo: 'Outros', is_custom: true, quantidade: m.quantidade, valor_unit: m.valorUnit })),
-        ...gruas.filter(g => g.quantidade > 0).map(g => ({ budget_id: currentBudgetId, modelo: `Grua ${g.metragem}`, tipo: 'Grua', metragem: g.metragem, is_custom: false, quantidade: g.quantidade, valor_unit: g.valorUnit })),
-        ...trilhos.filter(t => t.quantidade > 0).map(t => ({ budget_id: currentBudgetId, modelo: `Trilho ${t.metragem}`, tipo: 'Trilho', metragem: t.metragem, tipo_carrinho: t.tipoCarrinho, is_custom: false, quantidade: t.quantidade, valor_unit: t.valorUnit }))
+        ...movEquip.filter(m => m.quantidade > 0).map(m => ({ budget_id: currentBudgetId, modelo: m.modelo, tipo: 'Outros', is_custom: false, quantidade: m.quantidade, valor_unit: m.valorUnit, diarias: m.diarias || 1 })),
+        ...customMovEquip.filter(m => m.modelo.trim() !== '' && m.quantidade > 0).map(m => ({ budget_id: currentBudgetId, modelo: m.modelo, tipo: 'Outros', is_custom: true, quantidade: m.quantidade, valor_unit: m.valorUnit, diarias: m.diarias || 1 })),
+        ...gruas.filter(g => g.quantidade > 0).map(g => ({ budget_id: currentBudgetId, modelo: `Grua ${g.metragem}`, tipo: 'Grua', metragem: g.metragem, is_custom: false, quantidade: g.quantidade, valor_unit: g.valorUnit, diarias: g.diarias || 1 })),
+        ...trilhos.filter(t => t.quantidade > 0).map(t => ({ budget_id: currentBudgetId, modelo: `Trilho ${t.metragem}`, tipo: 'Trilho', metragem: t.metragem, tipo_carrinho: t.tipoCarrinho, is_custom: false, quantidade: t.quantidade, valor_unit: t.valorUnit, diarias: t.diarias || 1 }))
       ];
 
       // 4. PREPARA A EQUIPA
@@ -1011,16 +1011,25 @@ const CreateBudget = () => {
                         <div style={S.hBody}>
                           <div style={S.hTitle}>{cam.modelo}</div>
                           {cam.quantidade > 0 && cam.valorUnit > 0 && (
-                            <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 2 }}>R$ {fmt(cam.quantidade * cam.valorUnit)}</div>
+                            <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 2 }}>R$ {fmt(cam.quantidade * cam.valorUnit * (cam.diarias || 1))}</div>
                           )}
                         </div>
                         <Stepper disabled={isView} value={cam.quantidade} onChange={n => upd(cameras, setCameras, i, 'quantidade', n)} />
                       </div>
                       {cam.quantidade > 0 && (
                         <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
-                          <Field label="Valor unitário (R$)">
-                            <FCurrencyInput disabled={isView} placeholder="0,00" value={cam.valorUnit || ''} onChange={val => upd(cameras, setCameras, i, 'valorUnit', val)} />
-                          </Field>
+                          <div style={{ display: 'flex', gap: 12 }}>
+                            <div style={{ flex: 1 }}>
+                              <Field label="Valor unitário (R$)">
+                                <FCurrencyInput disabled={isView} placeholder="0,00" value={cam.valorUnit || ''} onChange={val => upd(cameras, setCameras, i, 'valorUnit', val)} />
+                              </Field>
+                            </div>
+                            <div style={{ flex: 1 }}>
+                              <Field label="Diárias">
+                                <FInput type="number" disabled={isView} placeholder="1" value={cam.diarias || ''} onChange={e => upd(cameras, setCameras, i, 'diarias', parseInt(e.target.value) || 0)} />
+                              </Field>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </Fragment>
@@ -1066,7 +1075,7 @@ const CreateBudget = () => {
                             />
                           </div>
                           {cam.quantidade > 0 && cam.valorUnit > 0 && (
-                            <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 2 }}>R$ {fmt(cam.quantidade * cam.valorUnit)}</div>
+                            <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 2 }}>R$ {fmt(cam.quantidade * cam.valorUnit * (cam.diarias || 1))}</div>
                           )}
                         </div>
 
@@ -1109,13 +1118,26 @@ const CreateBudget = () => {
                       </div>
                       {cam.quantidade > 0 && (
                         <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
-                          <Field label="Valor unitário (R$)">
-                            <FCurrencyInput disabled={isView} placeholder="0,00" value={cam.valorUnit || ''} onChange={val => {
-                              let newList = [...customCameras];
-                              newList[i].valorUnit = val;
-                              setCustomCameras(newList);
-                            }} />
-                          </Field>
+                          <div style={{ display: 'flex', gap: 12 }}>
+                            <div style={{ flex: 1 }}>
+                              <Field label="Valor unitário (R$)">
+                                <FCurrencyInput disabled={isView} placeholder="0,00" value={cam.valorUnit || ''} onChange={val => {
+                                  let newList = [...customCameras];
+                                  newList[i].valorUnit = val;
+                                  setCustomCameras(newList);
+                                }} />
+                              </Field>
+                            </div>
+                            <div style={{ flex: 1 }}>
+                              <Field label="Diárias">
+                                <FInput type="number" disabled={isView} placeholder="1" value={cam.diarias || ''} onChange={e => {
+                                  let newList = [...customCameras];
+                                  newList[i].diarias = parseInt(e.target.value) || 0;
+                                  setCustomCameras(newList);
+                                }} />
+                              </Field>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </Fragment>
@@ -1198,16 +1220,25 @@ const CreateBudget = () => {
                         <div style={S.hTitle}>{l.modelo}</div>
                         <div style={S.hDesc}>{l.subTitle}</div>
                         {l.quantidade > 0 && l.valorUnit > 0 && (
-                          <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(l.quantidade * l.valorUnit)}</div>
+                          <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(l.quantidade * l.valorUnit * (l.diarias || 1))}</div>
                         )}
                       </div>
                       <Stepper disabled={isView} value={l.quantidade} onChange={n => upd(lentes, setLentes, originalIndex, 'quantidade', n)} />
                     </div>
                     {l.quantidade > 0 && (
                       <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
-                        <Field label="Valor unitário (R$)">
-                          <FCurrencyInput disabled={isView} placeholder="0,00" value={l.valorUnit || ''} onChange={val => upd(lentes, setLentes, originalIndex, 'valorUnit', val)} />
-                        </Field>
+                        <div style={{ display: 'flex', gap: 12 }}>
+                          <div style={{ flex: 1 }}>
+                            <Field label="Valor unitário (R$)">
+                              <FCurrencyInput disabled={isView} placeholder="0,00" value={l.valorUnit || ''} onChange={val => upd(lentes, setLentes, originalIndex, 'valorUnit', val)} />
+                            </Field>
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <Field label="Diárias">
+                              <FInput type="number" disabled={isView} placeholder="1" value={l.diarias || ''} onChange={e => upd(lentes, setLentes, originalIndex, 'diarias', parseInt(e.target.value) || 0)} />
+                            </Field>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </Fragment>
@@ -1254,7 +1285,7 @@ const CreateBudget = () => {
                       />
                     </div>
                     {l.quantidade > 0 && l.valorUnit > 0 && (
-                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(l.quantidade * l.valorUnit)}</div>
+                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(l.quantidade * l.valorUnit * (l.diarias || 1))}</div>
                     )}
                   </div>
 
@@ -1297,13 +1328,26 @@ const CreateBudget = () => {
                 </div>
                 {l.quantidade > 0 && (
                   <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
-                    <Field label="Valor unitário (R$)">
-                      <FCurrencyInput disabled={isView} placeholder="0,00" value={l.valorUnit || ''} onChange={val => {
-                        let newList = [...customLenses];
-                        newList[i].valorUnit = val;
-                        setCustomLenses(newList);
-                      }} />
-                    </Field>
+                    <div style={{ display: 'flex', gap: 12 }}>
+                      <div style={{ flex: 1 }}>
+                        <Field label="Valor unitário (R$)">
+                          <FCurrencyInput disabled={isView} placeholder="0,00" value={l.valorUnit || ''} onChange={val => {
+                            let newList = [...customLenses];
+                            newList[i].valorUnit = val;
+                            setCustomLenses(newList);
+                          }} />
+                        </Field>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <Field label="Diárias">
+                          <FInput type="number" disabled={isView} placeholder="1" value={l.diarias || ''} onChange={e => {
+                            let newList = [...customLenses];
+                            newList[i].diarias = parseInt(e.target.value) || 0;
+                            setCustomLenses(newList);
+                          }} />
+                        </Field>
+                      </div>
+                    </div>
                   </div>
                 )}
               </Fragment>
@@ -1370,18 +1414,27 @@ const CreateBudget = () => {
                     <div style={S.hTitle}>{d.modelo}</div>
                     <div style={S.hDesc}>{d.subTitle}</div>
                     {d.quantidade > 0 && d.valorUnit > 0 && (
-                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(d.quantidade * d.valorUnit)}</div>
+                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(d.quantidade * d.valorUnit * (d.diarias || 1))}</div>
                     )}
                   </div>
                   <Stepper disabled={isView} value={d.quantidade} onChange={n => upd(drones, setDrones, i, 'quantidade', n)} />
                 </div>
                 {d.quantidade > 0 && (
-                  <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
-                    <Field label="Valor unitário (R$)">
-                      <FCurrencyInput disabled={isView} placeholder="0,00" value={d.valorUnit || ''} onChange={val => upd(drones, setDrones, i, 'valorUnit', val)} />
-                    </Field>
-                  </div>
-                )}
+                        <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
+                          <div style={{ display: 'flex', gap: 12 }}>
+                            <div style={{ flex: 1 }}>
+                              <Field label="Valor unitário (R$)">
+                                <FCurrencyInput disabled={isView} placeholder="0,00" value={d.valorUnit || ''} onChange={val => upd(drones, setDrones, i, 'valorUnit', val)} />
+                              </Field>
+                            </div>
+                            <div style={{ flex: 1 }}>
+                              <Field label="Diárias">
+                                <FInput type="number" disabled={isView} placeholder="1" value={d.diarias || ''} onChange={e => upd(drones, setDrones, i, 'diarias', parseInt(e.target.value) || 0)} />
+                              </Field>
+                            </div>
+                          </div>
+                        </div>
+                      )}
               </Fragment>
             ))}
 
@@ -1425,7 +1478,7 @@ const CreateBudget = () => {
                       />
                     </div>
                     {d.quantidade > 0 && d.valorUnit > 0 && (
-                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(d.quantidade * d.valorUnit)}</div>
+                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(d.quantidade * d.valorUnit * (d.diarias || 1))}</div>
                     )}
                   </div>
 
@@ -1468,13 +1521,26 @@ const CreateBudget = () => {
                 </div>
                 {d.quantidade > 0 && (
                   <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
-                    <Field label="Valor unitário (R$)">
-                      <FCurrencyInput disabled={isView} placeholder="0,00" value={d.valorUnit || ''} onChange={val => {
-                        let newList = [...customDrones];
-                        newList[i].valorUnit = val;
-                        setCustomDrones(newList);
-                      }} />
-                    </Field>
+                    <div style={{ display: 'flex', gap: 12 }}>
+                      <div style={{ flex: 1 }}>
+                        <Field label="Valor unitário (R$)">
+                          <FCurrencyInput disabled={isView} placeholder="0,00" value={d.valorUnit || ''} onChange={val => {
+                            let newList = [...customDrones];
+                            newList[i].valorUnit = val;
+                            setCustomDrones(newList);
+                          }} />
+                        </Field>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <Field label="Diárias">
+                          <FInput type="number" disabled={isView} placeholder="1" value={d.diarias || ''} onChange={e => {
+                            let newList = [...customDrones];
+                            newList[i].diarias = parseInt(e.target.value) || 0;
+                            setCustomDrones(newList);
+                          }} />
+                        </Field>
+                      </div>
+                    </div>
                   </div>
                 )}
               </Fragment>
@@ -1536,19 +1602,22 @@ const CreateBudget = () => {
                     <div style={S.hTitle}>{c.modelo}</div>
                     <div style={S.hDesc}>{c.subTitle}</div>
                     {c.quantidade > 0 && c.valorUnit > 0 && (
-                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(c.quantidade * c.valorUnit)}</div>
+                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(c.quantidade * c.valorUnit * (c.diarias || 1))}</div>
                     )}
                   </div>
                   <Stepper disabled={isView} value={c.quantidade} onChange={n => upd(comunicacao, setComunicacao, i, 'quantidade', n)} />
                 </div>
                 {c.quantidade > 0 && (
                   <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
                       <Field label="Pontos (Rádios)">
                         <FInput disabled={isView} type="number" placeholder="0" value={c.pontos || ''} onChange={e => upd(comunicacao, setComunicacao, i, 'pontos', parseInt(e.target.value) || 0)} />
                       </Field>
                       <Field label="Valor Unitário (R$)">
                         <FCurrencyInput disabled={isView} placeholder="0,00" value={c.valorUnit || ''} onChange={val => upd(comunicacao, setComunicacao, i, 'valorUnit', val)} />
+                      </Field>
+                      <Field label="Diárias">
+                        <FInput type="number" disabled={isView} placeholder="1" value={c.diarias || ''} onChange={e => upd(comunicacao, setComunicacao, i, 'diarias', parseInt(e.target.value) || 0)} />
                       </Field>
                     </div>
                   </div>
@@ -1596,7 +1665,7 @@ const CreateBudget = () => {
                       />
                     </div>
                     {c.quantidade > 0 && c.valorUnit > 0 && (
-                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(c.quantidade * c.valorUnit)}</div>
+                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(c.quantidade * c.valorUnit * (c.diarias || 1))}</div>
                     )}
                   </div>
 
@@ -1639,7 +1708,7 @@ const CreateBudget = () => {
                 </div>
                 {c.quantidade > 0 && (
                   <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
                       <Field label="Pontos (Rádios)">
                         <FInput disabled={isView} type="number" placeholder="0" value={c.pontos || ''} onChange={e => {
                           let newList = [...customComunicacao];
@@ -1651,6 +1720,13 @@ const CreateBudget = () => {
                         <FCurrencyInput disabled={isView} placeholder="0,00" value={c.valorUnit || ''} onChange={val => {
                           let newList = [...customComunicacao];
                           newList[i].valorUnit = val;
+                          setCustomComunicacao(newList);
+                        }} />
+                      </Field>
+                      <Field label="Diárias">
+                        <FInput type="number" disabled={isView} placeholder="1" value={c.diarias || ''} onChange={e => {
+                          let newList = [...customComunicacao];
+                          newList[i].diarias = parseInt(e.target.value) || 0;
                           setCustomComunicacao(newList);
                         }} />
                       </Field>
@@ -1720,18 +1796,27 @@ const CreateBudget = () => {
                     <div style={S.hTitle}>{m.modelo}</div>
                     <div style={S.hDesc}>{m.subTitle}</div>
                     {m.quantidade > 0 && m.valorUnit > 0 && (
-                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(m.quantidade * m.valorUnit)}</div>
+                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(m.quantidade * m.valorUnit * (m.diarias || 1))}</div>
                     )}
                   </div>
                   <Stepper disabled={isView} value={m.quantidade} onChange={n => upd(movEquip, setMovEquip, i, 'quantidade', n)} />
                 </div>
                 {m.quantidade > 0 && (
-                  <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
-                    <Field label="Valor unitário (R$)">
-                      <FCurrencyInput disabled={isView} placeholder="0,00" value={m.valorUnit || ''} onChange={val => upd(movEquip, setMovEquip, i, 'valorUnit', val)} />
-                    </Field>
-                  </div>
-                )}
+                        <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
+                          <div style={{ display: 'flex', gap: 12 }}>
+                            <div style={{ flex: 1 }}>
+                              <Field label="Valor unitário (R$)">
+                                <FCurrencyInput disabled={isView} placeholder="0,00" value={m.valorUnit || ''} onChange={val => upd(movEquip, setMovEquip, i, 'valorUnit', val)} />
+                              </Field>
+                            </div>
+                            <div style={{ flex: 1 }}>
+                              <Field label="Diárias">
+                                <FInput type="number" disabled={isView} placeholder="1" value={m.diarias || ''} onChange={e => upd(movEquip, setMovEquip, i, 'diarias', parseInt(e.target.value) || 0)} />
+                              </Field>
+                            </div>
+                          </div>
+                        </div>
+                      )}
               </Fragment>
             ))}
 
@@ -1784,17 +1869,20 @@ const CreateBudget = () => {
                         ))}
                       </div>
 
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
                         <Field label="Quantidade">
                           <FInput disabled={isView} type="number" placeholder="1" value={g.quantidade || ''} onChange={e => { const ng = [...gruas]; ng[i] = { ...ng[i], quantidade: parseInt(e.target.value) || 0 }; setGruas(ng); }} />
                         </Field>
                         <Field label="Valor (R$)">
                           <FCurrencyInput disabled={isView} placeholder="0,00" value={g.valorUnit || ''} onChange={val => { const ng = [...gruas]; ng[i] = { ...ng[i], valorUnit: val }; setGruas(ng); }} />
                         </Field>
+                        <Field label="Diárias">
+                          <FInput type="number" disabled={isView} placeholder="1" value={g.diarias || ''} onChange={e => { const ng = [...gruas]; ng[i] = { ...ng[i], diarias: parseInt(e.target.value) || 0 }; setGruas(ng); }} />
+                        </Field>
                       </div>
                       {g.quantidade > 0 && g.valorUnit > 0 && (
                         <p style={{ fontSize: 12, color: ONSV, marginTop: 4 }}>
-                          {g.quantidade}× R$ {fmt(g.valorUnit)} = <strong style={{ color: P }}>R$ {fmt(g.quantidade * g.valorUnit)}</strong>
+                          {g.quantidade}× R$ {fmt(g.valorUnit)} = <strong style={{ color: P }}>R$ {fmt(g.quantidade * g.valorUnit * (g.diarias || 1))}</strong>
                         </p>
                       )}
                     </div>
@@ -1866,17 +1954,20 @@ const CreateBudget = () => {
                           />
                         )}
                       </Field>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
                         <Field label="Quantidade">
                           <FInput disabled={isView} type="number" placeholder="1" value={t.quantidade || ''} onChange={e => { const nt = [...trilhos]; nt[i] = { ...nt[i], quantidade: parseInt(e.target.value) || 0 }; setTrilhos(nt); }} />
                         </Field>
                         <Field label="Valor (R$)">
                           <FCurrencyInput disabled={isView} placeholder="0,00" value={t.valorUnit || ''} onChange={val => { const nt = [...trilhos]; nt[i] = { ...nt[i], valorUnit: val }; setTrilhos(nt); }} />
                         </Field>
+                        <Field label="Diárias">
+                          <FInput type="number" disabled={isView} placeholder="1" value={t.diarias || ''} onChange={e => { const nt = [...trilhos]; nt[i] = { ...nt[i], diarias: parseInt(e.target.value) || 0 }; setTrilhos(nt); }} />
+                        </Field>
                       </div>
                       {t.quantidade > 0 && t.valorUnit > 0 && (
                         <p style={{ fontSize: 12, color: ONSV, marginTop: 4 }}>
-                          {t.quantidade}× R$ {fmt(t.valorUnit)} = <strong style={{ color: P }}>R$ {fmt(t.quantidade * t.valorUnit)}</strong>
+                          {t.quantidade}× R$ {fmt(t.valorUnit)} = <strong style={{ color: P }}>R$ {fmt(t.quantidade * t.valorUnit * (t.diarias || 1))}</strong>
                         </p>
                       )}
                     </div>
@@ -1925,7 +2016,7 @@ const CreateBudget = () => {
                       />
                     </div>
                     {m.quantidade > 0 && m.valorUnit > 0 && (
-                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(m.quantidade * m.valorUnit)}</div>
+                      <div style={{ fontSize: 12, color: P, fontWeight: 600, marginTop: 3 }}>R$ {fmt(m.quantidade * m.valorUnit * (m.diarias || 1))}</div>
                     )}
                   </div>
 
@@ -1968,13 +2059,26 @@ const CreateBudget = () => {
                 </div>
                 {m.quantidade > 0 && (
                   <div style={{ ...S.expandPanel, background: isDark ? '#2A2A2A' : '#F9F9F9', borderRadius: '0 0 10px 10px', border: `1px solid ${isDark ? '#3A3A3A' : '#E0E0E0'}`, borderTop: 'none', marginTop: -12, marginBottom: 12 }}>
-                    <Field label="Valor unitário (R$)">
-                      <FCurrencyInput disabled={isView} placeholder="0,00" value={m.valorUnit || ''} onChange={val => {
-                        let newList = [...customMovEquip];
-                        newList[i].valorUnit = val;
-                        setCustomMovEquip(newList);
-                      }} />
-                    </Field>
+                    <div style={{ display: 'flex', gap: 12 }}>
+                      <div style={{ flex: 1 }}>
+                        <Field label="Valor unitário (R$)">
+                          <FCurrencyInput disabled={isView} placeholder="0,00" value={m.valorUnit || ''} onChange={val => {
+                            let newList = [...customMovEquip];
+                            newList[i].valorUnit = val;
+                            setCustomMovEquip(newList);
+                          }} />
+                        </Field>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <Field label="Diárias">
+                          <FInput type="number" disabled={isView} placeholder="1" value={m.diarias || ''} onChange={e => {
+                            let newList = [...customMovEquip];
+                            newList[i].diarias = parseInt(e.target.value) || 0;
+                            setCustomMovEquip(newList);
+                          }} />
+                        </Field>
+                      </div>
+                    </div>
                   </div>
                 )}
               </Fragment>

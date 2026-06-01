@@ -65,3 +65,10 @@ END $$;
 CREATE POLICY "Permitir acesso total a budgets" ON public.budgets FOR ALL USING (true);
 CREATE POLICY "Permitir acesso total a budget_equipment" ON public.budget_equipment FOR ALL USING (true);
 CREATE POLICY "Permitir acesso total a budget_team" ON public.budget_team FOR ALL USING (true);
+
+-- Adding diarias column to equipment tables
+ALTER TABLE public.budget_cameras ADD COLUMN IF NOT EXISTS diarias NUMERIC DEFAULT 1;
+ALTER TABLE public.budget_lenses ADD COLUMN IF NOT EXISTS diarias NUMERIC DEFAULT 1;
+ALTER TABLE public.budget_drones ADD COLUMN IF NOT EXISTS diarias NUMERIC DEFAULT 1;
+ALTER TABLE public.budget_communication ADD COLUMN IF NOT EXISTS diarias NUMERIC DEFAULT 1;
+ALTER TABLE public.budget_movement ADD COLUMN IF NOT EXISTS diarias NUMERIC DEFAULT 1;
