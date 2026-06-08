@@ -283,6 +283,7 @@ const CreateBudget = () => {
   ]);
   const [verbaAlimentacao, setVerbaAlimentacao] = useState(0);
   const [verbaMotorista, setVerbaMotorista] = useState(0);
+  const [imposto, setImposto] = useState(''); // percentual do imposto
   const [desconto, setDesconto] = useState({
     modo: 'global',    // 'global' | 'porItem'
     tipo: 'percent',   // 'percent' | 'valor'
@@ -362,6 +363,8 @@ const CreateBudget = () => {
           distanciaKm: b.distancia_km || '',
           valorKm: b.valor_km || ''
         });
+        // Carrega imposto se existir
+        if (b.imposto_percentual) setImposto(String(b.imposto_percentual));
 
         if (b.tipo_estrutura?.length) {
           setEstruturas(prev => {
@@ -493,7 +496,9 @@ const CreateBudget = () => {
       const base = { frete: totalFrete, estrutura: totalEstrutura, cameras: totalCameras, lentes: totalLentes, aereo: totalAereo, comunicacao: totalCom, movimento: totalMovimento, equipe: totalEquipe }[key] || 0;
       return a + base * (Number(v) || 0) / 100;
     }, 0);
-  const grandTotal = subtotal - descontoAmt;
+  const baseAposDesconto = subtotal - descontoAmt;
+  const impostoAmt = baseAposDesconto * (Number(imposto) || 0) / 100;
+  const grandTotal = baseAposDesconto + impostoAmt;
 
   // ── Validation ──
   const canAdvance = () => true;
@@ -532,6 +537,7 @@ const CreateBudget = () => {
         distancia_km: Number(logistica.distanciaKm) || 0,
         valor_km: Number(logistica.valorKm) || 0,
         total: grandTotal || 0,
+        imposto_percentual: Number(imposto) || 0,
         status: targetStatus,
         ...(targetStatus === 'rejected' ? { data_reprovacao: new Date().toISOString() } : {})
       };
@@ -2305,6 +2311,40 @@ const CreateBudget = () => {
                 </div>
               ))}
 
+              {/* Imposto section */}
+              {!isView && subtotal > 0 && (
+                <div style={{ marginTop: 20, background: SCLO, border: `1px solid ${OV}`, borderRadius: 10, padding: '14px 16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+                    <span className="material-symbols-outlined" style={{ fontSize: 18, color: P }}>receipt</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: ONS }}>Imposto</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ flex: 1 }}>
+                      <FInput
+                        type="number"
+                        placeholder="0"
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        value={imposto}
+                        onChange={e => setImposto(e.target.value)}
+                      />
+                    </div>
+                    <span style={{
+                      fontSize: 13, fontWeight: 700, color: ONSV,
+                      background: SCN, padding: '11px 14px',
+                      borderRadius: 8, flexShrink: 0, minWidth: 36, textAlign: 'center'
+                    }}>%</span>
+                  </div>
+                  {Number(imposto) > 0 && (
+                    <div style={{ marginTop: 10, display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: SCHN, borderRadius: 8 }}>
+                      <span style={{ fontSize: 12, color: ONSV }}>Valor do imposto sobre total líquido</span>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: ONS }}>R$ {fmt(impostoAmt)}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Discount section */}
               {!isView && subtotal > 0 && (
                 <div style={{ marginTop: 20, background: SCLO, border: `1px solid ${OV}`, borderRadius: 10, padding: '14px 16px' }}>
@@ -2368,6 +2408,15 @@ const CreateBudget = () => {
                       <span style={{ fontSize: 13, fontWeight: 700, color: '#c75000' }}>− R$ {fmt(descontoAmt)}</span>
                     </div>
                   </>
+                )}
+                {impostoAmt > 0 && (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 16px', background: SCLO, borderTop: descontoAmt > 0 ? `0.5px solid ${OV}` : 'none' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span className="material-symbols-outlined" style={{ fontSize: 16, color: ONSV }}>receipt</span>
+                      <span style={{ fontSize: 13, color: ONSV, fontWeight: 600 }}>Imposto ({imposto}%)</span>
+                    </div>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: ONS }}>+ R$ {fmt(impostoAmt)}</span>
+                  </div>
                 )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 16px', background: P }}>
                   <span style={{ fontSize: 15, fontWeight: 600, color: '#fff' }}>Total Estimado</span>

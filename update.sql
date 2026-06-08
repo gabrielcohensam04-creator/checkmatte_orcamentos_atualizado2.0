@@ -72,3 +72,6 @@ ALTER TABLE public.budget_lenses ADD COLUMN IF NOT EXISTS diarias NUMERIC DEFAUL
 ALTER TABLE public.budget_drones ADD COLUMN IF NOT EXISTS diarias NUMERIC DEFAULT 1;
 ALTER TABLE public.budget_communication ADD COLUMN IF NOT EXISTS diarias NUMERIC DEFAULT 1;
 ALTER TABLE public.budget_movement ADD COLUMN IF NOT EXISTS diarias NUMERIC DEFAULT 1;
+
+-- Adding tax field to budgets
+ALTER TABLE public.budgets ADD COLUMN IF NOT EXISTS imposto_percentual NUMERIC DEFAULT 0;
