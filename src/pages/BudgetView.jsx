@@ -176,11 +176,11 @@ const BudgetView = () => {
   const verba      = team?.verba_alimentacao || 0;
 
   const totalEstrutura  = estruturas.reduce((a, e) => a + (Number(e.valor) || 0), 0);
-  const totalCameras    = cameras.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0), 0);
-  const totalLentes     = lentes.reduce((a, l) => a + (Number(l.quantidade) || 0) * (Number(l.valorUnit) || 0), 0);
-  const totalAereo      = aereo.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0), 0);
-  const totalCom        = comunicacao.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0), 0);
-  const totalMovimento = movimento.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0), 0);
+  const totalCameras    = cameras.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0) * (Number(c.diarias) || 1), 0);
+  const totalLentes     = lentes.reduce((a, l) => a + (Number(l.quantidade) || 0) * (Number(l.valorUnit) || 0) * (Number(l.diarias) || 1), 0);
+  const totalAereo      = aereo.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0) * (Number(d.diarias) || 1), 0);
+  const totalCom        = comunicacao.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0) * (Number(c.diarias) || 1), 0);
+  const totalMovimento  = movimento.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0) * (Number(m.diarias) || 1), 0);
   const totalEquipe = equipe.reduce((a, e) => {
     const qtd     = Number(e.qtd || 0);
     const diarias = Number(e.qtdDiarias || 1);
@@ -274,36 +274,44 @@ const BudgetView = () => {
         {/* Cameras detail */}
         {cameras.filter(c => c.quantidade > 0).length > 0 && (
           <Section icon="videocam" title="Câmeras">
-            {cameras.filter(c => c.quantidade > 0).map((c, i, arr) => (
-              <Row key={i} label={`${c.modelo} ×${c.quantidade}`} value={`R$ ${fmt(c.quantidade * c.valorUnit)}`} last={i === arr.length - 1} />
-            ))}
+            {cameras.filter(c => c.quantidade > 0).map((c, i, arr) => {
+              const dias = Number(c.diarias) || 1;
+              const label = dias > 1 ? `${c.modelo} ×${c.quantidade} · ${dias} diárias` : `${c.modelo} ×${c.quantidade}`;
+              return <Row key={i} label={label} value={`R$ ${fmt(c.quantidade * c.valorUnit * dias)}`} last={i === arr.length - 1} />;
+            })}
           </Section>
         )}
 
         {/* Lentes detail */}
         {lentes.filter(l => l.quantidade > 0).length > 0 && (
           <Section icon="photo_camera" title="Lentes">
-            {lentes.filter(l => l.quantidade > 0).map((l, i, arr) => (
-              <Row key={i} label={`${l.modelo} ×${l.quantidade}`} value={`R$ ${fmt(l.quantidade * l.valorUnit)}`} last={i === arr.length - 1} />
-            ))}
+            {lentes.filter(l => l.quantidade > 0).map((l, i, arr) => {
+              const dias = Number(l.diarias) || 1;
+              const label = dias > 1 ? `${l.modelo} ×${l.quantidade} · ${dias} diárias` : `${l.modelo} ×${l.quantidade}`;
+              return <Row key={i} label={label} value={`R$ ${fmt(l.quantidade * l.valorUnit * dias)}`} last={i === arr.length - 1} />;
+            })}
           </Section>
         )}
 
         {/* Drones detail */}
         {aereo.filter(d => d.quantidade > 0).length > 0 && (
           <Section icon="flight" title="Drones">
-            {aereo.filter(d => d.quantidade > 0).map((d, i, arr) => (
-              <Row key={i} label={`${d.modelo} ×${d.quantidade}`} value={`R$ ${fmt(d.quantidade * d.valorUnit)}`} last={i === arr.length - 1} />
-            ))}
+            {aereo.filter(d => d.quantidade > 0).map((d, i, arr) => {
+              const dias = Number(d.diarias) || 1;
+              const label = dias > 1 ? `${d.modelo} ×${d.quantidade} · ${dias} diárias` : `${d.modelo} ×${d.quantidade}`;
+              return <Row key={i} label={label} value={`R$ ${fmt(d.quantidade * d.valorUnit * dias)}`} last={i === arr.length - 1} />;
+            })}
           </Section>
         )}
 
         {/* Movimento detail */}
         {movimento.filter(m => m.quantidade > 0).length > 0 && (
           <Section icon="switch_video" title="Movimento">
-            {movimento.filter(m => m.quantidade > 0).map((m, i, arr) => (
-              <Row key={i} label={`${m.modelo} ×${m.quantidade}`} value={`R$ ${fmt(m.quantidade * m.valorUnit)}`} last={i === arr.length - 1} />
-            ))}
+            {movimento.filter(m => m.quantidade > 0).map((m, i, arr) => {
+              const dias = Number(m.diarias) || 1;
+              const label = dias > 1 ? `${m.modelo} ×${m.quantidade} · ${dias} diárias` : `${m.modelo} ×${m.quantidade}`;
+              return <Row key={i} label={label} value={`R$ ${fmt(m.quantidade * m.valorUnit * dias)}`} last={i === arr.length - 1} />;
+            })}
           </Section>
         )}
 
