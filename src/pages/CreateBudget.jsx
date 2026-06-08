@@ -2311,40 +2311,6 @@ const CreateBudget = () => {
                 </div>
               ))}
 
-              {/* Imposto section */}
-              {!isView && subtotal > 0 && (
-                <div style={{ marginTop: 20, background: SCLO, border: `1px solid ${OV}`, borderRadius: 10, padding: '14px 16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-                    <span className="material-symbols-outlined" style={{ fontSize: 18, color: P }}>receipt</span>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: ONS }}>Imposto</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ flex: 1 }}>
-                      <FInput
-                        type="number"
-                        placeholder="0"
-                        min="0"
-                        max="100"
-                        step="0.1"
-                        value={imposto}
-                        onChange={e => setImposto(e.target.value)}
-                      />
-                    </div>
-                    <span style={{
-                      fontSize: 13, fontWeight: 700, color: ONSV,
-                      background: SCN, padding: '11px 14px',
-                      borderRadius: 8, flexShrink: 0, minWidth: 36, textAlign: 'center'
-                    }}>%</span>
-                  </div>
-                  {Number(imposto) > 0 && (
-                    <div style={{ marginTop: 10, display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: SCHN, borderRadius: 8 }}>
-                      <span style={{ fontSize: 12, color: ONSV }}>Valor do imposto sobre total líquido</span>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: ONS }}>R$ {fmt(impostoAmt)}</span>
-                    </div>
-                  )}
-                </div>
-              )}
-
               {/* Discount section */}
               {!isView && subtotal > 0 && (
                 <div style={{ marginTop: 20, background: SCLO, border: `1px solid ${OV}`, borderRadius: 10, padding: '14px 16px' }}>
@@ -2385,6 +2351,40 @@ const CreateBudget = () => {
                           </div>
                         </div>
                       ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Imposto section */}
+              {!isView && subtotal > 0 && (
+                <div style={{ marginTop: 20, background: SCLO, border: `1px solid ${OV}`, borderRadius: 10, padding: '14px 16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+                    <span className="material-symbols-outlined" style={{ fontSize: 18, color: P }}>receipt</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: ONS }}>Imposto</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ flex: 1 }}>
+                      <FInput
+                        type="number"
+                        placeholder="0"
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        value={imposto}
+                        onChange={e => setImposto(e.target.value)}
+                      />
+                    </div>
+                    <span style={{
+                      fontSize: 13, fontWeight: 700, color: ONSV,
+                      background: SCN, padding: '11px 14px',
+                      borderRadius: 8, flexShrink: 0, minWidth: 36, textAlign: 'center'
+                    }}>%</span>
+                  </div>
+                  {Number(imposto) > 0 && (
+                    <div style={{ marginTop: 10, display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: SCHN, borderRadius: 8 }}>
+                      <span style={{ fontSize: 12, color: ONSV }}>Valor do imposto sobre total líquido</span>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: ONS }}>R$ {fmt(impostoAmt)}</span>
                     </div>
                   )}
                 </div>
