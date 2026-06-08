@@ -126,7 +126,8 @@ const BudgetView = () => {
             qtd: membro.quantidade,
             valorPessoa: membro.valor_diaria,
             qtdDiarias: membro.quantidade_diarias,
-            nomes: membro.nomes || []
+            nomes: membro.nomes || [],
+            verba_alimentacao: membro.verba_alimentacao || 0
           }));
           
           setTeam({
@@ -180,8 +181,13 @@ const BudgetView = () => {
   const totalAereo      = aereo.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0), 0);
   const totalCom        = comunicacao.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0), 0);
   const totalMovimento = movimento.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0), 0);
-  const totalEquipe     = equipe.reduce((a, e) => a + (Number(e.qtd) || 0) * (Number(e.valorPessoa) || 0) * (Number(e.qtdDiarias) || 1), 0)
-    + equipe.reduce((a, e) => a + (Number(verba) || 0) * (Number(e.qtd) || 0) * (Number(e.qtdDiarias) || 1), 0);
+  const totalEquipe = equipe.reduce((a, e) => {
+    const qtd     = Number(e.qtd || 0);
+    const diarias = Number(e.qtdDiarias || 1);
+    const valor   = Number(e.valorPessoa || 0);
+    const verbaM  = Number(e.verba_alimentacao || 0);
+    return a + (qtd * diarias * valor) + (verbaM * qtd * diarias);
+  }, 0);
   const totalFrete      = (Number(budget.distancia_km) || 0) * (Number(budget.valor_km) || 0);
 
   const sections = [
@@ -305,26 +311,20 @@ const BudgetView = () => {
         {equipe.filter(e => e.qtd > 0).length > 0 && (
           <Section icon="groups" title="Equipe">
             {equipe.filter(e => e.qtd > 0).map((e, i, arr) => {
-              const diarias = Number(e.qtdDiarias) || 1;
-              const subtotal = (Number(e.qtd) || 0) * (Number(e.valorPessoa) || 0) * diarias;
-              const verbaSubtotal = (Number(verba) || 0) * (Number(e.qtd) || 0) * diarias;
-              const isLastMember = i === arr.length - 1;
+              const diarias       = Number(e.qtdDiarias) || 1;
+              const cache         = (Number(e.qtd) || 0) * (Number(e.valorPessoa) || 0) * diarias;
+              const verbaM        = Number(e.verba_alimentacao) || 0;
+              const verbaSubtotal = verbaM * (Number(e.qtd) || 0) * diarias;
+              const isLast        = i === arr.length - 1 && verbaSubtotal === 0;
               return (
                 <Row
                   key={i}
-                  label={`${e.funcao} ×${e.qtd} · ${diarias} diária${diarias !== 1 ? 's' : ''}`}
-                  value={`R$ ${fmt(subtotal + verbaSubtotal)}`}
-                  last={isLastMember && verba === 0}
+                  label={`${e.funcao} ×${e.qtd} · ${diarias} diária${diarias !== 1 ? 's' : ''}${verbaM > 0 ? ` + R$\u00a0${fmt(verbaM)}/alim.` : ''}`}
+                  value={`R$ ${fmt(cache + verbaSubtotal)}`}
+                  last={isLast}
                 />
               );
             })}
-            {verba > 0 && (
-              <Row
-                label={`Alimentação (R$ ${fmt(verba)}/pessoa/diária)`}
-                value={`R$ ${fmt(equipe.filter(e => e.qtd > 0).reduce((a, e) => a + (Number(verba) || 0) * (Number(e.qtd) || 0) * (Number(e.qtdDiarias) || 1), 0))}`}
-                last
-              />
-            )}
           </Section>
         )}
 

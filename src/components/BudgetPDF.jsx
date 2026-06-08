@@ -150,12 +150,18 @@ const BudgetPDFDoc = ({ budget, equipment, team }) => {
   const verba       = Number(team?.verba_alimentacao || 0);
 
   const totEst  = estruturas.reduce((a, e) => a + (Number(e.valor) || 0), 0);
-  const totCam  = cameras.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0), 0);
-  const totLen  = lentes.reduce((a, l) => a + (Number(l.quantidade) || 0) * (Number(l.valorUnit) || 0), 0);
-  const totDrn  = aereo.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0), 0);
+  const totCam  = cameras.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0) * (Number(c.diarias) || 1), 0);
+  const totLen  = lentes.reduce((a, l) => a + (Number(l.quantidade) || 0) * (Number(l.valorUnit) || 0) * (Number(l.diarias) || 1), 0);
+  const totDrn  = aereo.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0) * (Number(d.diarias) || 1), 0);
   const totCom  = comunicacao.reduce((a, c) => a + (Number(c.valor) || 0), 0);
-  const totMov  = movimento.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0), 0);
-  const totEqp  = equipe.reduce((a, e) => a + (Number(e.qtd) || 0) * (Number(e.valorPessoa) || 0), 0) + verba;
+  const totMov  = movimento.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0) * (Number(m.diarias) || 1), 0);
+  const totEqp  = equipe.reduce((a, e) => {
+    const qtd     = Number(e.qtd || 0);
+    const diarias = Number(e.qtdDiarias || 1);
+    const valor   = Number(e.valorPessoa || 0);
+    const verbaM  = Number(e.verba_alimentacao || 0);
+    return a + (qtd * diarias * valor) + (verbaM * qtd * diarias);
+  }, 0);
   const subtotal = totEst + totCam + totLen + totDrn + totCom + totMov + totEqp;
 
   // Use the saved total as ground truth; derive discount from the difference

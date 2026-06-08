@@ -448,15 +448,15 @@ const CreateBudget = () => {
             return s ? { ...e, qtd: s.quantidade || 0, valorPessoa: Number(s.valor_diaria) || 0, qtdDiarias: s.quantidade_diarias || 1, nomes: s.nomes || [] } : e;
           }));
 
-          // Verbas globais
-          const firstMember = teamData[0];
-          if (firstMember) {
-            setVerbaAlimentacao(Number(firstMember.verba_alimentacao) || 0);
+          // Verbas globais — carrega do primeiro membro que NÃO é motorista para evitar confusão de valores
+          const nonDriver = teamData.find(x => !x.funcao.startsWith('Motorista'));
+          if (nonDriver) {
+            setVerbaAlimentacao(Number(nonDriver.verba_alimentacao) || 0);
           }
           // Procurar motorista para verba motorista
           const motorista = teamData.find(x => x.funcao.startsWith('Motorista'));
           if (motorista) {
-            setVerbaMotorista(Number(motorista.verba_alimentacao) || 0); // Assuming you used this field for motoristas in the new design, adjust if you added a specific verbaMotorista column
+            setVerbaMotorista(Number(motorista.verba_alimentacao) || 0);
           }
         }
       } catch (e) {
