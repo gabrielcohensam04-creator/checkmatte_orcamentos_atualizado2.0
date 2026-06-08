@@ -201,6 +201,11 @@ const BudgetView = () => {
     { label: 'Frete',       value: totalFrete,     icon: 'local_shipping' },
   ].filter(s => s.value > 0);
 
+  const grandTotal = Number(budget.total || 0);
+  const impostoP   = Number(budget.imposto_percentual || 0);
+  const baseAposDesconto = grandTotal / (1 + impostoP / 100);
+  const impostoAmt       = grandTotal - baseAposDesconto;
+
   const isPending   = budget.status === 'pending';
   const isApproved  = budget.status === 'approved';
   const isCompleted = budget.status === 'completed';
@@ -232,10 +237,28 @@ const BudgetView = () => {
           <p style={{ fontSize: 14, color: ONSV, marginBottom: 16 }}>
             {budget.cliente || budget.companies?.nome || '—'}
           </p>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: SEC, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total</span>
-            <span style={{ fontSize: 28, fontWeight: 700, color: P, letterSpacing: '-0.02em' }}>R$ {fmt(budget.total)}</span>
-          </div>
+          {impostoAmt > 0 ? (
+            <div style={{ marginTop: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 8 }}>
+                <span style={{ fontSize: 11, fontWeight: 600, color: SEC, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total Líquido</span>
+                <span style={{ fontSize: 20, fontWeight: 700, color: ONS, letterSpacing: '-0.02em' }}>R$ {fmt(baseAposDesconto)}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12, padding: '8px 12px', background: '#fff5f0', borderRadius: 8, border: `0.5px solid rgba(199,80,0,0.2)` }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 16, color: '#c75000' }}>receipt</span>
+                <span style={{ fontSize: 13, color: '#c75000', fontWeight: 600, flex: 1 }}>Imposto ({impostoP}%)</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#c75000' }}>+ R$ {fmt(impostoAmt)}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, paddingTop: 12, borderTop: `1px dashed ${OV}` }}>
+                <span style={{ fontSize: 11, fontWeight: 600, color: SEC, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total c/ Imposto</span>
+                <span style={{ fontSize: 28, fontWeight: 700, color: P, letterSpacing: '-0.02em' }}>R$ {fmt(grandTotal)}</span>
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: SEC, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total Estimado</span>
+              <span style={{ fontSize: 28, fontWeight: 700, color: P, letterSpacing: '-0.02em' }}>R$ {fmt(grandTotal)}</span>
+            </div>
+          )}
           {budget.descricao && (
             <p style={{ fontSize: 13, color: ONSV, marginTop: 12, lineHeight: 1.6, borderTop: `0.5px solid ${OV}`, paddingTop: 12 }}>
               {budget.descricao}

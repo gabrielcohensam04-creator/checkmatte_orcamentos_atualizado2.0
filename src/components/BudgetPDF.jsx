@@ -183,9 +183,14 @@ const BudgetPDFDoc = ({ budget, equipment, team }) => {
   const totFrete = (Number(budget?.distancia_km) || 0) * (Number(budget?.valor_km) || 0);
   const subtotal = totEst + totCam + totLen + totDrn + totCom + totMov + totEqp + totFrete;
 
-  // Use the saved total as ground truth; derive discount from the difference
+  // Usa o total salvo como verdade absoluta
   const grandTotal  = Number(budget?.total || 0);
-  const descontoAmt = subtotal > grandTotal ? subtotal - grandTotal : 0;
+  const impostoP    = Number(budget?.imposto_percentual || 0);
+
+  // Faz engenharia reversa para achar a base antes do imposto
+  const baseAposDesconto = grandTotal / (1 + impostoP / 100);
+  const impostoAmt       = grandTotal - baseAposDesconto;
+  const descontoAmt      = subtotal > baseAposDesconto ? subtotal - baseAposDesconto : 0;
 
   const summaryLines = [
     { label: 'Frete',       value: totFrete },
@@ -325,10 +330,26 @@ const BudgetPDFDoc = ({ budget, equipment, team }) => {
             </View>
           )}
 
+          {/* Liquid Total before tax (if tax exists) */}
+          {impostoAmt > 0 && (
+            <View style={[s.subRow, { backgroundColor: '#fdfdfd' }]}>
+              <Text style={[s.subLabel, { color: ONS, fontWeight: 'bold' }]}>Total Líquido</Text>
+              <Text style={[s.subVal, { color: ONS }]}>R$ {fmt(baseAposDesconto)}</Text>
+            </View>
+          )}
+
+          {/* Tax row */}
+          {impostoAmt > 0 && (
+            <View style={[s.discRow, { backgroundColor: '#fff5f0' }]}>
+              <Text style={s.discLabel}>Imposto ({impostoP}%)</Text>
+              <Text style={s.discVal}>+ R$ {fmt(impostoAmt)}</Text>
+            </View>
+          )}
+
           {/* Grand total */}
           <View style={s.totalRow}>
             <View>
-              <Text style={s.totalLabel}>TOTAL ESTIMADO</Text>
+              <Text style={s.totalLabel}>{impostoAmt > 0 ? 'TOTAL COM IMPOSTO' : 'TOTAL ESTIMADO'}</Text>
               <Text style={s.totalSub}>Valores sujeitos a alteração conforme negociação</Text>
             </View>
             <Text style={s.totalVal}>R$ {fmt(grandTotal)}</Text>

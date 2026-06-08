@@ -2409,19 +2409,30 @@ const CreateBudget = () => {
                     </div>
                   </>
                 )}
-                {impostoAmt > 0 && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 16px', background: SCLO, borderTop: descontoAmt > 0 ? `0.5px solid ${OV}` : 'none' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span className="material-symbols-outlined" style={{ fontSize: 16, color: ONSV }}>receipt</span>
-                      <span style={{ fontSize: 13, color: ONSV, fontWeight: 600 }}>Imposto ({imposto}%)</span>
+                {impostoAmt > 0 ? (
+                  <>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: SCLO, borderTop: descontoAmt > 0 ? `1px solid ${OV}` : 'none' }}>
+                      <span style={{ fontSize: 14, fontWeight: 600, color: ONS }}>Total</span>
+                      <span style={{ fontSize: 18, fontWeight: 700, color: ONS }}>R$ {fmt(baseAposDesconto)}</span>
                     </div>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: ONS }}>+ R$ {fmt(impostoAmt)}</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 16px', background: '#fff5f0', borderTop: `0.5px solid ${OV}` }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span className="material-symbols-outlined" style={{ fontSize: 16, color: '#c75000' }}>receipt</span>
+                        <span style={{ fontSize: 13, color: '#c75000', fontWeight: 600 }}>Imposto ({imposto}%)</span>
+                      </div>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#c75000' }}>+ R$ {fmt(impostoAmt)}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 16px', background: P }}>
+                      <span style={{ fontSize: 15, fontWeight: 600, color: '#fff' }}>Total com Imposto</span>
+                      <span style={{ fontSize: 24, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>R$ {fmt(grandTotal)}</span>
+                    </div>
+                  </>
+                ) : (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 16px', background: P }}>
+                    <span style={{ fontSize: 15, fontWeight: 600, color: '#fff' }}>Total Estimado</span>
+                    <span style={{ fontSize: 24, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>R$ {fmt(grandTotal)}</span>
                   </div>
                 )}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 16px', background: P }}>
-                  <span style={{ fontSize: 15, fontWeight: 600, color: '#fff' }}>Total Estimado</span>
-                  <span style={{ fontSize: 24, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>R$ {fmt(grandTotal)}</span>
-                </div>
               </div>
 
               {subtotal === 0 && (
