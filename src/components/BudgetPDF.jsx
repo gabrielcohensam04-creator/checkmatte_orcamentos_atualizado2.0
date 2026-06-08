@@ -94,13 +94,20 @@ const s = StyleSheet.create({
 
 // ── Section block ─────────────────────────────────────────────────────────────
 const SectionBlock = ({ title, items }) => {
-  const active = items.filter(it => (Number(it.quantidade ?? it.qtd ?? 1)) > 0 && (Number(it.valorUnit ?? it.valorPessoa ?? it.valor ?? 0)) > 0);
+  // Filtra itens ativos: precisam ter qty > 0 E (valorUnit ou valorPessoa ou valor) > 0
+  const active = items.filter(it => {
+    const qty  = Number(it.quantidade ?? it.qtd ?? 0);
+    const unit = Number(it.valorUnit ?? it.valorPessoa ?? it.valor ?? 0);
+    return qty > 0 && unit > 0;
+  });
   if (!active.length) return null;
 
+  // Total correto: qty × unit × diarias (ou qtdDiarias para equipe)
   const total = active.reduce((a, it) => {
-    const qty  = it.quantidade ?? it.qtd ?? 1;
-    const unit = it.valorUnit  ?? it.valorPessoa ?? it.valor ?? 0;
-    return a + (Number(qty) * Number(unit));
+    const qty     = Number(it.quantidade ?? it.qtd ?? 1);
+    const unit    = Number(it.valorUnit ?? it.valorPessoa ?? it.valor ?? 0);
+    const diarias = Number(it.diarias ?? it.qtdDiarias ?? 1);
+    return a + (qty * unit * diarias);
   }, 0);
 
   return (
@@ -110,11 +117,21 @@ const SectionBlock = ({ title, items }) => {
         <Text style={s.sectionTot}>R$ {fmt(total)}</Text>
       </View>
       {active.map((it, i) => {
-        const qty   = it.quantidade ?? it.qtd ?? null;
-        const unit  = it.valorUnit  ?? it.valorPessoa ?? null;
-        const valor = unit !== null ? Number(qty) * Number(unit) : Number(it.valor || 0);
+        const qty     = Number(it.quantidade ?? it.qtd ?? 0);
+        const unit    = Number(it.valorUnit ?? it.valorPessoa ?? 0);
+        const diarias = Number(it.diarias ?? it.qtdDiarias ?? 1);
+        // Se tem qty+unit, calcula; senao usa .valor fixo
+        const valor = (it.valorUnit != null || it.valorPessoa != null)
+          ? qty * unit * diarias
+          : Number(it.valor || 0);
         const label = it.modelo || it.funcao || it.tipo || `Item ${i + 1}`;
-        const qtyTxt = (qty !== null && unit !== null) ? `${qty}× · R$ ${fmt(unit)} / un` : null;
+        // Exibe detalhe de quantidade/diarias
+        let qtyTxt = null;
+        if (it.valorUnit != null || it.valorPessoa != null) {
+          qtyTxt = diarias > 1
+            ? `${qty}× · ${diarias} diárias · R$ ${fmt(unit)}/dia`
+            : `${qty}× · R$ ${fmt(unit)}/un`;
+        }
         const nomesStr = Array.isArray(it.nomes) && it.nomes.length
           ? it.nomes.filter(n => n).join(', ')
           : '';
@@ -147,13 +164,13 @@ const BudgetPDFDoc = ({ budget, equipment, team }) => {
   const comunicacao = equipment?.comunicacao   || [];
   const movimento   = equipment?.movimento     || [];
   const equipe      = team?.equipe             || [];
-  const verba       = Number(team?.verba_alimentacao || 0);
-
+  // totais por categoria
   const totEst  = estruturas.reduce((a, e) => a + (Number(e.valor) || 0), 0);
   const totCam  = cameras.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0) * (Number(c.diarias) || 1), 0);
   const totLen  = lentes.reduce((a, l) => a + (Number(l.quantidade) || 0) * (Number(l.valorUnit) || 0) * (Number(l.diarias) || 1), 0);
   const totDrn  = aereo.reduce((a, d) => a + (Number(d.quantidade) || 0) * (Number(d.valorUnit) || 0) * (Number(d.diarias) || 1), 0);
-  const totCom  = comunicacao.reduce((a, c) => a + (Number(c.valor) || 0), 0);
+  // BUG2 FIX: comunicacao usa valorUnit × quantidade × diarias (campo .valor nao existe no banco)
+  const totCom  = comunicacao.reduce((a, c) => a + (Number(c.quantidade) || 0) * (Number(c.valorUnit) || 0) * (Number(c.diarias) || 1), 0);
   const totMov  = movimento.reduce((a, m) => a + (Number(m.quantidade) || 0) * (Number(m.valorUnit) || 0) * (Number(m.diarias) || 1), 0);
   const totEqp  = equipe.reduce((a, e) => {
     const qtd     = Number(e.qtd || 0);
@@ -162,13 +179,16 @@ const BudgetPDFDoc = ({ budget, equipment, team }) => {
     const verbaM  = Number(e.verba_alimentacao || 0);
     return a + (qtd * diarias * valor) + (verbaM * qtd * diarias);
   }, 0);
-  const subtotal = totEst + totCam + totLen + totDrn + totCom + totMov + totEqp;
+  // BUG3 FIX: frete incluido no total
+  const totFrete = (Number(budget?.distancia_km) || 0) * (Number(budget?.valor_km) || 0);
+  const subtotal = totEst + totCam + totLen + totDrn + totCom + totMov + totEqp + totFrete;
 
   // Use the saved total as ground truth; derive discount from the difference
   const grandTotal  = Number(budget?.total || 0);
   const descontoAmt = subtotal > grandTotal ? subtotal - grandTotal : 0;
 
   const summaryLines = [
+    { label: 'Frete',       value: totFrete },
     { label: 'Estrutura',   value: totEst },
     { label: 'Câmeras',     value: totCam },
     { label: 'Lentes',      value: totLen },
@@ -233,18 +253,48 @@ const BudgetPDFDoc = ({ budget, equipment, team }) => {
 
         <View style={s.divider} />
 
+        {/* BUG3 FIX: Frete como secao separada quando presente */}
+        {totFrete > 0 && (
+          <SectionBlock title="Frete" items={[{ modelo: `${budget?.distancia_km || 0} km × R$ ${fmt(budget?.valor_km || 0)}/km`, valor: totFrete }]} />
+        )}
         {/* Equipment sections */}
-        {totEst > 0 && <SectionBlock title="Estrutura"   items={estruturas.map(e => ({ modelo: e.tipo, valor: e.valor }))} />}
+        {totEst > 0 && <SectionBlock title="Estrutura" items={estruturas.map(e => ({ modelo: e.tipo, valor: e.valor }))} />}
         <SectionBlock title="Câmeras"     items={cameras} />
         <SectionBlock title="Lentes"      items={lentes} />
         <SectionBlock title="Drones"      items={aereo} />
-        <SectionBlock title="Comunicação" items={comunicacao.map(c => ({ modelo: c.modelo, valor: c.valor }))} />
+        {/* BUG2 FIX: comunicacao passada diretamente — tem valorUnit, quantidade, diarias */}
+        <SectionBlock title="Comunicação" items={comunicacao} />
         <SectionBlock title="Movimento"   items={movimento} />
-        {(equipe.some(e => e.qtd > 0) || verba > 0) && (
-          <SectionBlock title="Equipe" items={[
-            ...equipe,
-            ...(verba > 0 ? [{ modelo: 'Verba de Alimentação', valor: verba }] : []),
-          ]} />
+        {/* BUG4 FIX: equipe renderizada com secao propria mostrando cache + alimentacao por membro */}
+        {equipe.some(e => Number(e.qtd) > 0) && (
+          <View style={s.sectionWrap}>
+            <View style={s.sectionHdr}>
+              <Text style={s.sectionName}>EQUIPE</Text>
+              <Text style={s.sectionTot}>R$ {fmt(totEqp)}</Text>
+            </View>
+            {equipe.filter(e => Number(e.qtd) > 0).map((e, i) => {
+              const qtd      = Number(e.qtd || 0);
+              const diarias  = Number(e.qtdDiarias || 1);
+              const cache    = qtd * Number(e.valorPessoa || 0) * diarias;
+              const verbaM   = Number(e.verba_alimentacao || 0);
+              const alim     = verbaM * qtd * diarias;
+              const subtotal = cache + alim;
+              const nomesStr = Array.isArray(e.nomes) && e.nomes.filter(n => n).length
+                ? e.nomes.filter(n => n).join(', ') : '';
+              return (
+                <View key={i} style={s.itemRow}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={s.itemLabel}>{e.funcao}</Text>
+                    <Text style={s.itemQty}>
+                      {qtd}× · {diarias} diária{diarias !== 1 ? 's' : ''} · R$ {fmt(e.valorPessoa)}/d{alim > 0 ? ` + R$ ${fmt(verbaM)}/alim` : ''}
+                    </Text>
+                    {nomesStr ? <Text style={{ fontSize: 7, color: ONSV, marginTop: 2 }}>{nomesStr}</Text> : null}
+                  </View>
+                  <Text style={s.itemVal}>R$ {fmt(subtotal)}</Text>
+                </View>
+              );
+            })}
+          </View>
         )}
 
         {/* Financial summary */}
@@ -388,23 +438,34 @@ const ts = StyleSheet.create({
 // ── Team PDF Document ─────────────────────────────────────────────────────────
 const TeamPDFDocument = ({ budget, team }) => {
   const equipe = team?.equipe || [];
-  const verba  = Number(team?.verba_alimentacao || 0);
   const today  = new Date().toLocaleDateString('pt-BR');
 
-  const totalCaches = equipe.reduce((acc, m) => {
+  // BUG5 FIX: totalCaches e totalAlimentacao calculados por membro com diarias
+  const activeEquipe = equipe.filter(m => Number(m.qtd) > 0);
+
+  const totalCaches = activeEquipe.reduce((acc, m) => {
     const qtd     = Number(m.qtd || 0);
     const diarias = Number(m.qtdDiarias || 1);
     const valor   = Number(m.valorPessoa || 0);
     return acc + qtd * diarias * valor;
   }, 0);
 
-  const totalGeral = totalCaches + verba;
+  const totalAlimentacao = activeEquipe.reduce((acc, m) => {
+    const qtd     = Number(m.qtd || 0);
+    const diarias = Number(m.qtdDiarias || 1);
+    const verbaM  = Number(m.verba_alimentacao || 0);
+    return acc + verbaM * qtd * diarias;
+  }, 0);
 
+  const totalGeral = totalCaches + totalAlimentacao;
+
+  // BUG6 FIX: colunas agora incluem ALIM./DIA
   const COLS = [
     { label: 'FUNÇÃO',       style: ts.colFuncao },
     { label: 'QTD',          style: ts.colQtd },
     { label: 'DIÁRIAS',      style: ts.colDiarias },
     { label: 'VALOR/DIA',    style: ts.colValor },
+    { label: 'ALIM./DIA',    style: ts.colValor },
     { label: 'SUBTOTAL',     style: ts.colSub },
   ];
 
@@ -445,12 +506,13 @@ const TeamPDFDocument = ({ budget, team }) => {
             ))}
           </View>
 
-          {/* Body rows */}
-          {equipe.filter(m => Number(m.qtd) > 0).map((m, i) => {
-            const qtd     = Number(m.qtd || 0);
-            const diarias = Number(m.qtdDiarias || 1);
-            const valor   = Number(m.valorPessoa || 0);
-            const subtotal = qtd * diarias * valor;
+          {/* Body rows — BUG6 FIX: mostra cache, alim/dia e subtotal correto */}
+          {activeEquipe.map((m, i) => {
+            const qtd      = Number(m.qtd || 0);
+            const diarias  = Number(m.qtdDiarias || 1);
+            const valor    = Number(m.valorPessoa || 0);
+            const verbaM   = Number(m.verba_alimentacao || 0);
+            const subtotal = qtd * diarias * valor + verbaM * qtd * diarias;
             const nomesStr = Array.isArray(m.nomes) && m.nomes.length
               ? m.nomes.filter(n => n).join(', ')
               : '—';
@@ -469,22 +531,23 @@ const TeamPDFDocument = ({ budget, team }) => {
                 <Text style={[ts.tdTxt, ts.colQtd, { textAlign: 'center' }]}>{qtd}</Text>
                 <Text style={[ts.tdTxt, ts.colDiarias, { textAlign: 'center' }]}>{diarias}</Text>
                 <Text style={[ts.tdTxt, ts.colValor, { textAlign: 'right' }]}>R$ {fmt(valor)}</Text>
+                <Text style={[ts.tdTxt, ts.colValor, { textAlign: 'right' }]}>{verbaM > 0 ? `R$ ${fmt(verbaM)}` : '—'}</Text>
                 <Text style={[ts.tdBold, ts.colSub, { textAlign: 'right' }]}>R$ {fmt(subtotal)}</Text>
               </View>
             );
           })}
         </View>
 
-        {/* Totals */}
+        {/* BUG5+6 FIX: Totals por categoria */}
         <View style={ts.totalWrap}>
           <View style={ts.verbRow}>
             <Text style={ts.verbLabel}>Total de Cachês</Text>
             <Text style={ts.verbVal}>R$ {fmt(totalCaches)}</Text>
           </View>
-          {verba > 0 && (
+          {totalAlimentacao > 0 && (
             <View style={ts.verbRow}>
-              <Text style={ts.verbLabel}>Verba de Alimentação</Text>
-              <Text style={ts.verbVal}>R$ {fmt(verba)}</Text>
+              <Text style={ts.verbLabel}>Total de Alimentação</Text>
+              <Text style={ts.verbVal}>R$ {fmt(totalAlimentacao)}</Text>
             </View>
           )}
           <View style={ts.totalRow}>
