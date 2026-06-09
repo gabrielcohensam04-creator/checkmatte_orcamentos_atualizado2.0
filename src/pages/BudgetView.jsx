@@ -209,6 +209,7 @@ const BudgetView = () => {
   const isPending   = budget.status === 'pending';
   const isApproved  = budget.status === 'approved';
   const isCompleted = budget.status === 'completed';
+  const isRejected  = budget.status === 'rejected';
 
   return (
     <div style={{ minHeight: '100dvh', background: SURF, fontFamily: "'Inter', sans-serif" }}>
@@ -399,6 +400,11 @@ const BudgetView = () => {
           {isCompleted && (
             <ActionBtn icon="undo" style={{ background: '#FFFFFF', color: '#64748B', border: '1px solid #E2E8F0' }} onClick={() => updateStatus('approved')}>
               Desconcluir
+            </ActionBtn>
+          )}
+          {isRejected && (
+            <ActionBtn icon="undo" style={{ background: '#FFFFFF', color: '#64748B', border: '1px solid #E2E8F0' }} onClick={() => updateStatus('pending', { data_reprovacao: null })}>
+              Desfazer Reprovação
             </ActionBtn>
           )}
         </div>
