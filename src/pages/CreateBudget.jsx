@@ -274,6 +274,7 @@ const CreateBudget = () => {
     { funcao: 'Operadores de Câmera', qtd: 0, valorPessoa: 0, qtdDiarias: 1, nomes: [] },
     { funcao: 'Assistentes', qtd: 0, valorPessoa: 0, qtdDiarias: 1, nomes: [] },
     { funcao: 'Técnicos de Câmeras', qtd: 0, valorPessoa: 0, qtdDiarias: 1, nomes: [] },
+    { funcao: 'Diretor de Imagens', qtd: 0, valorPessoa: 0, qtdDiarias: 1, nomes: [] },
     { funcao: 'Video Man', qtd: 0, valorPessoa: 0, qtdDiarias: 1, nomes: [] },
     { funcao: 'Coordenadores', qtd: 0, valorPessoa: 0, qtdDiarias: 1, nomes: [] },
     { funcao: 'Técnicos de Sistemas', qtd: 0, valorPessoa: 0, qtdDiarias: 1, nomes: [] },
@@ -594,7 +595,7 @@ const CreateBudget = () => {
 
       // 4. PREPARA A EQUIPA
       const getSetor = (funcao) => {
-        if (funcao.includes('Câmera') || funcao.includes('Video') || funcao.includes('Assistente')) return 'Fotografia & Câmera';
+        if (funcao.includes('Câmera') || funcao.includes('Video') || funcao.includes('Assistente') || funcao.includes('Diretor')) return 'Fotografia & Câmera';
         if (funcao.includes('Motorista')) return 'Logística & Transporte';
         if (funcao.includes('Coordenador') || funcao.includes('Sistemas')) return 'Engenharia & Sistemas';
         if (funcao.includes('Maquinista')) return 'Maquinária & Grip';
@@ -2156,6 +2157,7 @@ const CreateBudget = () => {
                           'Operadores de Câmera': '/OPERADOR_DE CAMERA.jpeg',
                           'Assistentes': '/ASSISTENTE.jpeg',
                           'Técnicos de Câmeras': '/TECNICO DE CAMERAS.jpeg',
+                          'Diretor de Imagens': '/VIDEO MAN.jpeg',
                           'Video Man': '/VIDEO MAN.jpeg',
                           'Coordenadores': '/COOREDENADOR.jpeg',
                           'Técnicos de Sistemas': '/TECNICO DE SISTEMAS.jpeg',
