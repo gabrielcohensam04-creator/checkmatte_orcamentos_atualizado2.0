@@ -4,27 +4,22 @@ import { supabase } from '../lib/supabase';
 import { useTheme } from '../context/ThemeContext';
 import { light, dark } from '../tokens';
 
-function hexToRgb(hex) {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `${r},${g},${b}`;
-}
-
 const Dashboard = () => {
   const { isDark } = useTheme();
-  const { P, SCLO, SCLN, OV, ONS, ONSV, ERR, SUC, WARN } = isDark ? dark : light;
+  const { P, SCLO, OV, ONS, ONSV, ERR, SUC } = isDark ? dark : light;
 
   const navigate = useNavigate();
   const [budgets, setBudgets] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const fmt = (dateStr) => dateStr ? new Date(dateStr).toLocaleDateString('pt-BR') : '—';
+
   const StatusChip = ({ status }) => {
     const map = {
       pending:   { label: 'Pendente',  bg: 'rgba(232,25,60,.1)',   color: '#E8193C', border: 'rgba(232,25,60,.25)' },
-      approved:  { label: 'Aprovado',  bg: 'rgba(22,163,74,.1)',  color: SUC,  border: 'rgba(22,163,74,.25)' },
-      rejected:  { label: 'Reprovado', bg: 'rgba(186,26,26,.08)', color: ERR,  border: 'rgba(186,26,26,.2)' },
-      completed: { label: 'Concluído', bg: 'rgba(0,100,130,.1)',  color: '#006482', border: 'rgba(0,100,130,.2)' },
+      approved:  { label: 'Aprovado',  bg: 'rgba(22,163,74,.1)',   color: SUC,       border: 'rgba(22,163,74,.25)' },
+      rejected:  { label: 'Reprovado', bg: 'rgba(186,26,26,.08)',  color: ERR,       border: 'rgba(186,26,26,.2)' },
+      completed: { label: 'Concluído', bg: 'rgba(0,100,130,.1)',   color: '#006482', border: 'rgba(0,100,130,.2)' },
     };
     const s = map[status] || map.pending;
     return (
@@ -37,34 +32,71 @@ const Dashboard = () => {
   const BudgetCard = ({ budget, onClick, actions }) => (
     <div
       onClick={onClick}
-      style={{ 
-        background: SCLO, 
-        border: `1px solid ${isDark ? '#3A3A3A' : '#D1D5DB'}`, 
-        borderRadius: 8, 
-        padding: 16, 
-        cursor: 'pointer', 
-        transition: 'border-color .2s ease, background .15s' 
+      style={{
+        background: SCLO,
+        border: `1px solid ${isDark ? '#3A3A3A' : '#D1D5DB'}`,
+        borderRadius: 12,
+        padding: 20,
+        cursor: 'pointer',
+        transition: 'all .2s ease',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 10,
+        height: '100%',
+        boxShadow: '0 4px 12px rgba(255, 0, 0, 0.15)'
       }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = isDark ? '#FFFFFF' : '#0A0A0A'; }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = isDark ? '#3A3A3A' : '#D1D5DB'; }}
+      onMouseEnter={e => {
+        e.currentTarget.style.borderColor = isDark ? '#FFFFFF' : '#0A0A0A';
+        e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 0, 0, 0.25)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.borderColor = isDark ? '#3A3A3A' : '#D1D5DB';
+        e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 0, 0, 0.15)';
+      }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-        <div style={{ minWidth: 0, flex: 1, marginRight: 10 }}>
-          <p style={{ fontSize: 15, fontWeight: 600, color: ONS, marginBottom: 3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {budget.nome_projeto || 'Projeto sem nome'}
-          </p>
-          <p style={{ fontSize: 12, color: ONSV, marginBottom: 2 }}>{budget.cliente || (budget.companies?.nome) || '—'}</p>
-          <p style={{ fontSize: 12, color: ONSV }}>
-            {(budget.data_gravacao || budget.data_viagem)
-              ? new Date((budget.data_gravacao || budget.data_viagem) + 'T12:00:00').toLocaleDateString('pt-BR')
-              : '—'}
-          </p>
-        </div>
+      {/* Title + Status */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+        <p style={{ fontSize: 15, fontWeight: 700, color: ONS, margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {budget.nome_projeto || 'Projeto sem nome'}
+        </p>
         <StatusChip status={budget.status} />
       </div>
 
+      {/* Cliente */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: ONSV, fontSize: 13 }}>
+        <span className="material-symbols-outlined" style={{ fontSize: 15 }}>person</span>
+        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {budget.cliente || budget.companies?.nome || 'Cliente não informado'}
+        </span>
+      </div>
+
+      {/* Datas de Início e Fim */}
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, color: ONSV, fontSize: 12 }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#16A34A' }}>play_circle</span>
+          <span>Início: <strong style={{ color: ONS }}>{fmt(budget.data_gravacao)}</strong></span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, color: ONSV, fontSize: 12 }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#E8193C' }}>stop_circle</span>
+          <span>Fim: <strong style={{ color: ONS }}>{fmt(budget.data_volta)}</strong></span>
+        </div>
+      </div>
+
+      {/* Valor total */}
+      {budget.total > 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: ONS, fontSize: 14, fontWeight: 700 }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 15, color: '#16A34A' }}>payments</span>
+          <span>{Number(budget.total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+        </div>
+      )}
+
+      {/* Data de criação pequeninha */}
+      <p style={{ fontSize: 10, color: ONSV, marginTop: 'auto', opacity: 0.7 }}>
+        Criado em {fmt(budget.criado_em)}
+      </p>
+
       {actions && (
-        <div style={{ display: 'flex', gap: 8, marginTop: 12 }} onClick={e => e.stopPropagation()}>
+        <div style={{ display: 'flex', gap: 8 }} onClick={e => e.stopPropagation()}>
           {actions}
         </div>
       )}
@@ -74,12 +106,12 @@ const Dashboard = () => {
   const Btn = ({ onClick, children, color, bgColor }) => (
     <button
       onClick={onClick}
-      style={{ 
-        flex: 1, height: 36, border: 'none', borderRadius: 8, 
-        fontFamily: 'inherit', fontSize: 13, fontWeight: 500, 
-        cursor: 'pointer', display: 'flex', alignItems: 'center', 
-        justifyContent: 'center', gap: 6, transition: 'opacity .15s', 
-        background: bgColor, color: color 
+      style={{
+        flex: 1, height: 36, border: 'none', borderRadius: 8,
+        fontFamily: 'inherit', fontSize: 13, fontWeight: 500,
+        cursor: 'pointer', display: 'flex', alignItems: 'center',
+        justifyContent: 'center', gap: 6, transition: 'opacity .15s',
+        background: bgColor, color: color
       }}
       onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
       onMouseLeave={e => e.currentTarget.style.opacity = '1'}
@@ -88,40 +120,50 @@ const Dashboard = () => {
     </button>
   );
 
-  useEffect(() => { fetchBudgets(); }, []);
-
   const fetchBudgets = async () => {
     try {
       setLoading(true);
-      // Tentativa 1: Busca com companies (vai falhar se a tabela companies não existir ainda)
       const { data, error } = await supabase
         .from('budgets')
         .select('*, companies(nome)')
-        .order('criado_em', { ascending: false }); // Corrigido aqui
+        .order('criado_em', { ascending: false });
 
       if (error) {
-        // Tentativa 2: Fallback (Busca simples, ideal para o nosso banco atual)
         const { data: fb, error: fallbackError } = await supabase
           .from('budgets')
           .select('*')
-          .order('criado_em', { ascending: false }); // Corrigido aqui
-          
+          .order('criado_em', { ascending: false });
         if (fallbackError) throw fallbackError;
         setBudgets(fb || []);
       } else {
         setBudgets(data || []);
       }
-    } catch (e) { 
-      console.error("Erro ao buscar orçamentos:", e); 
-    } finally { 
-      setLoading(false); 
+    } catch (e) {
+      console.error("Erro ao buscar orçamentos:", e);
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchBudgets();
+
+    // Realtime subscription
+    const channel = supabase
+      .channel('dashboard-budgets')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'budgets' }, () => {
+        fetchBudgets();
+      })
+      .subscribe();
+
+    return () => supabase.removeChannel(channel);
+  }, []);
 
   const updateStatus = async (id, newStatus, extra = {}) => {
     try {
       const { error } = await supabase.from('budgets').update({ status: newStatus, ...extra }).eq('id', id);
       if (error) throw error;
+      // Realtime vai atualizar automaticamente, mas atualizamos o state local também para UX instantânea
       setBudgets(prev => prev.map(b => b.id === id ? { ...b, status: newStatus, ...extra } : b));
     } catch (e) { alert('Erro ao atualizar: ' + e.message); }
   };
@@ -141,7 +183,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       {/* Header Row: Title + Button */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, maxWidth: 600, margin: '0 auto 16px auto' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
         <h2 className="column-header" style={{ margin: 0, border: 'none', padding: 0 }}>Orçamentos</h2>
         <button
           className="btn-circle"
@@ -157,7 +199,7 @@ const Dashboard = () => {
         </button>
       </div>
 
-      <div className="dashboard-grid" style={{ margin: '0 auto' }}>
+      <div className="dashboard-grid">
         {/* Pendentes */}
         <div className="column">
           <h2 className="column-header">Pendentes — {pending.length}</h2>
@@ -206,6 +248,16 @@ const Dashboard = () => {
               </div>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Footer - Resumo */}
+      <div className="dashboard-grid" style={{ marginTop: 24 }}>
+        <div style={{ padding: '16px 24px', background: SCLO, border: `1px solid ${isDark ? '#3A3A3A' : '#D1D5DB'}`, borderRadius: 12, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: ONS }}>Pendentes: {pending.length}</span>
+        </div>
+        <div style={{ padding: '16px 24px', background: SCLO, border: `1px solid ${isDark ? '#3A3A3A' : '#D1D5DB'}`, borderRadius: 12, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: ONS }}>Aprovados: {approved.length}</span>
         </div>
       </div>
     </div>

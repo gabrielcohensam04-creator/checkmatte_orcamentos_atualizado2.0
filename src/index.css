@@ -210,10 +210,10 @@ body {
 }
 
 .dashboard-grid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--stack-lg);
-  max-width: 600px;
+  width: 100%;
 }
 
 .column {
@@ -234,8 +234,8 @@ body {
 }
 
 .cards-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: var(--stack-md);
 }
 

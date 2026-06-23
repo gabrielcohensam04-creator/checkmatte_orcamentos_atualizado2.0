@@ -10,42 +10,32 @@ const History = () => {
   const navigate = useNavigate();
   const [budgets, setBudgets] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   useEffect(() => { fetchBudgets(); }, []);
 
   const fetchBudgets = async () => {
     try {
       setLoading(true);
-      // Tentativa 1: Busca com companies (vai falhar se a tabela companies não existir ainda)
       const { data, error } = await supabase
         .from('budgets')
         .select('*, companies(nome, responsavel)')
         .order('criado_em', { ascending: false });
 
       if (error) {
-        // Tentativa 2: Fallback (Busca simples, ideal para o nosso banco atual)
         const { data: fb, error: fallbackError } = await supabase
           .from('budgets')
           .select('*')
           .order('criado_em', { ascending: false });
-          
         if (fallbackError) throw fallbackError;
         setBudgets(fb || []);
       } else {
         setBudgets(data || []);
       }
-    } catch (e) { 
-      console.error("Erro ao buscar orçamentos no histórico:", e); 
-    } finally { 
-      setLoading(false); 
+    } catch (e) {
+      console.error("Erro ao buscar orçamentos no histórico:", e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,9 +51,9 @@ const History = () => {
   const StatusChip = ({ status }) => {
     const map = {
       pending:   { label: 'Pendente',  bg: 'rgba(232,25,60,.1)',   color: '#E8193C', border: 'rgba(232,25,60,.25)' },
-      approved:  { label: 'Aprovado',  bg: 'rgba(22,163,74,.1)',  color: SUC,  border: 'rgba(22,163,74,.25)' },
-      rejected:  { label: 'Reprovado', bg: 'rgba(186,26,26,.08)', color: ERR,  border: 'rgba(186,26,26,.2)' },
-      completed: { label: 'Concluído', bg: 'rgba(0,100,130,.1)',  color: '#006482', border: 'rgba(0,100,130,.2)' },
+      approved:  { label: 'Aprovado',  bg: 'rgba(22,163,74,.1)',   color: SUC,       border: 'rgba(22,163,74,.25)' },
+      rejected:  { label: 'Reprovado', bg: 'rgba(186,26,26,.08)',  color: ERR,       border: 'rgba(186,26,26,.2)' },
+      completed: { label: 'Concluído', bg: 'rgba(0,100,130,.1)',   color: '#006482', border: 'rgba(0,100,130,.2)' },
     };
     const s = map[status] || map.pending;
     return (
@@ -76,26 +66,33 @@ const History = () => {
   const BudgetCard = ({ budget, onDelete }) => (
     <div
       onClick={() => navigate(`/orcamento/${budget.id}`)}
-      style={{ 
-        background: SCLO, 
-        border: `1px solid ${isDark ? '#3A3A3A' : '#D1D5DB'}`, 
-        borderRadius: 8, 
-        padding: 16, 
-        cursor: 'pointer', 
-        transition: 'border-color .2s ease, background .15s',
+      style={{
+        background: SCLO,
+        border: `1px solid ${isDark ? '#3A3A3A' : '#D1D5DB'}`,
+        borderRadius: 12,
+        padding: 20,
+        cursor: 'pointer',
+        transition: 'all .2s ease',
         display: 'flex',
         flexDirection: 'column',
-        gap: 12
+        gap: 12,
+        boxShadow: '0 4px 12px rgba(255, 0, 0, 0.15)'
       }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = isDark ? '#FFFFFF' : '#0A0A0A'; }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = isDark ? '#3A3A3A' : '#D1D5DB'; }}
+      onMouseEnter={e => {
+        e.currentTarget.style.borderColor = isDark ? '#FFFFFF' : '#0A0A0A';
+        e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 0, 0, 0.25)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.borderColor = isDark ? '#3A3A3A' : '#D1D5DB';
+        e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 0, 0, 0.15)';
+      }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ minWidth: 0, flex: 1, marginRight: 10 }}>
-          <p style={{ fontSize: 14, fontWeight: 600, color: ONS, marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <p style={{ fontSize: 15, fontWeight: 600, color: ONS, marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {budget.nome_projeto || 'Sem nome'}
           </p>
-          <p style={{ fontSize: 12, color: ONSV }}>{budget.cliente || budget.companies?.nome || '—'}</p>
+          <p style={{ fontSize: 13, color: ONSV }}>{budget.cliente || budget.companies?.nome || '—'}</p>
         </div>
         <StatusChip status={budget.status} />
       </div>
@@ -103,7 +100,7 @@ const History = () => {
       {onDelete && (
         <button
           onClick={(e) => { e.stopPropagation(); onDelete(budget.id); }}
-          style={{ alignSelf: 'flex-start', height: 32, padding: '0 12px', border: 'none', borderRadius: 6, background: '#FCA5A5', color: '#991B1B', fontSize: 11, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, transition: 'opacity .15s' }}
+          style={{ alignSelf: 'flex-start', height: 32, padding: '0 12px', border: 'none', borderRadius: 8, background: '#FCA5A5', color: '#991B1B', fontSize: 11, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, transition: 'opacity .15s' }}
           onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
           onMouseLeave={e => e.currentTarget.style.opacity = '1'}
         >
@@ -116,9 +113,7 @@ const History = () => {
 
   const filteredBudgets = budgets.filter(b => {
     const term = searchTerm.toLowerCase();
-    const nomeProjeto = (b.nome_projeto || '').toLowerCase();
-    const cliente = (b.cliente || '').toLowerCase();
-    return nomeProjeto.includes(term) || cliente.includes(term);
+    return (b.nome_projeto || '').toLowerCase().includes(term) || (b.cliente || '').toLowerCase().includes(term);
   });
 
   const rejected = filteredBudgets.filter(b => b.status === 'rejected');
@@ -134,34 +129,14 @@ const History = () => {
     );
   }
 
-  const Column = ({ title, items, canDelete }) => (
-    <div style={{ 
-      flex: 1, 
-      width: isMobile ? '100%' : '33%', 
-      minWidth: '280px',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '12px'
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: '600', color: isDark ? '#E2E8F0' : '#334155', margin: 0, letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-          {title}
-        </h3>
-        <span style={{ 
-          background: isDark ? '#334155' : '#E2E8F0', 
-          color: isDark ? '#E2E8F0' : '#475569', 
-          fontSize: '12px', 
-          fontWeight: '700', 
-          padding: '2px 8px', 
-          borderRadius: '12px' 
-        }}>
-          {items.length}
-        </span>
-      </div>
+  const ColumnSection = ({ title, items, canDelete }) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <h2 className="column-header">{title} — {items.length}</h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {items.map(b => <BudgetCard key={b.id} budget={b} onDelete={canDelete ? handleDelete : null} />)}
         {items.length === 0 && (
           <div style={{ padding: '32px 16px', textAlign: 'center', background: SCLO, border: `1px dashed ${OV}`, borderRadius: 12 }}>
+            <span className="material-symbols-outlined" style={{ fontSize: 32, color: OV, display: 'block', marginBottom: 8 }}>inbox</span>
             <p style={{ fontSize: 13, color: ONSV }}>Nenhum item</p>
           </div>
         )}
@@ -171,52 +146,42 @@ const History = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Barra de Pesquisa */}
-      <div style={{ padding: '0 16px', marginBottom: '16px', display: 'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
-        <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
-          <span className="material-symbols-outlined" style={{ position: 'absolute', left: '12px', top: '10px', color: '#94A3B8', fontSize: '20px' }}>
+      {/* Header Row */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+        <h2 className="column-header" style={{ margin: 0, border: 'none', padding: 0 }}>Histórico</h2>
+        {/* Search */}
+        <div style={{ position: 'relative', width: '100%', maxWidth: 320 }}>
+          <span className="material-symbols-outlined" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: ONSV, fontSize: 18, pointerEvents: 'none' }}>
             search
           </span>
           <input
             type="text"
-            placeholder="Buscar por projeto ou cliente..."
+            placeholder="Buscar projeto ou cliente..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
               width: '100%',
-              padding: '10px 12px 10px 40px',
-              borderRadius: '12px',
-              border: isDark ? '1px solid #334155' : '1px solid #E2E8F0',
-              background: isDark ? '#1E293B' : '#F8FAFC',
-              color: isDark ? '#F8FAFC' : '#334155',
-              fontSize: '14px',
+              padding: '9px 12px 9px 38px',
+              borderRadius: 10,
+              border: `1px solid ${isDark ? '#3A3A3A' : '#D1D5DB'}`,
+              background: SCLO,
+              color: ONS,
+              fontSize: 13,
               outline: 'none',
-              transition: 'all 0.2s'
+              fontFamily: 'inherit',
+              transition: 'all .2s'
             }}
-            onFocus={(e) => {
-              e.target.style.border = isDark ? '1px solid #475569' : '1px solid #CBD5E1';
-              e.target.style.background = isDark ? '#0F172A' : '#FFFFFF';
-              e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.02)';
-            }}
-            onBlur={(e) => {
-              e.target.style.border = isDark ? '1px solid #334155' : '1px solid #E2E8F0';
-              e.target.style.background = isDark ? '#1E293B' : '#F8FAFC';
-              e.target.style.boxShadow = 'none';
-            }}
+            onFocus={e => { e.target.style.borderColor = '#E8193C'; }}
+            onBlur={e => { e.target.style.borderColor = isDark ? '#3A3A3A' : '#D1D5DB'; }}
           />
         </div>
       </div>
 
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: isMobile ? 'column' : 'row', 
-        gap: '24px', 
-        width: '100%', 
-        padding: '16px' 
-      }}>
-        <Column title="Pendentes" items={pending} />
-        <Column title="Aprovados" items={approvedCompleted} />
-        <Column title="Reprovados" items={rejected} canDelete />
+      {/* Three columns layout */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+        <ColumnSection title="Pendentes" items={pending} />
+        <ColumnSection title="Aprovados" items={approvedCompleted} />
+        <ColumnSection title="Reprovados" items={rejected} canDelete />
       </div>
     </div>
   );

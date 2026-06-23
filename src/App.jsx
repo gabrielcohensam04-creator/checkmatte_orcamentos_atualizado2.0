@@ -9,6 +9,7 @@ import CreateBudget from './pages/CreateBudget';
 import BudgetView from './pages/BudgetView';
 import RejectedBudgets from './pages/RejectedBudgets';
 import History from './pages/History';
+import Metrics from './pages/Metrics';
 import Companies from './pages/Companies';
 import Users from './pages/Users';
 import Login from './pages/Login';
@@ -63,6 +64,7 @@ function App() {
           <Route path="/"          element={<Dashboard />} />
           <Route path="/reprovados" element={<RejectedBudgets />} />
           <Route path="/historico"  element={<History />} />
+          <Route path="/metricas"   element={<Metrics />} />
           <Route path="/empresas"   element={<Companies />} />
           <Route path="/usuarios"   element={<Users />} />
         </Route>

@@ -31,6 +31,9 @@ const Header = () => {
           <NavLink to="/historico" onClick={() => setIsMenuOpen(false)} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
             Histórico
           </NavLink>
+          <NavLink to="/metricas" onClick={() => setIsMenuOpen(false)} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+            Métricas
+          </NavLink>
           <NavLink to="/empresas" onClick={() => setIsMenuOpen(false)} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
             Empresas
           </NavLink>
