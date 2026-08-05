@@ -21,6 +21,7 @@ const ResetPassword = () => {
 
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -75,7 +76,11 @@ const ResetPassword = () => {
       
     } catch (err) {
       console.error(err);
-      setErrorMsg(err.message || 'Erro ao atualizar a senha. Tente novamente.');
+      if (err.message === 'Auth session missing!') {
+        setErrorMsg('O link expirou ou é inválido. Solicite um novo.');
+      } else {
+        setErrorMsg(err.message || 'Erro ao atualizar a senha. Tente novamente.');
+      }
     } finally {
       setLoading(false);
     }
@@ -91,7 +96,6 @@ const ResetPassword = () => {
       backgroundColor: pageBg,
       fontFamily: 'Inter, sans-serif'
     }}>
-      <h1 style={{ color: '#FFFFFF', marginBottom: '20px' }}>Teste de Visibilidade</h1>
       <div style={{
         backgroundColor: cardBg,
         padding: '48px 40px',
@@ -155,37 +159,50 @@ const ResetPassword = () => {
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: textColor, textTransform: 'uppercase', marginBottom: '8px' }}>
               Nova Senha
             </label>
-            <input 
-              type="password" 
-              required
-              disabled={!!successMsg || !!errorMsg.includes('expirou')}
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="••••••••"
-              style={{
-                width: '100%',
-                height: '44px',
-                padding: '0 16px',
-                borderRadius: '8px',
-                border: `1px solid ${borderColor}`,
-                backgroundColor: inputBg,
-                color: textColor,
-                fontSize: '14px',
-                outline: 'none',
-                transition: 'border-color 0.2s',
-                boxSizing: 'border-box'
-              }}
-              onFocus={(e) => e.target.style.borderColor = P}
-              onBlur={(e) => e.target.style.borderColor = borderColor}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                required
+                minLength={6}
+                disabled={!!successMsg || !!errorMsg.includes('expirou')}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{
+                  width: '100%',
+                  height: '44px',
+                  padding: '0 44px 0 16px',
+                  borderRadius: '8px',
+                  border: `1px solid ${borderColor}`,
+                  backgroundColor: inputBg,
+                  color: textColor,
+                  fontSize: '14px',
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
+                  boxSizing: 'border-box'
+                }}
+                onFocus={(e) => e.target.style.borderColor = P}
+                onBlur={(e) => e.target.style.borderColor = borderColor}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(s => !s)}
+                aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', width: 32, height: 32, border: 'none', background: 'transparent', color: mutedText, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
+                  {showPassword ? 'visibility_off' : 'visibility'}
+                </span>
+              </button>
+            </div>
           </div>
 
           <div>
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: textColor, textTransform: 'uppercase', marginBottom: '8px' }}>
               Confirmar Nova Senha
             </label>
-            <input 
-              type="password" 
+            <input
+              type={showPassword ? 'text' : 'password'}
               required
               disabled={!!successMsg || !!errorMsg.includes('expirou')}
               value={confirmPassword}
@@ -209,7 +226,7 @@ const ResetPassword = () => {
             />
           </div>
 
-          <button 
+          <button
             type="submit" 
             disabled={loading || !!successMsg || !!errorMsg.includes('expirou')}
             style={{

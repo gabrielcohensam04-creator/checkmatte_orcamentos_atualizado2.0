@@ -6,7 +6,7 @@ import { useTheme } from '../context/ThemeContext';
 import { light, dark } from '../tokens';
 import Logo from '../components/Logo';
 
-const fmt = (v) => Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+const fmt = (v) => Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fmtDate = (d) => d ? new Date(d + 'T00:00:00').toLocaleDateString('pt-BR') : '—';
 
 const BudgetView = () => {
@@ -21,10 +21,10 @@ const BudgetView = () => {
   const [loading, setLoading] = useState(true);
 
   const STATUS_MAP = {
-    pending:   { label: 'Pendente',  bg: 'rgba(199,80,0,.1)',   color: WARN, border: 'rgba(199,80,0,.25)' },
-    approved:  { label: 'Aprovado',  bg: 'rgba(22,163,74,.1)',  color: SUC,  border: 'rgba(22,163,74,.25)' },
-    rejected:  { label: 'Reprovado', bg: 'rgba(186,26,26,.08)', color: ERR,  border: 'rgba(186,26,26,.2)' },
-    completed: { label: 'Concluído', bg: 'rgba(0,100,130,.1)',  color: TERT, border: 'rgba(0,100,130,.2)' },
+    pending:   { label: 'Pendente',  bg: `${WARN}1A`, color: WARN, border: `${WARN}40` },
+    approved:  { label: 'Aprovado',  bg: `${SUC}1A`,  color: SUC,  border: `${SUC}40` },
+    rejected:  { label: 'Reprovado', bg: `${ERR}1A`,  color: ERR,  border: `${ERR}40` },
+    completed: { label: 'Concluído', bg: `${TERT}1A`, color: TERT, border: `${TERT}40` },
   };
 
   const Chip = ({ status }) => {
@@ -244,10 +244,10 @@ const BudgetView = () => {
                 <span style={{ fontSize: 11, fontWeight: 600, color: SEC, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total Líquido</span>
                 <span style={{ fontSize: 20, fontWeight: 700, color: ONS, letterSpacing: '-0.02em' }}>R$ {fmt(baseAposDesconto)}</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12, padding: '8px 12px', background: '#fff5f0', borderRadius: 8, border: `0.5px solid rgba(199,80,0,0.2)` }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 16, color: '#c75000' }}>receipt</span>
-                <span style={{ fontSize: 13, color: '#c75000', fontWeight: 600, flex: 1 }}>Imposto ({impostoP}%)</span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#c75000' }}>+ R$ {fmt(impostoAmt)}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12, padding: '8px 12px', background: `${WARN}1A`, borderRadius: 8, border: `0.5px solid ${WARN}40` }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 16, color: WARN }}>receipt</span>
+                <span style={{ fontSize: 13, color: WARN, fontWeight: 600, flex: 1 }}>Imposto ({impostoP}%)</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: WARN }}>+ R$ {fmt(impostoAmt)}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, paddingTop: 12, borderTop: `1px dashed ${OV}` }}>
                 <span style={{ fontSize: 11, fontWeight: 600, color: SEC, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total c/ Imposto</span>
@@ -367,14 +367,14 @@ const BudgetView = () => {
           {/* NOVO BOTÃO EXCLUSIVO PARA O PDF DA EQUIPE */}
           <DownloadTeamPDFButton budget={budget} team={team} />
 
-          <ActionBtn icon="edit" style={{ background: '#FFFFFF', color: '#64748B', border: '1px solid #E2E8F0' }} onClick={() => navigate(`/orcamento/${id}/editar`)}>
+          <ActionBtn icon="edit" style={{ background: 'transparent', color: ONS, border: `1px solid ${OV}` }} onClick={() => navigate(`/orcamento/${id}/editar`)}>
             Editar
           </ActionBtn>
           {isPending && (
             <>
-              <ActionBtn 
-                icon="close" 
-                style={{ background: '#FEF2F2', color: '#991B1B', border: '1px solid #FECACA' }} 
+              <ActionBtn
+                icon="close"
+                style={{ background: `${ERR}1A`, color: ERR, border: `1px solid ${ERR}40` }}
                 onClick={async () => {
                   await updateStatus('rejected', { data_reprovacao: new Date().toISOString() });
                   navigate('/');
@@ -382,10 +382,10 @@ const BudgetView = () => {
               >
                 Reprovar
               </ActionBtn>
-              <ActionBtn 
-                icon="check_circle" 
-                style={{ background: '#F0FDF4', color: '#166534', border: '1px solid #86EFAC' }}
-                iconRight 
+              <ActionBtn
+                icon="check_circle"
+                style={{ background: `${SUC}1A`, color: SUC, border: `1px solid ${SUC}40` }}
+                iconRight
                 onClick={() => updateStatus('approved')}
               >
                 Job Fechado
@@ -393,17 +393,17 @@ const BudgetView = () => {
             </>
           )}
           {isApproved && (
-            <ActionBtn icon="undo" style={{ background: '#FFFFFF', color: '#64748B', border: '1px solid #E2E8F0' }} onClick={() => updateStatus('pending')}>
+            <ActionBtn icon="undo" style={{ background: 'transparent', color: ONS, border: `1px solid ${OV}` }} onClick={() => updateStatus('pending')}>
               Pendente
             </ActionBtn>
           )}
           {isCompleted && (
-            <ActionBtn icon="undo" style={{ background: '#FFFFFF', color: '#64748B', border: '1px solid #E2E8F0' }} onClick={() => updateStatus('approved')}>
+            <ActionBtn icon="undo" style={{ background: 'transparent', color: ONS, border: `1px solid ${OV}` }} onClick={() => updateStatus('approved')}>
               Desconcluir
             </ActionBtn>
           )}
           {isRejected && (
-            <ActionBtn icon="undo" style={{ background: '#FFFFFF', color: '#64748B', border: '1px solid #E2E8F0' }} onClick={() => updateStatus('pending', { data_reprovacao: null })}>
+            <ActionBtn icon="undo" style={{ background: 'transparent', color: ONS, border: `1px solid ${OV}` }} onClick={() => updateStatus('pending', { data_reprovacao: null })}>
               Desfazer Reprovação
             </ActionBtn>
           )}

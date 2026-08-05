@@ -20,6 +20,7 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -110,6 +111,7 @@ const Login = () => {
             <input
               type="email"
               required
+              autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="seu@email.com"
@@ -135,28 +137,54 @@ const Login = () => {
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: textColor, textTransform: 'uppercase', marginBottom: '8px' }}>
               Senha
             </label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              style={{
-                width: '100%',
-                height: '44px',
-                padding: '0 16px',
-                borderRadius: '8px',
-                border: `1px solid ${borderColor}`,
-                backgroundColor: inputBg,
-                color: textColor,
-                fontSize: '14px',
-                outline: 'none',
-                transition: 'border-color 0.2s',
-                boxSizing: 'border-box'
-              }}
-              onFocus={(e) => e.target.style.borderColor = P}
-              onBlur={(e) => e.target.style.borderColor = borderColor}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{
+                  width: '100%',
+                  height: '44px',
+                  padding: '0 44px 0 16px',
+                  borderRadius: '8px',
+                  border: `1px solid ${borderColor}`,
+                  backgroundColor: inputBg,
+                  color: textColor,
+                  fontSize: '14px',
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
+                  boxSizing: 'border-box'
+                }}
+                onFocus={(e) => e.target.style.borderColor = P}
+                onBlur={(e) => e.target.style.borderColor = borderColor}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(s => !s)}
+                aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                style={{
+                  position: 'absolute',
+                  right: 8,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: 32,
+                  height: 32,
+                  border: 'none',
+                  background: 'transparent',
+                  color: mutedText,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
+                  {showPassword ? 'visibility_off' : 'visibility'}
+                </span>
+              </button>
+            </div>
           </div>
 
           <button
@@ -168,7 +196,7 @@ const Login = () => {
               height: '48px',
               borderRadius: '8px',
               border: 'none',
-              backgroundColor: loading ? '#FCA5A5' : P,
+              backgroundColor: loading ? `${P}99` : P,
               color: '#FFFFFF',
               fontSize: '15px',
               fontWeight: 600,
@@ -176,15 +204,21 @@ const Login = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              gap: 8,
               transition: 'background-color 0.2s'
             }}
           >
+            {loading && (
+              <span className="material-symbols-outlined" style={{ fontSize: 18, animation: 'spin 1s linear infinite' }}>
+                progress_activity
+              </span>
+            )}
             {loading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
 
         <div style={{ marginTop: 24, textAlign: 'center' }}>
-          <a href="/primeiro-acesso" style={{ fontSize: 13, color: '#E8193C', textDecoration: 'none', fontWeight: 500 }}>
+          <a href="/primeiro-acesso" style={{ fontSize: 13, color: P, textDecoration: 'none', fontWeight: 500 }}>
             Primeiro acesso? Crie sua senha aqui
           </a>
         </div>

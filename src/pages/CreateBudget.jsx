@@ -18,7 +18,7 @@ const STEPS = [
   { id: 10, title: 'Resumo', icon: 'summarize', required: true },
 ];
 
-const fmt = (v) => Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+const fmt = (v) => Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 // ── Stable sub-components (defined outside to prevent focus loss on re-render) ──
 
@@ -62,7 +62,7 @@ const baseInput = {
   background: 'var(--surface-container-lowest)', outline: 'none', boxSizing: 'border-box',
   transition: 'border-color .2s, box-shadow .2s',
 };
-const onFocusInput = e => { e.target.style.borderColor = 'var(--primary)'; e.target.style.boxShadow = '0 0 0 3px rgba(165,54,13,.08)'; };
+const onFocusInput = e => { e.target.style.borderColor = 'var(--primary)'; e.target.style.boxShadow = '0 0 0 3px rgba(232,25,60,.08)'; };
 const onBlurInput = e => { e.target.style.borderColor = 'var(--outline-variant)'; e.target.style.boxShadow = 'none'; };
 
 const FInput = ({ disabled, style: extra, ...props }) => (
@@ -115,7 +115,7 @@ const FCurrencyInput = ({ value, onChange, disabled, style: extra, ...props }) =
 // ── Main Component ────────────────────────────────────────────────────────
 const CreateBudget = () => {
   const { isDark } = useTheme();
-  const { P, SEC, BG, SURF, HEAD, SCLO, SCLN, SCN, SCHN, ONS, ONSV, OL, OV } = isDark ? dark : light;
+  const { P, SEC, BG, SURF, HEAD, SCLO, SCLN, SCN, SCHN, ONS, ONSV, OL, OV, ERR, SUC } = isDark ? dark : light;
 
   // ── Shared styles ───────────────────────────────────────────────────────
   const S = {
@@ -165,8 +165,8 @@ const CreateBudget = () => {
     gBody: { padding: '10px 12px 14px' },
 
     // Info box
-    infoBox: { background: SCLN, border: `0.5px solid rgba(165,54,13,.2)`, borderRadius: 10, padding: '12px 14px', display: 'flex', gap: 10, alignItems: 'flex-start', marginTop: 16 },
-    infoTxt: { fontSize: 13, color: '#6b4a3e', lineHeight: 1.5 },
+    infoBox: { background: SCLN, border: `0.5px solid rgba(232,25,60,.2)`, borderRadius: 10, padding: '12px 14px', display: 'flex', gap: 10, alignItems: 'flex-start', marginTop: 16 },
+    infoTxt: { fontSize: 13, color: ONSV, lineHeight: 1.5 },
 
     // Summary rows
     sumRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 14px', background: SCLO, border: `1px solid ${OV}`, borderRadius: 10, marginBottom: 6 },
@@ -174,7 +174,7 @@ const CreateBudget = () => {
     sumVal: { fontSize: 14, fontWeight: 600, color: ONS },
 
     // Footer
-    footer: { position: 'fixed', bottom: 0, left: 0, right: 0, background: SURF, borderTop: `1px solid rgba(224,192,182,.5)`, padding: '10px 16px', zIndex: 50, boxShadow: '0 -4px 24px rgba(37,25,21,.06)' },
+    footer: { position: 'fixed', bottom: 0, left: 0, right: 0, background: SURF, borderTop: `1px solid ${OV}`, padding: '10px 16px', zIndex: 50, boxShadow: isDark ? '0 -4px 24px rgba(0,0,0,0.4)' : '0 -4px 24px rgba(10,10,10,0.06)' },
     footerRow: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
     totalLbl: { fontSize: 10, fontWeight: 600, color: ONSV, textTransform: 'uppercase', letterSpacing: '0.06em' },
     totalVal: { fontSize: 16, fontWeight: 700, color: ONS, letterSpacing: '-0.01em', whiteSpace: 'nowrap' },
@@ -390,7 +390,7 @@ const CreateBudget = () => {
         // Load Lenses
         const { data: lenData } = await supabase.from('budget_lenses').select('*').eq('budget_id', id);
         if (lenData?.length > 0) {
-          const stdModels = ['Canon 50-1000mm', 'Canon 25-150mm', 'Canon 17-120mm', 'Sony 200-600mm', 'Fujinon 20-120mm', 'Fujinon 19-90mm', 'Sigma 14-24mm', 'Sony 16-35mm', 'Sony 24-70mm', 'Sony 18-110mm', 'Sony 28-135mm', 'Angenieux 24-290mm'];
+          const stdModels = ['Canon 50-1000mm', 'Canon 25-250mm', 'Canon 17-120mm', 'Sony 200-600mm', 'Fujinon 20-120mm', 'Fujinon 19-90mm', 'Sigma 14-24mm', 'Sony 16-35mm', 'Sony 24-70mm', 'Sony 18-110mm', 'Sony 28-135mm', 'Angenieux 24-290mm'];
           setLentes(prev => prev.map(l => {
             const s = lenData.find(x => x.modelo === l.modelo);
             return s ? { ...l, quantidade: s.quantidade || 0, valorUnit: Number(s.valor_unit) || 0, diarias: s.diarias || 1 } : l;
@@ -439,7 +439,21 @@ const CreateBudget = () => {
           if (savedGruas.length) setGruas(savedGruas.map(g => ({ metragem: g.metragem || '', quantidade: g.quantidade || 0, valorUnit: Number(g.valor_unit) || 0, diarias: g.diarias || 1 })));
 
           const savedTrilhos = movData.filter(x => x.tipo === 'Trilho');
-          if (savedTrilhos.length) setTrilhos(savedTrilhos.map(t => ({ metragem: t.metragem || '', tipoCarrinho: t.tipo_carrinho || '', quantidade: t.quantidade || 0, valorUnit: Number(t.valor_unit) || 0, diarias: t.diarias || 1 })));
+          const stdMetragens = ['1m', '2m', '3m', '6m', '9m', '12m', '15m', '18m', '21m', '24m'];
+          const stdCarrinhos = ['Doorway Dolly', 'Dolly Standard', 'Super Panther', 'Fisher 10'];
+          if (savedTrilhos.length) setTrilhos(savedTrilhos.map(t => {
+            const metragemPadrao = stdMetragens.includes(t.metragem);
+            const carrinhoPadrao = stdCarrinhos.includes(t.tipo_carrinho);
+            return {
+              metragem: metragemPadrao ? (t.metragem || '') : 'Personalizado',
+              metragemCustom: metragemPadrao ? '' : (t.metragem || ''),
+              tipoCarrinho: carrinhoPadrao ? (t.tipo_carrinho || '') : 'Outro',
+              customCarrinho: carrinhoPadrao ? '' : (t.tipo_carrinho || ''),
+              quantidade: t.quantidade || 0,
+              valorUnit: Number(t.valor_unit) || 0,
+              diarias: t.diarias || 1,
+            };
+          }));
         }
 
         // Load Team
@@ -517,6 +531,11 @@ const CreateBudget = () => {
 
   // ── Save ──
   const handleSave = async (newStatus = null, shouldExit = true) => {
+    if (!generalData.nomeProjeto.trim() || !(generalData.cliente || '').trim()) {
+      alert('Preencha o Nome do Projeto e o Cliente antes de salvar.');
+      setCurrentStep(1);
+      return;
+    }
     setIsSaving(true);
     try {
       const activeEstruturas = Object.keys(estruturas).filter(k => estruturas[k].checked).map(k => ({ tipo: k, valor: estruturas[k].valor }));
@@ -590,7 +609,11 @@ const CreateBudget = () => {
         ...movEquip.filter(m => m.quantidade > 0).map(m => ({ budget_id: currentBudgetId, modelo: m.modelo, tipo: 'Outros', is_custom: false, quantidade: m.quantidade, valor_unit: m.valorUnit, diarias: m.diarias || 1 })),
         ...customMovEquip.filter(m => m.modelo.trim() !== '' && m.quantidade > 0).map(m => ({ budget_id: currentBudgetId, modelo: m.modelo, tipo: 'Outros', is_custom: true, quantidade: m.quantidade, valor_unit: m.valorUnit, diarias: m.diarias || 1 })),
         ...gruas.filter(g => g.quantidade > 0).map(g => ({ budget_id: currentBudgetId, modelo: `Grua ${g.metragem}`, tipo: 'Grua', metragem: g.metragem, is_custom: false, quantidade: g.quantidade, valor_unit: g.valorUnit, diarias: g.diarias || 1 })),
-        ...trilhos.filter(t => t.quantidade > 0).map(t => ({ budget_id: currentBudgetId, modelo: `Trilho ${t.metragem}`, tipo: 'Trilho', metragem: t.metragem, tipo_carrinho: t.tipoCarrinho, is_custom: false, quantidade: t.quantidade, valor_unit: t.valorUnit, diarias: t.diarias || 1 }))
+        ...trilhos.filter(t => t.quantidade > 0).map(t => {
+          const metragemFinal = t.metragem === 'Personalizado' ? (t.metragemCustom || t.metragem) : t.metragem;
+          const tipoCarrinhoFinal = t.tipoCarrinho === 'Outro' ? (t.customCarrinho || t.tipoCarrinho) : t.tipoCarrinho;
+          return { budget_id: currentBudgetId, modelo: `Trilho ${metragemFinal}`, tipo: 'Trilho', metragem: metragemFinal, tipo_carrinho: tipoCarrinhoFinal, is_custom: false, quantidade: t.quantidade, valor_unit: t.valorUnit, diarias: t.diarias || 1 };
+        })
       ];
 
       // 4. PREPARA A EQUIPA
@@ -1937,6 +1960,19 @@ const CreateBudget = () => {
                           <option value="24m">24 metros</option>
                           <option value="Personalizado">Personalizado</option>
                         </FSelect>
+                        {t.metragem === 'Personalizado' && (
+                          <FInput
+                            disabled={isView}
+                            style={{ marginTop: 8, fontSize: 13 }}
+                            placeholder="Especifique o tamanho..."
+                            value={t.metragemCustom || ''}
+                            onChange={e => {
+                              const nt = [...trilhos];
+                              nt[i] = { ...nt[i], metragemCustom: e.target.value };
+                              setTrilhos(nt);
+                            }}
+                          />
+                        )}
                       </Field>
                       <Field label="Tipo de Carrinho">
                         <FSelect disabled={isView} value={t.tipoCarrinho === 'Outro' ? 'Outro' : t.tipoCarrinho} onChange={e => { const nt = [...trilhos]; nt[i] = { ...nt[i], tipoCarrinho: e.target.value }; setTrilhos(nt); }}>
@@ -2548,7 +2584,7 @@ const CreateBudget = () => {
                   {id && status === 'pending' && (
                     <>
                       <button
-                        style={{ ...S.btnPri, background: '#FCA5A5', color: '#991B1B' }}
+                        style={{ ...S.btnPri, background: `${ERR}1A`, color: ERR }}
                         onClick={() => handleSave('rejected')}
                         disabled={isSaving}
                       >
@@ -2556,7 +2592,7 @@ const CreateBudget = () => {
                         Reprovar
                       </button>
                       <button
-                        style={{ ...S.btnPri, background: '#86EFAC', color: '#166534' }}
+                        style={{ ...S.btnPri, background: `${SUC}1A`, color: SUC }}
                         onClick={() => handleSave('approved')}
                         disabled={isSaving}
                       >

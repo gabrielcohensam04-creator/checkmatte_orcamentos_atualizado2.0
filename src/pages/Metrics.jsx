@@ -8,7 +8,7 @@ import {
 
 const Metrics = () => {
   const { isDark } = useTheme();
-  const { SCLO, ONS, ONSV, OV } = isDark ? dark : light;
+  const { SCLO, ONS, ONSV, OV, P, SUC } = isDark ? dark : light;
   const [budgets, setBudgets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [chartView, setChartView] = useState('monthly');
@@ -125,9 +125,9 @@ const Metrics = () => {
           onClick={() => setChartView(view)}
           style={{
             padding: '6px 14px', borderRadius: 8, fontSize: 12, fontWeight: 500, cursor: 'pointer',
-            border: `1px solid ${chartView === view ? '#E8193C' : OV}`,
-            background: chartView === view ? 'rgba(232,25,60,0.1)' : 'transparent',
-            color: chartView === view ? '#E8193C' : ONSV,
+            border: `1px solid ${chartView === view ? P : OV}`,
+            background: chartView === view ? `${P}1A` : 'transparent',
+            color: chartView === view ? P : ONSV,
             fontFamily: 'inherit',
             transition: 'all .2s'
           }}
@@ -145,11 +145,11 @@ const Metrics = () => {
         border: `1px solid ${isDark ? '#3A3A3A' : '#D1D5DB'}`,
         borderRadius: 12,
         padding: 24,
-        boxShadow: '0 4px 12px rgba(255, 0, 0, 0.15)',
+        boxShadow: isDark ? '0 2px 8px rgba(0, 0, 0, 0.4)' : '0 1px 3px rgba(10, 10, 10, 0.08)',
         transition: 'all .2s ease'
       }}
-      onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 0, 0, 0.25)'; }}
-      onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 0, 0, 0.15)'; }}
+      onMouseEnter={e => { e.currentTarget.style.boxShadow = isDark ? '0 6px 16px rgba(0, 0, 0, 0.5)' : '0 6px 16px rgba(10, 10, 10, 0.12)'; }}
+      onMouseLeave={e => { e.currentTarget.style.boxShadow = isDark ? '0 2px 8px rgba(0, 0, 0, 0.4)' : '0 1px 3px rgba(10, 10, 10, 0.08)'; }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
         <div>
@@ -193,7 +193,7 @@ const Metrics = () => {
     <div className="dashboard-container">
       {/* Header Row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-        <h2 className="column-header" style={{ margin: 0, border: 'none', padding: 0 }}>Métricas e Relatórios</h2>
+        <h2 className="dashboard-title" style={{ margin: 0 }}>Métricas e Relatórios</h2>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -202,7 +202,7 @@ const Metrics = () => {
         <ChartBlock
           title="Orçamentos Pendentes"
           data={pendingChartData}
-          color="#E8193C"
+          color={P}
           total={pendingBudgets.length}
         />
 
@@ -210,7 +210,7 @@ const Metrics = () => {
         <ChartBlock
           title="Orçamentos Aprovados / Concluídos"
           data={approvedChartData}
-          color="#16A34A"
+          color={SUC}
           total={approvedBudgets.length}
         />
 
@@ -262,7 +262,7 @@ const Metrics = () => {
                       ? client.monthly.map((count, i) => (
                           <td key={i} style={{ padding: '14px 8px', textAlign: 'center', fontSize: 13 }}>
                             {count > 0
-                              ? <span style={{ background: 'rgba(232,25,60,0.1)', color: '#E8193C', padding: '2px 8px', borderRadius: 6, fontWeight: 700, fontSize: 12 }}>{count}</span>
+                              ? <span style={{ background: `${P}1A`, color: P, padding: '2px 8px', borderRadius: 6, fontWeight: 700, fontSize: 12 }}>{count}</span>
                               : <span style={{ color: OV }}>—</span>
                             }
                           </td>
@@ -270,7 +270,7 @@ const Metrics = () => {
                       : years.map(y => (
                           <td key={y} style={{ padding: '14px 16px', textAlign: 'center', fontSize: 13 }}>
                             {client.annual[y]
-                              ? <span style={{ background: 'rgba(232,25,60,0.1)', color: '#E8193C', padding: '2px 8px', borderRadius: 6, fontWeight: 700, fontSize: 12 }}>{client.annual[y]}</span>
+                              ? <span style={{ background: `${P}1A`, color: P, padding: '2px 8px', borderRadius: 6, fontWeight: 700, fontSize: 12 }}>{client.annual[y]}</span>
                               : <span style={{ color: OV }}>—</span>
                             }
                           </td>

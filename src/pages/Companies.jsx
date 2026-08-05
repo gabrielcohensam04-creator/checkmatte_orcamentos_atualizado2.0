@@ -5,7 +5,7 @@ import { light, dark } from '../tokens';
 
 const Companies = () => {
   const { isDark } = useTheme();
-  const { SCLO, OV, ONS, ONSV, SEC, P, ERR } = isDark ? dark : light;
+  const { SCLO, OV, ONS, ONSV, P, ERR } = isDark ? dark : light;
 
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -76,15 +76,15 @@ const Companies = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: 12,
-        boxShadow: '0 4px 12px rgba(255, 0, 0, 0.15)'
+        boxShadow: isDark ? '0 2px 8px rgba(0, 0, 0, 0.4)' : '0 1px 3px rgba(10, 10, 10, 0.08)'
       }}
       onMouseEnter={e => {
         e.currentTarget.style.borderColor = isDark ? '#FFFFFF' : '#0A0A0A';
-        e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 0, 0, 0.25)';
+        e.currentTarget.style.boxShadow = isDark ? '0 6px 16px rgba(0, 0, 0, 0.5)' : '0 6px 16px rgba(10, 10, 10, 0.12)';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.borderColor = isDark ? '#3A3A3A' : '#D1D5DB';
-        e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 0, 0, 0.15)';
+        e.currentTarget.style.boxShadow = isDark ? '0 2px 8px rgba(0, 0, 0, 0.4)' : '0 1px 3px rgba(10, 10, 10, 0.08)';
       }}
     >
       <div style={{ minWidth: 0 }}>
@@ -108,17 +108,17 @@ const Companies = () => {
       <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
         <button
           onClick={() => handleOpenModal(company)}
-          style={{ flex: 1, height: 36, border: 'none', borderRadius: 8, background: '#93C5FD', color: '#1E3A8A', fontSize: 12, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'opacity .15s' }}
-          onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
-          onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+          style={{ flex: 1, height: 36, border: `1px solid ${OV}`, borderRadius: 8, background: 'transparent', color: ONS, fontSize: 12, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'background .15s' }}
+          onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(10,10,10,0.04)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
         >
           <span className="material-symbols-outlined" style={{ fontSize: 16 }}>edit</span>
           Editar
         </button>
         <button
           onClick={() => handleDelete(company.id)}
-          style={{ flex: 1, height: 36, border: 'none', borderRadius: 8, background: '#FCA5A5', color: '#991B1B', fontSize: 12, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'opacity .15s' }}
-          onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+          style={{ flex: 1, height: 36, border: 'none', borderRadius: 8, background: `${ERR}1A`, color: ERR, fontSize: 12, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'opacity .15s' }}
+          onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
           onMouseLeave={e => e.currentTarget.style.opacity = '1'}
         >
           <span className="material-symbols-outlined" style={{ fontSize: 16 }}>delete</span>
@@ -132,10 +132,12 @@ const Companies = () => {
     <div className="dashboard-container">
       {/* Header Row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-        <h2 className="column-header" style={{ margin: 0, border: 'none', padding: 0 }}>Empresas — {companies.length}</h2>
+        <h2 className="dashboard-title" style={{ margin: 0 }}>Empresas — {companies.length}</h2>
         <button
           onClick={() => handleOpenModal()}
-          style={{ width: 32, height: 32, borderRadius: '50%', border: 'none', background: '#FFFFFF', color: '#0A0A0A', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }}
+          style={{ width: 36, height: 36, borderRadius: '50%', border: 'none', background: P, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: isDark ? '0 2px 8px rgba(0,0,0,0.4)' : '0 2px 6px rgba(232,25,60,0.25)', transition: 'transform .15s' }}
+          onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
+          onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
           title="Nova Empresa"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 20 }}>add</span>

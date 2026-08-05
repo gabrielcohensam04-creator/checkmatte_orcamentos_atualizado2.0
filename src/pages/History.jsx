@@ -6,7 +6,7 @@ import { light, dark } from '../tokens';
 
 const History = () => {
   const { isDark } = useTheme();
-  const { SCLO, OV, ONS, ONSV, SEC, ERR, SUC } = isDark ? dark : light;
+  const { SCLO, OV, ONS, ONSV, P, ERR, SUC, TERT } = isDark ? dark : light;
   const navigate = useNavigate();
   const [budgets, setBudgets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,10 +50,10 @@ const History = () => {
 
   const StatusChip = ({ status }) => {
     const map = {
-      pending:   { label: 'Pendente',  bg: 'rgba(232,25,60,.1)',   color: '#E8193C', border: 'rgba(232,25,60,.25)' },
-      approved:  { label: 'Aprovado',  bg: 'rgba(22,163,74,.1)',   color: SUC,       border: 'rgba(22,163,74,.25)' },
-      rejected:  { label: 'Reprovado', bg: 'rgba(186,26,26,.08)',  color: ERR,       border: 'rgba(186,26,26,.2)' },
-      completed: { label: 'Concluído', bg: 'rgba(0,100,130,.1)',   color: '#006482', border: 'rgba(0,100,130,.2)' },
+      pending:   { label: 'Pendente',  bg: `${P}1A`,    color: P,    border: `${P}40` },
+      approved:  { label: 'Aprovado',  bg: `${SUC}1A`,  color: SUC,  border: `${SUC}40` },
+      rejected:  { label: 'Reprovado', bg: `${ERR}1A`,  color: ERR,  border: `${ERR}40` },
+      completed: { label: 'Concluído', bg: `${TERT}1A`, color: TERT, border: `${TERT}40` },
     };
     const s = map[status] || map.pending;
     return (
@@ -76,15 +76,15 @@ const History = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: 12,
-        boxShadow: '0 4px 12px rgba(255, 0, 0, 0.15)'
+        boxShadow: isDark ? '0 2px 8px rgba(0, 0, 0, 0.4)' : '0 1px 3px rgba(10, 10, 10, 0.08)'
       }}
       onMouseEnter={e => {
         e.currentTarget.style.borderColor = isDark ? '#FFFFFF' : '#0A0A0A';
-        e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 0, 0, 0.25)';
+        e.currentTarget.style.boxShadow = isDark ? '0 6px 16px rgba(0, 0, 0, 0.5)' : '0 6px 16px rgba(10, 10, 10, 0.12)';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.borderColor = isDark ? '#3A3A3A' : '#D1D5DB';
-        e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 0, 0, 0.15)';
+        e.currentTarget.style.boxShadow = isDark ? '0 2px 8px rgba(0, 0, 0, 0.4)' : '0 1px 3px rgba(10, 10, 10, 0.08)';
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -100,7 +100,7 @@ const History = () => {
       {onDelete && (
         <button
           onClick={(e) => { e.stopPropagation(); onDelete(budget.id); }}
-          style={{ alignSelf: 'flex-start', height: 32, padding: '0 12px', border: 'none', borderRadius: 8, background: '#FCA5A5', color: '#991B1B', fontSize: 11, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, transition: 'opacity .15s' }}
+          style={{ alignSelf: 'flex-start', height: 32, padding: '0 12px', border: 'none', borderRadius: 8, background: `${ERR}1A`, color: ERR, fontSize: 11, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, transition: 'opacity .15s' }}
           onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
           onMouseLeave={e => e.currentTarget.style.opacity = '1'}
         >
@@ -148,7 +148,7 @@ const History = () => {
     <div className="dashboard-container">
       {/* Header Row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-        <h2 className="column-header" style={{ margin: 0, border: 'none', padding: 0 }}>Histórico</h2>
+        <h2 className="dashboard-title" style={{ margin: 0 }}>Histórico</h2>
         {/* Search */}
         <div style={{ position: 'relative', width: '100%', maxWidth: 320 }}>
           <span className="material-symbols-outlined" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: ONSV, fontSize: 18, pointerEvents: 'none' }}>
@@ -171,14 +171,14 @@ const History = () => {
               fontFamily: 'inherit',
               transition: 'all .2s'
             }}
-            onFocus={e => { e.target.style.borderColor = '#E8193C'; }}
+            onFocus={e => { e.target.style.borderColor = P; }}
             onBlur={e => { e.target.style.borderColor = isDark ? '#3A3A3A' : '#D1D5DB'; }}
           />
         </div>
       </div>
 
       {/* Three columns layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+      <div className="history-grid">
         <ColumnSection title="Pendentes" items={pending} />
         <ColumnSection title="Aprovados" items={approvedCompleted} />
         <ColumnSection title="Reprovados" items={rejected} canDelete />

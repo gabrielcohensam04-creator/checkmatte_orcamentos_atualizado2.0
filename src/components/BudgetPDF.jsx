@@ -3,18 +3,13 @@ import {
   Document, Page, View, Text, StyleSheet, PDFDownloadLink, Image,
 } from '@react-pdf/renderer';
 import logoUrl from '/logo_FUNDOPRETO.png';
+import { light } from '../tokens';
 
-// Design tokens
-const P     = '#a5360d';
-const ONS   = '#251915';
-const ONSV  = '#58423b';
-const SEC   = '#8b4e3b';
-const OV    = '#e0c0b6';
-const SCN   = '#ffe9e3';
-const SURF  = '#fff8f6';
+// Design tokens — PDF is always rendered in the light palette (printed/downloaded document)
+const { P, ONS, ONSV, SEC, OV, SURF } = light;
 const WHITE = '#ffffff';
 
-const fmt     = (v) => Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+const fmt     = (v) => Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fmtDate = (d)  => d ? new Date(d + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
 
 

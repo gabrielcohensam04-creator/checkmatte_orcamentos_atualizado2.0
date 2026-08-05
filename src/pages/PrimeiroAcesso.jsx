@@ -8,10 +8,11 @@ const PrimeiroAcesso = () => {
   const navigate = useNavigate();
   const { isDark } = useTheme();
   // Utilizando as cores do tema padrão
-  const { SCLO, ONS, ONSV, SEC, P, OV } = isDark ? dark : light;
+  const { SCLO, SURF, ONS, ONSV, SEC, P, OV } = isDark ? dark : light;
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -49,7 +50,7 @@ const PrimeiroAcesso = () => {
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '100vh',
-      backgroundColor: isDark ? '#0A0A0A' : '#F9FAFB',
+      backgroundColor: SURF,
       fontFamily: 'Inter, sans-serif'
     }}>
       <div style={{
@@ -105,9 +106,10 @@ const PrimeiroAcesso = () => {
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: SEC, textTransform: 'uppercase', marginBottom: '8px' }}>
               E-mail
             </label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               required
+              autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="seu@email.com"
@@ -133,31 +135,45 @@ const PrimeiroAcesso = () => {
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: SEC, textTransform: 'uppercase', marginBottom: '8px' }}>
               Nova Senha
             </label>
-            <input 
-              type="password" 
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              style={{
-                width: '100%',
-                height: '44px',
-                padding: '0 16px',
-                borderRadius: '8px',
-                border: `1px solid ${OV}`,
-                backgroundColor: 'transparent',
-                color: ONS,
-                fontSize: '14px',
-                outline: 'none',
-                transition: 'border-color 0.2s',
-                boxSizing: 'border-box'
-              }}
-              onFocus={(e) => e.target.style.borderColor = P}
-              onBlur={(e) => e.target.style.borderColor = OV}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{
+                  width: '100%',
+                  height: '44px',
+                  padding: '0 44px 0 16px',
+                  borderRadius: '8px',
+                  border: `1px solid ${OV}`,
+                  backgroundColor: 'transparent',
+                  color: ONS,
+                  fontSize: '14px',
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
+                  boxSizing: 'border-box'
+                }}
+                onFocus={(e) => e.target.style.borderColor = P}
+                onBlur={(e) => e.target.style.borderColor = OV}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(s => !s)}
+                aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', width: 32, height: 32, border: 'none', background: 'transparent', color: ONSV, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
+                  {showPassword ? 'visibility_off' : 'visibility'}
+                </span>
+              </button>
+            </div>
+            <p style={{ fontSize: '11px', color: ONSV, marginTop: '6px' }}>Mínimo de 6 caracteres.</p>
           </div>
 
-          <button 
+          <button
             type="submit" 
             disabled={loading}
             style={{
@@ -166,7 +182,7 @@ const PrimeiroAcesso = () => {
               height: '48px',
               borderRadius: '8px',
               border: 'none',
-              backgroundColor: loading ? '#FCA5A5' : P,
+              backgroundColor: loading ? `${P}99` : P,
               color: '#FFFFFF',
               fontSize: '15px',
               fontWeight: 600,
@@ -174,9 +190,15 @@ const PrimeiroAcesso = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              gap: 8,
               transition: 'background-color 0.2s'
             }}
           >
+            {loading && (
+              <span className="material-symbols-outlined" style={{ fontSize: 18, animation: 'spin 1s linear infinite' }}>
+                progress_activity
+              </span>
+            )}
             {loading ? 'Criando conta...' : 'Criar Senha'}
           </button>
         </form>

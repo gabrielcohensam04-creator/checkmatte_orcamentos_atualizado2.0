@@ -48,20 +48,12 @@ const Header = () => {
           <span className="user-name">{userProfile?.nome || '—'}</span>
           <span className="user-role">{userProfile?.cargo || '—'}</span>
         </div>
-        <button
-          onClick={toggle}
-          title={isDark ? 'Modo claro' : 'Modo escuro'}
-          style={{ width: 44, height: 44, borderRadius: '50%', border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--on-surface)', transition: 'background .15s' }}
-        >
+        <button onClick={toggle} title={isDark ? 'Modo claro' : 'Modo escuro'} className="icon-btn">
           <span className="material-symbols-outlined" style={{ fontSize: 24 }}>
             {isDark ? 'light_mode' : 'dark_mode'}
           </span>
         </button>
-        <button
-          onClick={handleLogout}
-          title="Sair"
-          style={{ width: 44, height: 44, borderRadius: '50%', border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--on-surface)', transition: 'background .15s' }}
-        >
+        <button onClick={handleLogout} title="Sair" className="icon-btn">
           <span className="material-symbols-outlined" style={{ fontSize: 24 }}>logout</span>
         </button>
         <button className="hamburger-btn" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Menu">

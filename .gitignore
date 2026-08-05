@@ -30,3 +30,6 @@ dist-ssr
 .mcp.json
 node-bin
 
+# Claude Code local skills
+.claude/skills/
+
